@@ -8,7 +8,8 @@ channels:
 dependencies:
   - Python=3.11.0
   - sra-tools=3.0.3
-  - fastqc=0.12.1clear
+  - fastqc=0.12.1
   - samtools=1.15
   - picard=3.0.0
+  - snakemake=7.24.2
 

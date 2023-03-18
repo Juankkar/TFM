@@ -572,3 +572,5 @@ data/raw/README.txt
 data/reference/*
 !data/reference/README.txt
 
+results/fastqc_results/*
+!results/fastqc_results/README.txt
