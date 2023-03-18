@@ -7,5 +7,8 @@ channels:
 
 dependencies:
   - Python=3.11.0
-  - sra-tools=2.9.6
+  - sra-tools=3.0.3
+  - fastqc=0.12.1clear
+  - samtools=1.15
+  - picard=3.0.0
 
