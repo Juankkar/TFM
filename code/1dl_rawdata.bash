@@ -28,4 +28,3 @@ for r2 in ${reads2_array[*]}
 do
     wget -P ../data/raw/ $r2
 done
-
