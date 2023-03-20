@@ -3,7 +3,7 @@
 ## Obtenemos los runs de reports como un array
 
 ## ftp de las Lecturas 1
-reads1=$(cat $1 \
+reads1=$(cat $1 \       ## $1 es el archivo report almacenado en ../data/report
 | cut -f7 \
 | cut -d ";" -f 1 \
 | grep -v "fastq_ftp")
@@ -18,13 +18,15 @@ reads2=$(cat $1 \
 reads1_array=$(echo $reads1)
 reads2_array=$(echo $reads2)
 
+read -p "Ruta donde quiere las lecturas crudas: " rawdata
+
 ## Desacargamos las lecturas
 for r1 in ${reads1_array[*]}
 do
-    wget -P ../data/raw/ $r1
+    wget -P $rawdata $r1
 done
 
 for r2 in ${reads2_array[*]}
 do
-    wget -P ../data/raw/ $r2
+    wget -P $rawdata $r2
 done
