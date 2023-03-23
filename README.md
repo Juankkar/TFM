@@ -4,4 +4,4 @@
 
 ### Alumno: Juan Carlos García Estupiñán
 
-Tema Cácer de colon
+Tema Cáncer de colon

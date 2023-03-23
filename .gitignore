@@ -569,6 +569,9 @@ data/processed/*
 data/raw/*
 data/raw/README.txt
 
+data/original_bams/*
+data/original_bams/README.txt
+
 data/reference/*
 !data/reference/README.txt
 
