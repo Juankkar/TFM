@@ -3,12 +3,11 @@
 ## Comenzaremos filtrando los cromosomas que estemos
 ## intersados en estudiar
 
-read -p "> Path/Name filter BAM -> " filter_bam
-# read -p "> Path/Name sorted BAM? -> " sorted_bam
-# read -p "> Path/Name FASTQ file? -> " fastq_name
- 
-samtools view $1 \
-    | awk '{if($3 == chr1 && $3 == ch5)}{print $0}' \
-    | samtools view -Sb > $filter_bam
+# samtools index C2466_GCCAAT.bwa.sorted.rmdup.recal.realigned.fixed.bam
+# samtools view -b C2466_GCCAAT.bwa.sorted.rmdup.recal.realigned.fixed.bam chr{1,5,17} > filtering/IV_method1.bam
+# samtools sort -n IV_method1.bam -o IV_method1_sorted.bam
+# samtools fastq -@ 8 IV_method1.bam \
+#     -1 ../../raw/IV_method1_1.fastq.gz \
+#     -2 ../../raw/IV_method1_2.fastq.gz \
+#     -0 /dev/null -s /dev/null -n
 
- 

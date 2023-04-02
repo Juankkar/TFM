@@ -1,26 +1,8 @@
 samples:
-  ERR696683_1: data/raw/ERR696683_1.fastq.gz
-  ERR696683_2: data/raw/ERR696683_2.fastq.gz
-  ERR753368_1: data/raw/ERR753368_1.fastq.gz
-  ERR753368_2: data/raw/ERR753368_2.fastq.gz
-  ERR753369_1: data/raw/ERR753369_1.fastq.gz
-  ERR753369_2: data/raw/ERR753369_2.fastq.gz
-  ERR753370_1: data/raw/ERR753370_1.fastq.gz
-  ERR753370_2: data/raw/ERR753370_2.fastq.gz
-  ERR753371_1: data/raw/ERR753371_1.fastq.gz
-  ERR753371_2: data/raw/ERR753371_2.fastq.gz
-  ERR753372_1: data/raw/ERR753372_1.fastq.gz
-  ERR753372_2: data/raw/ERR753372_2.fastq.gz
-  ERR753373_1: data/raw/ERR753373_1.fastq.gz
-  ERR753373_2: data/raw/ERR753373_2.fastq.gz
-  ERR753374_1: data/raw/ERR753374_1.fastq.gz
-  ERR753374_2: data/raw/ERR753374_2.fastq.gz
-  ERR753375_1: data/raw/ERR753375_1.fastq.gz
-  ERR753375_2: data/raw/ERR753375_2.fastq.gz
-  ERR753376_1: data/raw/ERR753376_1.fastq.gz
-  ERR753376_2: data/raw/ERR753376_2.fastq.gz
-  ERR753377_1: data/raw/ERR753377_1.fastq.gz
-  ERR753377_2: data/raw/ERR753377_2.fastq.gz
-  ERR753378_1: data/raw/ERR753378_1.fastq.gz
-  ERR753378_2: data/raw/ERR753378_2.fastq.gz
+  ERR753376_chr15_1: data/raw/ERR753376_chr15_1.fastq.gz
+  ERR753376_chr15_2: data/raw/ERR753376_chr15_2.fastq.gz
+
+fastp_cuttail: 25
+fastp_cutfront: 25
+fastp_cutmeanq: 25
   
