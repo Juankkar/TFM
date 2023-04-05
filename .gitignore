@@ -566,7 +566,7 @@ cython_debug/
 data/processed/*
 !data/processed/README.txt
 
-data/raw/*
+results/mapped_reads/*
 data/raw/README.txt
 
 data/original_bam/*

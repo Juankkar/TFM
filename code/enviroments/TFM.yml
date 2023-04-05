@@ -16,4 +16,5 @@ dependencies:
   - picard=3.0.0
   - snakemake=7.24.2
   - fastp=0.22.0
+  - bwa=0.7.17
 
