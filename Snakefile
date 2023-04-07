@@ -3,7 +3,8 @@ configfile: "config.yaml"
 rule all:
     input:
         expand("results/fastqc_result/{sample}_fastqc.html", sample=config["samples"]),
-        expand("data/processed/fastp_processed/{sample}_fastp.fastq.gz", sample=config["samples"])
+        expand("data/processed/fastp_processed/{sample}_fastp.fastq.gz", sample=config["samples"]),
+        expand("results/mapped_reads/{sample}.sam", sample=config["samples"])
 
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
@@ -39,11 +40,7 @@ rule fastp:
         mv fastp.html data/processed/fastp_processed
         """
 
-## La idea era crear una regla que creara un archivo SAM
-## pero al usar lo que sé lo que pasa es que me crean dos
-## archivos un sam con las lecturas forward y otra con las
-## lecturas reverse, lo cual es un problema porque no sé
-## como juntarlos en un único SAM, pinta bien...
+## Creating sam files for forward and reverse reads
 rule bwa_mapping:
     input:
         reference = "data/reference/genome.fa",
@@ -57,6 +54,34 @@ rule bwa_mapping:
         mv chr16.out results/mapped_reads/
         """
 
-## Transform SAM file into BAM
+## script for joining the SAM files
+rule merge_sam_files:
+    shell:
+        "bash code/2join_samfiles.sh"
+
+# ## Transforming SAM to BAM and sorting
+# rule sam_to_bam:
+#     input:
+#         "results/mapped_reads/{sample}.sam"
+#     output:
+#         "results/mapped_reads/bam_files/{sample}.bam"
+#     shell:
+#         "samtools view -bS {input} > {output}"
+
+# ## Indexing and sorting BAM
+# rule index_sort_bam:
+#     input:
+#         "results/mapped_reads/bam_files/{sample}.bam"
+#     output:
+#         "results/mapped_reads/bam_files/{sample}_sorted.bam"
+#     shell:
+#         """
+#         samtools sort {input} > {output}
+#         samtools index {output}
+#         """
 
 
+## Transforming SAM to BAM and sorting
+rule sam_to_bam:
+    shell:
+        "bash code/3sam_to_bam.sh"
