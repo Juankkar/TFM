@@ -75,4 +75,4 @@ rule delete_duplicates:
 ## Extracting variants
 rule extracting_variants:
     shell:
-        "code/5extracting_variants.sh"
+        "bash code/5extracting_variants.sh"
