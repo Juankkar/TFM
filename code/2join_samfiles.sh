@@ -1,22 +1,42 @@
 #!/usr/bin/env bash
 
+###############
+## VARIABLES ##
+###############
+
 echo "Select the reads that you want to merge:"
-read -p "Write the rute for fowrward reads -> " forward
-read -p "Write the rute for fowrward sorted reads ->" forward_sorted
-read -p "Write the rute for reverse reads -> " reverse
-read -p "Write the rute for reverse reads_sorted -> " reverse_sorted
-read -p "Write the rute for the merging file -> " merging
-read -p "Write the rute for the merging_sorted file -> " merging_sorted
+read -p "Sample name for forward reads -> " forward
+read -p "Sample name for reverse reads -> " reverse
+read -p "Sample name for the merging file -> " merging
+
+vector=($forward $reverse)
+
+###############
+## EXECUTION ##
+###############
 
 ## first we will sort the files
-samtools sort -n $forward -o $forward_sorted
-samtools sort -n $reverse -o $reverse_sorted
+for ends in ${vector[*]}
+do
+    samtools sort -n \
+        results/mapped_reads/${ends}.sam \
+        -o results/mapped_reads/${ends}_sorted.sam
+done
 
 ## merging the files
-samtools merge $merging $forward_sorted $reverse_sorted
+samtools merge results/mapped_reads/${merging}.sam \
+    results/mapped_reads/${forward}.sam \
+    results/mapped_reads/${reverse}.sam
 
 ## sorting the SAM
-samtools sort $merging -o $merging_sorted
+samtools sort results/mapped_reads/${merging}.sam \
+    -o results/mapped_reads/${merging}_sorted.sam
 
 ## Delete other sam files not joined to prevent excessive space usage
 rm $forward $forward_sorted $reverse $reverse_sorted
+
+for ends in ${vector[*]}
+do
+    rm results/mapped_reads/${ends}.sam \
+       results/mapped_reads/${ends}_sorted.sam
+done
