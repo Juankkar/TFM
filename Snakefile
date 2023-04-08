@@ -2,9 +2,12 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        expand("results/fastqc_result/{sample}_fastqc.html", sample=config["samples"]),
-        expand("data/processed/fastp_processed/{sample}_fastp.fastq.gz", sample=config["samples"]),
-        expand("results/mapped_reads/{sample}.sam", sample=config["samples"])
+        expand("results/fastqc_result/{sample}_fastqc.html", 
+               sample=config["samples"]),
+        expand("data/processed/fastp_processed/{sample}_fastp.fastq.gz",
+               sample=config["samples"]),
+        expand("results/mapped_reads/{sample}.sam", 
+               sample=config["samples"])
 
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
@@ -25,7 +28,7 @@ rule fastp:
     input:
         "data/raw/{sample}.fastq.gz"
     output:
-        "data/processed/fastp_processed/"
+        "data/processed/fastp_processed/{sample}_fastp.fastq.gz"
     params:
         cut_tail=config["fastp_cuttail"],
         cut_front=config["fastp_cutfront"],
@@ -50,8 +53,8 @@ rule bwa_mapping:
     shell:
         """
         bwa index {input.reference}
-        bwa mem -a {input.reference} {input.files} -o {output} 2> chr16.out
-        mv chr16.out results/mapped_reads/
+        bwa mem -a {input.reference} {input.files} -o {output} 2> info.out
+        mv info.out results/mapped_reads/
         """
 
 ## script for joining the SAM files
@@ -59,29 +62,17 @@ rule merge_sam_files:
     shell:
         "bash code/2join_samfiles.sh"
 
-# ## Transforming SAM to BAM and sorting
-# rule sam_to_bam:
-#     input:
-#         "results/mapped_reads/{sample}.sam"
-#     output:
-#         "results/mapped_reads/bam_files/{sample}.bam"
-#     shell:
-#         "samtools view -bS {input} > {output}"
-
-# ## Indexing and sorting BAM
-# rule index_sort_bam:
-#     input:
-#         "results/mapped_reads/bam_files/{sample}.bam"
-#     output:
-#         "results/mapped_reads/bam_files/{sample}_sorted.bam"
-#     shell:
-#         """
-#         samtools sort {input} > {output}
-#         samtools index {output}
-#         """
-
-
 ## Transforming SAM to BAM and sorting
 rule sam_to_bam:
     shell:
         "bash code/3sam_to_bam.sh"
+
+## Delete duplicates
+rule delete_duplicates:
+    shell:
+        "bash code/4delete_duplicates.sh"
+
+## Extracting variants
+rule extracting_variants:
+    shell:
+        "code/5extracting_variants.sh"

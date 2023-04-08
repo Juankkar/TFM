@@ -4,7 +4,11 @@
 
 ### Alumno: Juan Carlos García Estupiñán
 
-Tema Cáncer de colon
+Tema Cáncer de colorrectal.
+
+## DATA sacada de un artículo en un repositorio público: 
+* ### Identificador: [PRJEB7926](https://www.ebi.ac.uk/ena/browser/view/PRJEB7926)
+* ### Artículo: [*GREM1* and POLE variants in hereditary colorectal cancer syndromes](https://onlinelibrary.wiley.com/doi/10.1002/gcc.22314)
 
 ## Comandos para el preprocesado de los BAM
 
@@ -17,7 +21,7 @@ samtools index input.bam
 * Chromosome Filtering
 
 ```
-samtools view -b input.bam chr{5} > output.bam
+samtools view -b input.bam chr{n} > output.bam
 ```
 
 * Sorted filter BAM file

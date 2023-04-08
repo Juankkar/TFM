@@ -17,4 +17,7 @@ dependencies:
   - snakemake=7.24.2
   - fastp=0.22.0
   - bwa=0.7.17
+  - bedtools=2.30.0
+  - vcftools=0.1.16
+  - freebayes=1.0.2
 
