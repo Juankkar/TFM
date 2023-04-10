@@ -6,6 +6,8 @@ rule all:
                sample=config["samples"]),
         expand("data/processed/fastp_processed/{sample}_fastp.fastq.gz",
                sample=config["samples"]),
+        expand("results/fastqc_result/trimmed/{sample}_fastp_fastqc.html", 
+               sample=config["samples"]),
         expand("results/mapped_reads/{sample}.sam", 
                sample=config["samples"])
 
@@ -18,6 +20,8 @@ rule fastqc:
         "data/raw/{sample}.fastq.gz"
     output:
         "results/fastqc_result/{sample}_fastqc.html"
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         """
         fastqc {input} -o results/fastqc_result/
@@ -33,6 +37,8 @@ rule fastp:
         cut_tail=config["fastp_cuttail"],
         cut_front=config["fastp_cutfront"],
         cut_meanq=config["fastp_cutmeanq"]
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         """
         fastp -i {input} -o {output} \
@@ -43,6 +49,19 @@ rule fastp:
         mv fastp.html data/processed/fastp_processed
         """
 
+## View the quality of the trimmed samples
+rule fastqc_trimmed:
+    input: 
+        "data/processed/fastp_processed/{sample}_fastp.fastq.gz"
+    output:
+        "results/fastqc_result/trimmed/{sample}_fastp_fastqc.html"
+    conda:
+        "code/enviroments/TFM.yml"
+    shell:
+        """
+        fastqc {input} -o results/fastqc_result/trimmed/
+        """
+
 ## Creating sam files for forward and reverse reads
 rule bwa_mapping:
     input:
@@ -50,6 +69,8 @@ rule bwa_mapping:
         files = get_bwa_map_input_fastqs
     output:
         "results/mapped_reads/{sample}.sam"
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         """
         bwa index {input.reference}
@@ -59,20 +80,28 @@ rule bwa_mapping:
 
 ## script for joining the SAM files
 rule merge_sam_files:
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         "bash code/2join_samfiles.sh"
 
 ## Transforming SAM to BAM and sorting
 rule sam_to_bam:
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         "bash code/3sam_to_bam.sh"
 
 ## Delete duplicates
 rule delete_duplicates:
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         "bash code/4delete_duplicates.sh"
 
 ## Extracting variants
 rule extracting_variants:
+    conda:
+        "code/enviroments/TFM.yml"
     shell:
         "bash code/5extracting_variants.sh"

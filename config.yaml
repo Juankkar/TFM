@@ -1,9 +1,8 @@
 samples:
   ERR753376_chr15_1: data/raw/ERR753376_chr15_1.fastq.gz
   ERR753376_chr15_2: data/raw/ERR753376_chr15_2.fastq.gz
-#  ERR753376_chr15: results/mapped_reads/ERR753376_chr15.sam
 
-fastp_cuttail: 25
-fastp_cutfront: 25
-fastp_cutmeanq: 25
+fastp_cuttail: 20
+fastp_cutfront: 20
+fastp_cutmeanq: 20
   

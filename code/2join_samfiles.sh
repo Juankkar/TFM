@@ -33,8 +33,6 @@ samtools sort results/mapped_reads/${merging}.sam \
     -o results/mapped_reads/${merging}_sorted.sam
 
 ## Delete other sam files not joined to prevent excessive space usage
-rm $forward $forward_sorted $reverse $reverse_sorted
-
 for ends in ${vector[*]}
 do
     rm results/mapped_reads/${ends}.sam \
