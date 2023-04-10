@@ -6,7 +6,7 @@ results/*
 !results/README.txt
 
 data/original_bam/*
-data/original_bam/README.txt
+!data/original_bam/README.txt
 
 data/reference/*
 !data/reference/README.txt
