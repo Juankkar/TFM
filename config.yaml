@@ -1,6 +1,28 @@
 samples:
-  ERR753376_chr15_1: data/raw/ERR753376_chr15_1.fastq.gz
-  ERR753376_chr15_2: data/raw/ERR753376_chr15_2.fastq.gz
+  ERR696683_chr5_1: data/raw/ERR696683_chr5_1.fastq.gz
+  ERR696683_chr5_2: data/raw/ERR696683_chr5_2.fastq.gz
+  ERR753368_chr5_1: data/raw/ERR753368_chr5_1.fastq.gz
+  ERR753368_chr5_2: data/raw/ERR753368_chr5_2.fastq.gz
+  ERR753369_chr5_1: data/raw/ERR753369_chr5_1.fastq.gz
+  ERR753369_chr5_2: data/raw/ERR753369_chr5_2.fastq.gz
+  ERR753370_chr5_1: data/raw/ERR753370_chr5_1.fastq.gz
+  ERR753370_chr5_2: data/raw/ERR753370_chr5_2.fastq.gz
+  ERR753371_chr5_1: data/raw/ERR753371_chr5_1.fastq.gz
+  ERR753371_chr5_2: data/raw/ERR753371_chr5_2.fastq.gz
+  ERR753372_chr5_1: data/raw/ERR753372_chr5_1.fastq.gz
+  ERR753372_chr5_2: data/raw/ERR753372_chr5_2.fastq.gz
+  ERR753373_chr5_1: data/raw/ERR753373_chr5_1.fastq.gz
+  ERR753373_chr5_2: data/raw/ERR753373_chr5_2.fastq.gz
+  ERR753374_chr5_1: data/raw/ERR753374_chr5_1.fastq.gz
+  ERR753374_chr5_2: data/raw/ERR753374_chr5_2.fastq.gz
+  ERR753375_chr5_1: data/raw/ERR753375_chr5_1.fastq.gz
+  ERR753375_chr5_2: data/raw/ERR753375_chr5_2.fastq.gz
+  ERR753376_chr5_1: data/raw/ERR753376_chr5_1.fastq.gz
+  ERR753376_chr5_2: data/raw/ERR753376_chr5_2.fastq.gz
+  ERR753377_chr5_1: data/raw/ERR753377_chr5_1.fastq.gz
+  ERR753377_chr5_2: data/raw/ERR753377_chr5_2.fastq.gz
+  ERR753378_chr5_1: data/raw/ERR753378_chr5_1.fastq.gz
+  ERR753378_chr5_2: data/raw/ERR753378_chr5_2.fastq.gz
 
 fastp_cuttail: 20
 fastp_cutfront: 20
