@@ -10,6 +10,8 @@ Tema Cáncer de colorrectal.
 * ### Identificador: [PRJEB7926](https://www.ebi.ac.uk/ena/browser/view/PRJEB7926)
 * ### Artículo: [*GREM1* and POLE variants in hereditary colorectal cancer syndromes](https://onlinelibrary.wiley.com/doi/10.1002/gcc.22314)
 
+Se creará un pipleine en el que se usará un software que permite el control de flujo de trabajo: **Snakemake** (ver [aquí](https://snakemake.readthedocs.io/en/stable/#) su página web con intrucciones y tutoriales entre otras cosas de utilidad).
+
 ## **Directorios**
 
 ### **[Código](code) empleado en la carpeta**
@@ -66,7 +68,7 @@ samtools fastq -@ 8 IV_method1.bam \
     * Comando para descargar el genoma: 
 
 ```
-wget -O genome.fa.gz https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_rm.chromosome.15.fa.gz
+wget -O genome.fa.gz https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.5.fa.gz
 
 gzip -d genome.fa.gz
 ```

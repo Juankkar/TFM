@@ -24,7 +24,7 @@ samples:
   ERR753378_chr5_1: data/raw/ERR753378_chr5_1.fastq.gz
   ERR753378_chr5_2: data/raw/ERR753378_chr5_2.fastq.gz
 
-fastp_cuttail: 20
-fastp_cutfront: 20
-fastp_cutmeanq: 20
+fastp_cuttail: 25
+fastp_cutfront: 25
+fastp_cutmeanq: 25
   
