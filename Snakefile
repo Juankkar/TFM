@@ -14,6 +14,11 @@ rule all:
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
 
+## Downloading the data
+rule download_data:
+    shell:
+        "code/1dl_rawdata.bash"
+
 ## View the quality of the samples
 rule fastqc:
     input: 
