@@ -110,3 +110,24 @@ rule extracting_variants:
         "code/enviroments/TFM.yml"
     shell:
         "bash code/5extracting_variants.sh"
+
+## Variant Effect Prediction DB
+rule vep:
+    params:
+        species = config["vep_species"],
+        assembly = config["vep_assembly"]
+    conda: 
+        "code/enviroments/vep.yml"
+    shell:
+        """
+        vep_install -a cf \
+            -s {params.species} \
+            ls-y {params.assembly}
+        """
+
+## Running VEP
+rule vep_cli:
+    conda: 
+        "code/enviroments/vep.yml"
+    shell:
+        "bash code/6vep.sh"
