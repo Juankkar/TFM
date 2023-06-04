@@ -1,0 +1,10 @@
+name: vep
+
+channels:
+  - conda-forge
+  - bioconda
+  - default
+
+dependencies:
+  - snakemake=7.24.2
+  - ensembl-vep=109.3
