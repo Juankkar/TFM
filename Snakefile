@@ -131,3 +131,10 @@ rule vep_cli:
         "code/enviroments/vep.yml"
     shell:
         "bash code/6vep.sh"
+
+## Doing some biostatistics in R
+rule biostatisticsR:
+    conda:
+        "code/enviroments/biostatistics.yml"
+    shell:
+        "Rscript code/biostatistics.R"

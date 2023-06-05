@@ -57,4 +57,5 @@ vep -i results/variants/${sample}.vcf \
     --tsl \
     --uniprot \
     --cache \
+    --tab \
     -o results/variants/vep/${sample}.txt
