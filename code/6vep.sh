@@ -29,5 +29,5 @@ vep -i results/variants/${sample}.vcf \
     --force_overwrite \
     -o results/variants/vep/${sample}.txt \
     --vcf \
-    --fork 4 \
-    --plugin dbNSFP
+    --fork 4
+    
