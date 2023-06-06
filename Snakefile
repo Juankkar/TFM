@@ -134,7 +134,22 @@ rule vep_cli:
 
 ## Doing some biostatistics in R
 rule biostatisticsR:
+    params:
+        dir1 = "results/biostatistics/",
+        dir2 = "results/biostatistics/tables",
+        dir3 = "results/biostatistics/plots"
     conda:
         "code/enviroments/biostatistics.yml"
     shell:
-        "Rscript code/biostatistics.R"
+        """
+        for dir in {params.dir1} {params.dir2} {params.dir3}
+        do
+            if [[ ! -d $dir ]]
+            then
+                mkdir $dir
+            fi
+        done
+
+        Rscript code/biostatistics.R
+        """
+
