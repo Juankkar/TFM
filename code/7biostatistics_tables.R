@@ -29,13 +29,15 @@ genes <- variants %>%
   count() %>%
   arrange(desc(n))
 
+colnames(genes) <- tolower(colnames(genes))
+
 genes
 
 genes_table <- genes %>%
     mutate(sample=sample)
   
 write.table(x = genes_table,
-            file = glue("results/biostatistics/tables/{sample}_genes.txt"),
+            file = glue("results/biostatistics/tables/{sample}_gene.txt"),
             sep="\t",
             row.names=F)
 
@@ -48,6 +50,8 @@ biotype <- variants %>%
   group_by(BIOTYPE) %>%
   count() %>%
   arrange(desc(n))
+
+colnames(biotype) <- tolower(colnames(biotype))
 
 biotype
 
@@ -69,6 +73,8 @@ clin_sig <- variants %>%
   count() %>%
   arrange(desc(n))
 
+colnames(clin_sig) <- tolower(colnames(clin_sig))
+
 clin_sig
 
 clin_sig_table <- clin_sig %>% 
@@ -88,6 +94,8 @@ consequence <- variants %>%
   group_by(Consequence) %>%
   count() %>%
   arrange(desc(n))
+
+colnames(consequence) <- tolower(colnames(consequence))
 
 consequence
 
@@ -110,6 +118,8 @@ pubmed <- variants %>%
   count() %>%
   arrange(desc(n))
 
+colnames(pubmed) <- tolower(colnames(pubmed))
+
 pubmed
 
 pubmed_table <- pubmed %>%
@@ -131,6 +141,8 @@ polyphen <- variants %>%
   group_by(PolyPhen) %>%
   count()
 
+colnames(polyphen) <- tolower(colnames(polyphen))
+
 polyphen
 
 polyphen_table <- polyphen %>%
@@ -150,6 +162,8 @@ clinvar <- variants %>%
   filter(ClinVar_CLNSIG != "-") %>%
   group_by(ClinVar_CLNSIG) %>%
   count()
+
+colnames(clinvar) <- tolower(colnames(clinvar))
 
 clinvar
 
