@@ -7,6 +7,9 @@ data/raw/*
 data/processed/*
 !data/processed/README.txt
 
+data/ClinVar/*
+!data/ClinVar/README.txt
+
 results/*
 !results/README.txt
 

@@ -35,15 +35,15 @@ rtg /results/variants/${sample}.vcf \
     > results/variants/stats/${sample}.vcfstats
 
 # Filtering 1; only indels
-vcftools --vcf results/variants/${sample}.vcf \
-    --keep-only-indels \
-    --recode \
-    --recode-INFO-all \
-    --out results/variants/${sample}_indels.vcf
+# vcftools --vcf results/variants/${sample}.vcf \
+#     --keep-only-indels \
+#     --recode \
+#     --recode-INFO-all \
+#     --out results/variants/${sample}_indels.vcf
 
 # Filtering 2; only SNPs
-vcftools --vcf results/variants/${sample}.vcf \
-    --remove-indels \
-    --recode \
-    --recode-INFO-all \
-    --out results/variants/${sample}_snvs.vcf
+# vcftools --vcf results/variants/${sample}.vcf \
+#     --remove-indels \
+#     --recode \
+#     --recode-INFO-all \
+#     --out results/variants/${sample}_snvs.vcf
