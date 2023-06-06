@@ -135,7 +135,7 @@ rule vep_cli:
         "bash code/6vep.sh"
 
 ## Doing some biostatistics in R
-rule biostatisticsR:
+rule biostatisticsR_tables:
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
@@ -152,6 +152,18 @@ rule biostatisticsR:
             fi
         done
 
-        Rscript code/biostatistics.R
+        Rscript code/7biostatistics_tables.R
         """
 
+## Joining tables
+rule joining_tables:
+    conda:
+        ## It can be any of them for this one really
+        "code/enviroments/TFM.yml"
+    shell:
+        """
+        bash code/joining_tables.sh     
+        """
+
+
+        
