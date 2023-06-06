@@ -22,17 +22,9 @@ rows_skip <- system(
 variants <- read_table(glue("results/variants/vep/{sample}.txt"), 
                        skip=as.numeric(rows_skip))
 
-## We will select the variables that we are interesting on
-variants_filt <- variants %>% 
-    select(Uploaded_variation="#Uploaded_variation", "Gene", 
-           "Location","Allele","Feature","BIOTYPE",
-           "CLIN_SIG", "PUBMED", "PHENO", "Feature_type",
-           "Consequence", "PolyPhen")
-
 print("===> Genes with variations <===")
 genes <- variants %>%
-  mutate(Gene = case_when(Gene == "-" ~ "UC",
-                          !(Gene == "-") ~ as.character(Gene))) %>%
+  filter(Gene != "-") %>%
   group_by(Gene) %>%
   count() %>%
   arrange(desc(n))
@@ -52,8 +44,7 @@ print("#########################################")
 
 print("===> Biotype with variations <===")
 biotype <- variants %>%
-  mutate(BIOTYPE = case_when(BIOTYPE == "-" ~ "UC",
-                             !(BIOTYPE == "-") ~ as.character(BIOTYPE))) %>%
+  filter(BIOTYPE != "-") %>%
   group_by(BIOTYPE) %>%
   count() %>%
   arrange(desc(n))
@@ -73,8 +64,7 @@ print("#########################################")
 
 print("===> Clinical Significance <===")
 clin_sig <- variants %>%
-  mutate(CLIN_SIG = case_when(CLIN_SIG == "-" ~ "UC",
-                          !(CLIN_SIG == "-") ~ as.character(CLIN_SIG))) %>%
+  filter(CLIN_SIG != "-") %>%
   group_by(CLIN_SIG) %>%
   count() %>%
   arrange(desc(n))
@@ -94,8 +84,7 @@ print("#########################################")
 
 print("===> Consequence of the variations <===")
 consequence <- variants %>%
-  mutate(Consequence = case_when(Consequence == "-" ~ "UC",
-                          !(Consequence == "-") ~ as.character(Consequence))) %>%
+  filter(Consequence != "-") %>%
   group_by(Consequence) %>%
   count() %>%
   arrange(desc(n))
@@ -116,8 +105,7 @@ print("#########################################")
 
 print("===> PUBMED ID Literature <===")
 pubmed <- variants %>%
-  mutate(PUBMED = case_when(PUBMED == "-" ~ "UC",
-                          !(PUBMED == "-") ~ as.character(PUBMED))) %>%
+  filter(PUBMED != "-") %>%
   group_by(PUBMED) %>%
   count() %>%
   arrange(desc(n))
@@ -129,5 +117,46 @@ pubmed_table <- pubmed %>%
   
 write.table(x = pubmed_table,
             file = glue("results/biostatistics/tables/{sample}_pubmed.txt"),
+            sep="\t",
+            row.names=F)
+
+print("#########################################")
+print("#########################################")
+
+print("===> PolyPhen status Literature <===")
+polyphen <- variants %>%
+  filter(PolyPhen != "-") %>%
+  mutate(PolyPhen = str_remove_all(PolyPhen, pattern = "[:punct:]"),
+         PolyPhen = str_remove_all(PolyPhen, pattern = "\\d")) %>%
+  group_by(PolyPhen) %>%
+  count()
+
+polyphen
+
+polyphen_table <- polyphen %>%
+    mutate(sample=sample)
+  
+write.table(x = polyphen_table,
+            file = glue("results/biostatistics/tables/{sample}_polyphen.txt"),
+            sep="\t",
+            row.names=F)
+
+print("#########################################")
+print("#########################################")
+
+print("===> ClinVar status Literature <===")
+clinvar <- variants %>%
+  select("ClinVar", "ClinVar_CLNSIG", "ClinVar_CLNREVSTAT", "ClinVar_CLNDN") %>%
+  filter(ClinVar_CLNSIG != "-") %>%
+  group_by(ClinVar_CLNSIG) %>%
+  count()
+
+clinvar
+
+clinvar_table <- clinvar %>%
+    mutate(sample=sample)
+  
+write.table(x = clinvar_table,
+            file = glue("results/biostatistics/tables/{sample}_clinvar.txt"),
             sep="\t",
             row.names=F)

@@ -27,6 +27,7 @@ samples:
 fastp_cuttail: 25
 fastp_cutfront: 25
 fastp_cutmeanq: 25
+fastp_length: 75
 
 vep_species: homo_sapiens
 vep_assembly: GRCh38

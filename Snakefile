@@ -41,7 +41,8 @@ rule fastp:
     params:
         cut_tail=config["fastp_cuttail"],
         cut_front=config["fastp_cutfront"],
-        cut_meanq=config["fastp_cutmeanq"]
+        cut_meanq=config["fastp_cutmeanq"],
+        length=config["fastp_length"]
     conda:
         "code/enviroments/TFM.yml"
     shell:
@@ -49,7 +50,8 @@ rule fastp:
         fastp -i {input} -o {output} \
         --cut_tail '{params.cut_tail}' \
         --cut_front '{params.cut_front}' \
-        --cut_mean_quality '{params.cut_meanq}'
+        --cut_mean_quality '{params.cut_meanq}' \
+        -l {params.length}
         mv *.json data/processed/fastp_processed
         mv fastp.html data/processed/fastp_processed
         """
