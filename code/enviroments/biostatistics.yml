@@ -11,4 +11,5 @@ dependencies:
   - r-base=4.2.2
   - r-tidyverse=2.0.0
   - r-glue=1.6.2
+  - r-gt=0.9.0
 
