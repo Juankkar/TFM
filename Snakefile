@@ -162,7 +162,16 @@ rule joining_tables:
         "code/enviroments/TFM.yml"
     shell:
         """
-        bash code/joining_tables.sh     
+        bash code/8joining_tables.sh     
+        """
+
+## Finally we will plot the data
+rule R_ploting:
+    conda:
+        "code/enviroments/biostatistics.yml"
+    shell:
+        """
+        Rscript code/9ploting.R
         """
 
 

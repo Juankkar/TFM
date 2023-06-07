@@ -11,7 +11,7 @@ sample <- system(
     intern=TRUE
 )
 
-## calculating the rows from the variants TXT to avoid them in order
+## calculating the rows from the variants tsv to avoid them in order
 ## to read our data 
 rows_skip <- system(
     glue("grep ^## results/variants/vep/{sample}.txt | wc -l"),
@@ -35,11 +35,11 @@ genes
 
 genes_table <- genes %>%
     mutate(sample=sample)
+
+col1_genes_name <- colnames(genes_table)[1]
   
-write.table(x = genes_table,
-            file = glue("results/biostatistics/tables/{sample}_gene.txt"),
-            sep="\t",
-            row.names=F)
+write_tsv(x = genes_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_genes_name}.tsv"))
 
 print("#########################################")
 print("#########################################")
@@ -57,11 +57,11 @@ biotype
 
 biotype_table <- biotype %>%
     mutate(sample=sample)
-  
-write.table(x = biotype_table,
-            file = glue("results/biostatistics/tables/{sample}_biotype.txt"),
-            sep="\t",
-            row.names=F)
+
+col1_biotype_name <- colnames(genes_table)[1]
+
+write_tsv(x = biotype_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_biotype_name}.tsv"))
 
 print("#########################################")
 print("#########################################")
@@ -80,10 +80,10 @@ clin_sig
 clin_sig_table <- clin_sig %>% 
   mutate(sample=sample)
 
-write.table(x = clin_sig_table,
-            file = glue("results/biostatistics/tables/{sample}_clin_sig.txt"),
-            sep="\t",
-            row.names=F)
+col1_clin_sig_name <- colnames(clin_sig_table)[1]
+
+write_tsv(x = clin_sig_table,
+            file = glue("results/biostatistics/tables/{sample}_clin_sig.tsv"))
 
 print("#########################################")
 print("#########################################")
@@ -99,13 +99,13 @@ colnames(consequence) <- tolower(colnames(consequence))
 
 consequence
 
-consequence_table <- biotype %>%
+consequence_table <- consequence %>%
     mutate(sample=sample)
   
-write.table(x = biotype_table,
-            file = glue("results/biostatistics/tables/{sample}_consequence.txt"),
-            sep="\t",
-            row.names=F)
+col1_consequence_name <- colnames(consequence_table)[1]
+  
+write_tsv(x = consequence_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_consequence_name}.tsv"))
 
 
 print("#########################################")
@@ -124,16 +124,16 @@ pubmed
 
 pubmed_table <- pubmed %>%
     mutate(sample=sample)
+
+col1_pubmed_name <- colnames(pubmed_table)[1]
   
-write.table(x = pubmed_table,
-            file = glue("results/biostatistics/tables/{sample}_pubmed.txt"),
-            sep="\t",
-            row.names=F)
+write_tsv(x = pubmed_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_pubmed_name}.tsv"))
 
 print("#########################################")
 print("#########################################")
 
-print("===> PolyPhen status Literature <===")
+print("===> PolyPhen status <===")
 polyphen <- variants %>%
   filter(PolyPhen != "-") %>%
   mutate(PolyPhen = str_remove_all(PolyPhen, pattern = "[:punct:]"),
@@ -147,16 +147,16 @@ polyphen
 
 polyphen_table <- polyphen %>%
     mutate(sample=sample)
+
+col1_polyphen_name <- colnames(polyphen_table)[1]
   
-write.table(x = polyphen_table,
-            file = glue("results/biostatistics/tables/{sample}_polyphen.txt"),
-            sep="\t",
-            row.names=F)
+write_tsv(x = polyphen_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_polyphen_name}.tsv"))
 
 print("#########################################")
 print("#########################################")
 
-print("===> ClinVar status Literature <===")
+print("===> ClinVar status <===")
 clinvar <- variants %>%
   select("ClinVar", "ClinVar_CLNSIG", "ClinVar_CLNREVSTAT", "ClinVar_CLNDN") %>%
   filter(ClinVar_CLNSIG != "-") %>%
@@ -169,8 +169,8 @@ clinvar
 
 clinvar_table <- clinvar %>%
     mutate(sample=sample)
+
+col1_clinvar_name <- colnames(clinvar_table)[1]
   
-write.table(x = clinvar_table,
-            file = glue("results/biostatistics/tables/{sample}_clinvar.txt"),
-            sep="\t",
-            row.names=F)
+write_tsv(x = clinvar_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_clinvar_name}.tsv"))
