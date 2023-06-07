@@ -1,0 +1,7 @@
+name: igv_viz
+
+channels:
+  - bioconda
+
+dependencies:
+  - igv=2.13.2

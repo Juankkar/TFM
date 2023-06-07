@@ -1,4 +1,4 @@
-name: TFM
+name: Greference_tools
 
 channels:
   - conda-forge
