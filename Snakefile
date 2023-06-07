@@ -26,7 +26,7 @@ rule fastqc:
     output:
         "results/fastqc_result/{sample}_fastqc.html"
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         """
         fastqc {input} -o results/fastqc_result/
@@ -44,7 +44,7 @@ rule fastp:
         cut_meanq=config["fastp_cutmeanq"],
         length=config["fastp_length"]
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         """
         fastp -i {input} -o {output} \
@@ -63,7 +63,7 @@ rule fastqc_trimmed:
     output:
         "results/fastqc_result/trimmed/{sample}_fastp_fastqc.html"
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         """
         fastqc {input} -o results/fastqc_result/trimmed/
@@ -77,7 +77,7 @@ rule bwa_mapping:
     output:
         "results/mapped_reads/{sample}.sam"
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         """
         bwa index {input.reference}
@@ -88,28 +88,28 @@ rule bwa_mapping:
 ## script for joining the SAM files
 rule merge_sam_files:
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         "bash code/2join_samfiles.sh"
 
 ## Transforming SAM to BAM and sorting
 rule sam_to_bam:
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         "bash code/3sam_to_bam.sh"
 
 ## Delete duplicates
 rule delete_duplicates:
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         "bash code/4delete_duplicates.sh"
 
 ## Extracting variants
 rule extracting_variants:
     conda:
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         "bash code/5extracting_variants.sh"
 
@@ -127,7 +127,7 @@ rule vep:
             ls-y {params.assembly}
         """
 
-## Running VEP
+## Running VEP in the command line
 rule vep_cli:
     conda: 
         "code/enviroments/vep.yml"
@@ -141,7 +141,7 @@ rule biostatisticsR_tables:
         dir2 = "results/biostatistics/tables",
         dir3 = "results/biostatistics/plots"
     conda:
-        "code/enviroments/biostatistics.yml"
+        "code/enviroments/biostatisticsR.yml"
     shell:
         """
         for dir in {params.dir1} {params.dir2} {params.dir3}
@@ -159,7 +159,7 @@ rule biostatisticsR_tables:
 rule joining_tables:
     conda:
         ## It can be any of them for this one really
-        "code/enviroments/TFM.yml"
+        "code/enviroments/Greference_tools.yml"
     shell:
         """
         bash code/8joining_tables.sh     
@@ -168,7 +168,7 @@ rule joining_tables:
 ## Finally we will plot the data
 rule R_ploting:
     conda:
-        "code/enviroments/biostatistics.yml"
+        "code/enviroments/biostatisticsR.yml"
     shell:
         """
         Rscript code/9ploting.R
