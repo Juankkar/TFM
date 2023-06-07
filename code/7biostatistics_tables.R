@@ -22,24 +22,24 @@ rows_skip <- system(
 variants <- read_table(glue("results/variants/vep/{sample}.txt"), 
                        skip=as.numeric(rows_skip))
 
-print("===> Genes with variations <===")
-genes <- variants %>%
-  filter(Gene != "-") %>%
-  group_by(Gene) %>%
+print("===> Variations Classes <===")
+variant_class <- variants %>%
+  filter(VARIANT_CLASS != "-") %>%
+  group_by(VARIANT_CLASS) %>%
   count() %>%
   arrange(desc(n))
 
-colnames(genes) <- tolower(colnames(genes))
+colnames(variant_class) <- tolower(colnames(variant_class))
 
-genes
+variant_class
 
-genes_table <- genes %>%
+variant_class_table <- variant_class %>%
     mutate(sample=sample)
 
-col1_genes_name <- colnames(genes_table)[1]
+col1_variant_class_name <- colnames(variant_class_table)[1]
   
-write_tsv(x = genes_table,
-            file = glue("results/biostatistics/tables/{sample}_{col1_genes_name}.tsv"))
+write_tsv(x = variant_class_table,
+          file = glue("results/biostatistics/tables/{sample}_{col1_variant_class_name}.tsv"))
 
 print("#########################################")
 print("#########################################")
@@ -58,7 +58,7 @@ biotype
 biotype_table <- biotype %>%
     mutate(sample=sample)
 
-col1_biotype_name <- colnames(genes_table)[1]
+col1_biotype_name <- colnames(biotype_table)[1]
 
 write_tsv(x = biotype_table,
             file = glue("results/biostatistics/tables/{sample}_{col1_biotype_name}.tsv"))
@@ -111,24 +111,26 @@ write_tsv(x = consequence_table,
 print("#########################################")
 print("#########################################")
 
-print("===> PUBMED ID Literature <===")
-pubmed <- variants %>%
-  filter(PUBMED != "-") %>%
-  group_by(PUBMED) %>%
+print("===> SIFT <===")
+sift <- variants %>%
+  filter(SIFT != "-") %>%
+  mutate(SIFT = str_remove_all(SIFT, pattern = "[:punct:]"),
+         SIFT = str_remove_all(SIFT, pattern = "\\d")) %>%
+  group_by(SIFT) %>%
   count() %>%
   arrange(desc(n))
 
-colnames(pubmed) <- tolower(colnames(pubmed))
+colnames(sift) <- tolower(colnames(sift))
 
-pubmed
+sift
 
-pubmed_table <- pubmed %>%
+sift_table <- sift %>%
     mutate(sample=sample)
 
-col1_pubmed_name <- colnames(pubmed_table)[1]
+col1_sift_name <- colnames(sift)[1]
   
-write_tsv(x = pubmed_table,
-            file = glue("results/biostatistics/tables/{sample}_{col1_pubmed_name}.tsv"))
+write_tsv(x = sift_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_sift_name}.tsv"))
 
 print("#########################################")
 print("#########################################")
@@ -173,4 +175,70 @@ clinvar_table <- clinvar %>%
 col1_clinvar_name <- colnames(clinvar_table)[1]
   
 write_tsv(x = clinvar_table,
-            file = glue("results/biostatistics/tables/{sample}_{col1_clinvar_name}.tsv"))
+          file = glue("results/biostatistics/tables/{sample}_{col1_clinvar_name}.tsv"))
+
+print("#########################################")
+print("#########################################")
+
+print("===> Number of variants <===")
+num_variants <- tibble(num_variants=nrow(variants),
+                       sample=sample)
+
+num_variants
+
+col1_rows_name <- colnames(clinvar_table)[1]
+
+write_tsv(x = clinvar_table,
+          file = glue("results/biostatistics/tables/{sample}_{col1_rows_name}.tsv"))
+
+print("#########################################")
+print("#########################################")
+print("===> Distribution Chromosome <===")
+location <- variants %>%
+  select(Location) %>%
+  mutate(Location = str_replace(Location, 
+                                pattern = "^+\\d:",
+                                replacement=""),
+          Location=as.numeric(Location)) %>%
+  group_by(Location) %>%
+  summarise(n=n()) %>%
+  arrange(Location) %>%
+  drop_na()
+
+colnames(location) <- tolower(colnames(location))
+
+location 
+
+location_table <- location %>%
+    mutate(sample=sample) 
+
+col1_location_name <- colnames(location_table)[1]
+  
+write_tsv(x = location_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_location_name}.tsv"))
+
+variants %>% select("Location")
+
+
+print("#########################################")
+print("#########################################")
+print("===> Protein Position <===")
+protein_pos <- variants %>%
+  mutate(Protein_position = as.numeric(Protein_position)) %>%
+  group_by(Protein_position) %>%
+  summarise(n=n()) %>%
+  arrange(Protein_position) %>%
+  drop_na()
+
+colnames(protein_pos) <- tolower(colnames(protein_pos))
+
+protein_pos 
+
+protein_pos_table <- protein_pos %>%
+    mutate(sample=sample) 
+
+col1_protein_pos_name <- colnames(protein_pos_table)[1]
+  
+write_tsv(x = protein_pos_table,
+            file = glue("results/biostatistics/tables/{sample}_{col1_protein_pos_name}.tsv"))
+

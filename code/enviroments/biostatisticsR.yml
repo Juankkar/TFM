@@ -1,4 +1,4 @@
-name: biostatistics
+name: biostatisticsR
 
 channels:
   - conda-forge
