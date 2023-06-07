@@ -39,6 +39,7 @@ vep -i results/variants/${sample}.vcf \
     --assembly ${assembly} \
     --appris \
     --biotype \
+    --variant_class \
     --check_existing \
     --filter_common \
     --mane \
