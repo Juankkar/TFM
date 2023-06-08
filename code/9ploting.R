@@ -1,12 +1,5 @@
 #!/usr/bin/env Rscript
 
-###############
-##  SYSTEM   ##
-###############
-
-nrows_location_plot <- system('read -p "For the location plot you have to choose the number of rows: " rows ; echo $rows',
-                              intern=TRUE)
-
 #################
 ##  LIBRARIES  ##
 #################
@@ -14,6 +7,13 @@ nrows_location_plot <- system('read -p "For the location plot you have to choose
 suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
 suppressPackageStartupMessages(suppressWarnings(library(gt)))
 suppressPackageStartupMessages(suppressWarnings(library(glue)))
+
+###############
+##  SYSTEM   ##
+###############
+
+nrows_location_plot <- system('read -p "For the location plot you have to choose the number of rows: " rows ; echo $rows',
+                              intern=TRUE)
 
 #####################
 ##  READING DATA   ## 
@@ -63,6 +63,28 @@ df_location <- expand.grid(location=as.character(unique(as.character(location$lo
     mutate(n=ifelse(is.na(n),0,n),
            location=as.numeric(location)) 
 
+num_variants <- read_tsv("results/biostatistics/joined_tables/num_variants.tsv")
+
+# prot_position <- read_tsv("results/biostatistics/joined_tables/protein_position.tsv") %>%
+#     group_by(sample) %>%
+#     mutate(percentage=(protein_position/max(protein_position))*100,
+#            percentiles=case_when(percentage >= 0 & percentage <= 10 ~ "0-10%",
+#                                  percentage > 10 & percentage <= 20 ~ "10-20%",
+#                                  percentage > 20 & percentage <= 30 ~ "20-30%",
+#                                  percentage > 30 & percentage <= 40 ~ "30-40%",
+#                                  percentage > 40 & percentage <= 50 ~ "40-50%",
+#                                  percentage > 50 & percentage <= 60 ~ "50-60%",
+#                                  percentage > 60 & percentage <= 70 ~ "60-70%",
+#                                  percentage > 70 & percentage <= 80 ~ "70-80%",
+#                                  percentage > 80 & percentage <= 90 ~ "80-90%",
+#                                  percentage > 90 & percentage <= 100 ~ "90-100%")) %>%
+#     select(-protein_position) %>%
+#     ungroup() %>%
+#     group_by(sample, percentiles) %>%
+#     summarise(n=sum(n))
+
+# prot_position %>% print(n=Inf)
+
 
 polyphen <- read_tsv("results/biostatistics/joined_tables/polyphen.tsv") 
 df_polyphen <- expand.grid(polyphen=as.character(unique(as.character(polyphen$polyphen))),
@@ -72,11 +94,29 @@ df_polyphen <- expand.grid(polyphen=as.character(unique(as.character(polyphen$po
         ) %>% 
     mutate(n=ifelse(is.na(n),0,n)) 
 
+sift <- read_tsv("results/biostatistics/joined_tables/sift.tsv") 
+df_sift <- expand.grid(sift=as.character(unique(as.character(sift$sift))),
+                           sample=as.character(unique(as.character(sift$sample)))) %>% 
+    left_join(
+        sift %>% mutate(sift=as.character(sift)), by=c("sift","sample")
+        ) %>% 
+    mutate(n=ifelse(is.na(n),0,n)) 
+
+variant_class <- read_tsv("results/biostatistics/joined_tables/variant_class.tsv") 
+df_variant_class <- expand.grid(variant_class=as.character(unique(as.character(variant_class$variant_class))),
+                       sample=as.character(unique(as.character(variant_class$sample)))) %>% 
+    left_join(
+        variant_class, by=c("variant_class","sample")
+        ) %>% 
+    mutate(n=ifelse(is.na(n),0,n)) 
+
 #################
 ##  EXECUTION  ##
 #################
 
-## Studying the biotype
+#----------------------#
+# Studying the biotype #
+#----------------------#
 biotype_wider <- df_biotype %>%
     pivot_wider(biotype, names_from=sample,values_from=n)
 
@@ -125,16 +165,14 @@ ggsave(filename = "results/biostatistics/plots/biotype.png",
        height = 5,
        width = 10)
 
-
-#biotype_wider %>% mutate(sumatorio = rowSums(biotype_wider[,-1])) %>% select(sumatorio) %>% arrange(desc(sumatorio)) %>% 
-
 for(type_file in c("html", "docx")){
     gtsave(data=gt_biotype,
            filename=glue("results/biostatistics/plots/biotype_plot.{type_file}"))
 }
 
-## Studying the Clinical Significance status
-
+#---------------------------------------------#
+#  Studying the Clinical Significance status  #
+#---------------------------------------------#
 clin_sig_wider <- df_clin_sig %>%
     pivot_wider(clin_sig, names_from=sample,values_from=n) 
 
@@ -188,7 +226,9 @@ ggsave(filename = "results/biostatistics/plots/clin_sig.png",
        height = 5,
        width = 10)
 
-# Studying the ClinVar status
+#-------------------------------#
+#  Studying the ClinVar status  #
+#-------------------------------#
 
 max_clinvar_clnsig <- max(df_clinvar$n) 
 
@@ -224,7 +264,10 @@ ggsave(filename = "results/biostatistics/plots/clinvar.png",
        height = 5,
        width = 10)
 
-# Studying the consequences for the variation
+#----------------------------------------------#
+# Studying the consequences for the variation  #
+#----------------------------------------------#
+
 consequence_wider <- df_consequence %>%
     pivot_wider(consequence, names_from=sample,values_from=n)
 
@@ -278,7 +321,10 @@ for(type_file in c("html", "docx")){
            filename=glue("results/biostatistics/plots/consequence.{type_file}"))
 }
 
-## Studying the location of the variants
+#----------------------------------------#
+# Studying the location of the variants  #
+#----------------------------------------#
+
 location_plot <- df_location %>%
     mutate(location=location/10^6) %>%
     ggplot(aes(location, n, color=sample)) +
@@ -301,7 +347,48 @@ ggsave(filename = "results/biostatistics/plots/location.png",
        height = 5,
        width = 10)
 
-## Studying the PolyPhen status
+#--------------------------------------#
+# Studying the number of the variants  #
+#--------------------------------------#
+
+max_number <- max(num_variants$num_variants) 
+
+nvariants_plot <- num_variants %>%
+    ggplot(aes(num_variants, reorder(sample,num_variants))) +
+    geom_bar(stat="identity", fill="#1e81b0", color="black") +
+    scale_x_continuous(expand=expansion(0),
+                       limits=c(0,max_number+1000)) +
+    labs(
+        title = "Number of variants of echa samples",
+        x = "Number of variants",
+        y = "Samples"
+    ) +
+    theme_classic() +
+    theme(
+        plot.title=element_text(hjust=.5, size=14, face="bold"),
+        axis.title=element_text(size=12, face="bold"),
+        axis.text=element_text(size=11, color="black")
+    )
+
+gt_number <- num_variants %>%
+    gt() %>%
+    tab_header(title=md("Number of variants in each sample"))
+
+## Saving Processed data
+ggsave(filename = "results/biostatistics/plots/num_variants.png",
+       plot = nvariants_plot,
+       height = 5,
+       width = 10)
+
+for(type_file in c("html", "docx")){
+    gtsave(data=gt_number,
+           filename=glue("results/biostatistics/plots/num_variants.{type_file}"))
+}
+
+#--------------------------------#
+#  Studying the PolyPhen status  #
+#--------------------------------#
+
 max_polyphen <- max(df_polyphen$n) 
 
 polyphen_plot <- df_polyphen %>%
@@ -333,5 +420,83 @@ for(type_file in c("html", "docx")){
 
 ggsave(filename = "results/biostatistics/plots/polyphen.png",
        plot = polyphen_plot,
+       height = 5,
+       width = 10)
+
+#----------------------------#
+#  Studying the Sift status  #
+#----------------------------#
+
+max_sift <- max(df_sift$n) 
+
+sift_plot <- df_sift %>%
+    ggplot(aes(n, reorder(sample,n), fill=sift)) +
+    geom_bar(stat="identity", position="dodge") +
+    scale_x_continuous(expand=expansion(0),
+                       limits=c(0,max_sift+100)) +
+    labs(
+        title = "Sift Status of the variants",
+        x = "Number of variants",
+        y = "Samples",
+        fill="SIFT"
+    ) +
+    theme_classic() +
+    theme(
+        plot.title=element_text(hjust=.5, size=14, face="bold"),
+        axis.title=element_text(size=12, face="bold"),
+        axis.text=element_text(size=11, color="black")
+    )
+
+gt_sift <- df_sift %>%
+    pivot_wider(sift, names_from="sample", values_from="n") %>%
+    gt() %>%
+    tab_header(title=md("Sift for the variants"))
+
+for(type_file in c("html", "docx")){
+    gtsave(data=gt_sift,
+           filename=glue("results/biostatistics/plots/sift.{type_file}"))
+}
+
+ggsave(filename = "results/biostatistics/plots/sift.png",
+       plot = sift_plot,
+       height = 5,
+       width = 10)
+
+#--------------------------------#
+#  Studying the Variant Classes  #
+#--------------------------------#
+
+max_variant_class <- max(df_variant_class$n) 
+
+variant_class_plot <- df_variant_class %>%
+    ggplot(aes(n, reorder(sample,n), fill=variant_class)) +
+    geom_bar(stat="identity", position="dodge") +
+    scale_x_continuous(expand=expansion(0),
+                       limits=c(0,max_variant_class+100)) +
+    labs(
+        title = "Variants Classes",
+        x = "Number of variants",
+        y = "Samples",
+        fill="CLASSES"
+    ) +
+    theme_classic() +
+    theme(
+        plot.title=element_text(hjust=.5, size=14, face="bold"),
+        axis.title=element_text(size=12, face="bold"),
+        axis.text=element_text(size=11, color="black")
+    )
+
+gt_variant_class <- df_variant_class %>%
+    pivot_wider(variant_class, names_from="sample", values_from="n") %>%
+    gt() %>%
+    tab_header(title=md("variant_class for the variants"))
+
+for(type_file in c("html", "docx")){
+    gtsave(data=gt_variant_class,
+           filename=glue("results/biostatistics/plots/variant_class.{type_file}"))
+}
+
+ggsave(filename = "results/biostatistics/plots/variant_class.png",
+       plot = variant_class_plot,
        height = 5,
        width = 10)
