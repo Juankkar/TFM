@@ -1,9 +1,16 @@
 #!/usr/bin/env Rscript
 
 
-## Packages 
+#################
+##  LIBRARIES  ##
+#################
+
 suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
 suppressPackageStartupMessages(library(glue))
+
+###############
+##  SYSTEM   ##
+###############
 
 ## Selecting our sample
 sample <- system(
@@ -18,9 +25,18 @@ rows_skip <- system(
     intern = TRUE
     )
 
-## Reading the data
+#####################
+##  READING DATA   ## 
+##       AND       ##
+##  PRE-PROCESSED  ##
+#####################
+
 variants <- read_table(glue("results/variants/vep/{sample}.txt"), 
                        skip=as.numeric(rows_skip))
+
+#################
+##  EXECUTION  ##
+#################
 
 print("===> Variations Classes <===")
 variant_class <- variants %>%
@@ -186,9 +202,9 @@ num_variants <- tibble(num_variants=nrow(variants),
 
 num_variants
 
-col1_rows_name <- colnames(clinvar_table)[1]
+col1_rows_name <- colnames(num_variants)[1]
 
-write_tsv(x = clinvar_table,
+write_tsv(x = num_variants,
           file = glue("results/biostatistics/tables/{sample}_{col1_rows_name}.tsv"))
 
 print("#########################################")
