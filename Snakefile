@@ -173,6 +173,3 @@ rule R_ploting:
         """
         Rscript code/9ploting.R
         """
-
-
-        
