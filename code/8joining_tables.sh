@@ -5,7 +5,7 @@ then
     mkdir results/biostatistics/joined_tables/
 fi
 
-for pattern in clin_sig biotype consequence polyphen pubmed clinvar_clnsig gene
+for pattern in biotype clin_sig clinvar_clnsig consequence location polyphen protein_position sift variant_class
 do
     cat results/biostatistics/tables/*$pattern* \
         | awk "!/^${pattern}/ || NR == 1" \
