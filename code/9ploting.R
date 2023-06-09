@@ -15,6 +15,33 @@ suppressPackageStartupMessages(suppressWarnings(library(glue)))
 nrows_location_plot <- system('read -p "For the location plot you have to choose the number of rows: " rows ; echo $rows',
                               intern=TRUE)
 
+## The table metadata/severe_consequences.csv was got from ENSEMBLE using --> code/annotations.ipynb 
+
+high_consequence <- 'echo $(cat metadata/severe_consequences.csv | grep "HIGH" | cut -d "," -f 1) | tr " " "|"'
+consequence_level_high <- c(system(high_consequence, intern=TRUE))
+
+moderate_consequence <- 'echo $(cat metadata/severe_consequences.csv | grep "MODERATE" | cut -d "," -f 1) | tr " " "|"'
+consequence_level_moderate <- c(system(moderate_consequence,intern=TRUE))
+
+low_consequence <- 'echo $(cat metadata/severe_consequences.csv | grep "LOW" | cut -d "," -f 1) | tr " " "|"'
+consequence_level_low <- c(system(low_consequence,intern=TRUE))
+
+modifier_consequece <- 'echo $(cat metadata/severe_consequences.csv | grep "MODIFIER" | cut -d "," -f 1) | tr " " "|"'
+consequence_level_modifier <- c(system(modifier_consequece,intern=TRUE))
+
+## Algorithm to add a new character value column based on a list given separate with "|" data from a list 
+## throwback to my TFG :)
+selec <-function(ord,lista_tokens,var) {
+  paste(lista_tokens[-ord],collapse="|")
+  if(!is.na(ord)) return(grepl(lista_tokens[ord],tolower(var)) & !grepl(paste(lista_tokens[-ord],collapse="|"),tolower(var)))
+  else return(grepl(paste(lista_tokens,collapse="|"),tolower(var)))
+}
+
+list_level_consequence <- tolower(c(consequence_level_high,consequence_level_moderate,consequence_level_low,consequence_level_modifier))
+
+list_coding_consequence <- c("splice_acceptor_variant|splice_donor_variant|stop_gained|frameshift_variant|stop_lost|start_lost",
+                             "inframe_insertion|inframe_deletion|missense_variant|protein_altering_variant|coding_sequence_variant|incomplete_terminal_codon_variant",
+                             "start_retained_variant|stop_retained_variant|synonymous_variant")
 #####################
 ##  READING DATA   ## 
 ##       AND       ##
@@ -23,6 +50,8 @@ nrows_location_plot <- system('read -p "For the location plot you have to choose
 
 biotype <- read_tsv("results/biostatistics/joined_tables/biotype.tsv")
 
+## This code it is necessary in order to add a "0" when a value of the first column (biotype,
+## consequence...) does not appear in one of the samples
 df_biotype <- expand.grid(biotype=as.character(unique(as.character(biotype$biotype))),
                           sample=as.character(unique(as.character(biotype$sample)))) %>% 
     left_join(
@@ -52,7 +81,19 @@ df_consequence <- expand.grid(consequence=as.character(unique(as.character(conse
     left_join(
         consequence, by=c("consequence","sample")
         ) %>% 
-    mutate(n=ifelse(is.na(n),0,n)) 
+    mutate(
+        n=ifelse(is.na(n),0,n),
+        consequence_lower=tolower(consequence),
+        level= case_when(selec(1,list_level_consequence,consequence_lower)~"high" ,
+                         selec(2,list_level_consequence,consequence_lower)~"moderate",
+                         selec(3,list_level_consequence,consequence_lower)~"low",
+                         selec(4,list_level_consequence,consequence_lower)~"modifier"),
+        coding= as.character(case_when(selec(1,list_coding_consequence,consequence_lower)~"coding",
+                             selec(2,list_coding_consequence,consequence_lower)~"coding",
+                             selec(3,list_coding_consequence,consequence_lower)~"coding")),
+        coding=ifelse(is.na(coding),"not_coding",coding)
+    ) %>% 
+    select(-"consequence_lower") 
 
 location <- read_tsv("results/biostatistics/joined_tables/location.tsv") 
 df_location <- expand.grid(location=as.character(unique(as.character(location$location))),
@@ -269,23 +310,77 @@ ggsave(filename = "results/biostatistics/plots/clinvar.png",
 #----------------------------------------------#
 
 consequence_wider <- df_consequence %>%
+    select("consequence", "sample", "n") %>%
     pivot_wider(consequence, names_from=sample,values_from=n)
 
-ggconsequence <- consequence_wider %>% 
-    pivot_longer(-consequence, names_to="sample", values_to="n") 
+consequence_level <- df_consequence %>% 
+    group_by(sample, level) %>%
+    summarise(n=sum(n))
 
-max_consequence <- max(ggconsequence$n) 
+max_consequence_level <- max(consequence_level$n) 
 
-consequence_plot <- ggconsequence %>% 
+consequence_level_plot <- consequence_level %>%
+    mutate(level=factor(level,
+        levels=c("high", "low", "moderate", "modifier")
+    )) %>%
+    ggplot(aes(n, reorder(sample,n), fill=level)) +
+    geom_bar(stat="identity", position="dodge") +
+    scale_x_continuous(expand=expansion(0),
+                       limits=c(0,max_consequence_level+100)) +
+    labs(
+        title = "Consequences of the variation (severe levels)",
+        x = "Number of variants",
+        y = "Samples",
+        fill="SEVERE"
+    ) +
+    theme_classic() +
+    theme(
+        plot.title=element_text(hjust=.5, size=14, face="bold"),
+        axis.title=element_text(size=12, face="bold"),
+        axis.text=element_text(size=11, color="black")
+    )
+
+consequence_coding <- df_consequence %>% 
+    group_by(sample, coding) %>%
+    summarise(n=sum(n))
+
+max_consequence_coding <- max(consequence_coding$n) 
+
+consequence_coding_plot <- consequence_coding %>%
+    ggplot(aes(n, reorder(sample,n), fill=coding)) +
+    geom_bar(stat="identity", position="dodge") +
+    scale_x_continuous(expand=expansion(0),
+                       limits=c(0,max_consequence_coding+100)) +
+    labs(
+        title = "Consequences of the variation (Coding/not Coding)",
+        x = "Number of variants",
+        y = "Samples",
+        fill="VARIANT"
+    ) +
+    theme_classic() +
+    theme(
+        plot.title=element_text(hjust=.5, size=14, face="bold"),
+        axis.title=element_text(size=12, face="bold"),
+        axis.text=element_text(size=11, color="black")
+    )
+
+consequence_coding_only <- df_consequence %>% 
+    filter(coding == "coding")
+
+max_con_coding_only <- max(consequence_coding_only$n) 
+
+con_coding_only_plot <- consequence_coding_only %>%
+    mutate(consequence=case_when(n < 50 ~ "other",
+                                 n > 50 ~ as.character(consequence))) %>%
     ggplot(aes(n, reorder(sample,n), fill=consequence)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_consequence+100)) +
+                       limits=c(0,max_con_coding_only+100)) +
     labs(
-        title = "Consequence of the variants",
+        title = "Consequences of the variation (coding only)",
         x = "Number of variants",
         y = "Samples",
-        fill="CONSEQUENCE"
+        fill="CODING VARIANT"
     ) +
     theme_classic() +
     theme(
@@ -299,8 +394,18 @@ gt_consequence <- consequence_wider %>%
     tab_header(title=md("Consequence product from the variation"))
 
 ## Saving Processed data
-ggsave(filename = "results/biostatistics/plots/consequence.png",
-       plot = consequence_plot,
+ggsave(filename = "results/biostatistics/plots/consequence_level.png",
+       plot = consequence_level_plot,
+       height = 5,
+       width = 10)
+
+ggsave(filename = "results/biostatistics/plots/consequence_coding.png",
+       plot = consequence_coding_plot,
+       height = 5,
+       width = 10)
+
+ggsave(filename = "results/biostatistics/plots/consequence_coding_only.png",
+       plot = con_coding_only_plot,
        height = 5,
        width = 10)
 

@@ -2,6 +2,7 @@ name: Greference_tools
 
 channels:
   - conda-forge
+  - anaconda
   - bioconda
   - default
 
@@ -19,4 +20,5 @@ dependencies:
   - bedtools=2.30.0
   - vcftools=0.1.16
   - freebayes=1.0.2
+  - ipykernel=6.19.2
 
