@@ -206,10 +206,8 @@ ggsave(filename = "results/biostatistics/plots/biotype.png",
        height = 5,
        width = 10)
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_biotype,
-           filename=glue("results/biostatistics/plots/biotype_plot.{type_file}"))
-}
+gtsave(data=gt_biotype,
+       filename=glue("results/biostatistics/plots/biotype_plot.html"))
 
 #---------------------------------------------#
 #  Studying the Clinical Significance status  #
@@ -257,10 +255,8 @@ gt_clin_sig <- clinsig_wider_fixed %>%
     gt() %>%
     tab_header(title=md("Clinical Significance for the variants"))
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_clin_sig,
-           filename=glue("results/biostatistics/plots/clin_sig_plot.{type_file}"))
-}
+gtsave(data=gt_clin_sig,
+       filename=glue("results/biostatistics/plots/clin_sig_plot.html"))
 
 ggsave(filename = "results/biostatistics/plots/clin_sig.png",
        plot = clin_sig_plot,
@@ -295,10 +291,8 @@ gt_clinvar <- df_clinvar %>%
     gt() %>%
     tab_header(title=md("CliVar for the variants"))
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_clinvar,
-           filename=glue("results/biostatistics/plots/clinvar.{type_file}"))
-}
+gtsave(data=gt_clinvar,
+       filename=glue("results/biostatistics/plots/clinvar.html"))
 
 ggsave(filename = "results/biostatistics/plots/clinvar.png",
        plot = clinvar_plot,
@@ -409,10 +403,8 @@ ggsave(filename = "results/biostatistics/plots/consequence_coding_only.png",
        height = 5,
        width = 10)
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_consequence,
-           filename=glue("results/biostatistics/plots/consequence.{type_file}"))
-}
+gtsave(data=gt_consequence,
+           filename=glue("results/biostatistics/plots/consequence.html"))
 
 #----------------------------------------#
 # Studying the location of the variants  #
@@ -473,10 +465,8 @@ ggsave(filename = "results/biostatistics/plots/num_variants.png",
        height = 5,
        width = 10)
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_number,
-           filename=glue("results/biostatistics/plots/num_variants.{type_file}"))
-}
+gtsave(data=gt_number,
+           filename=glue("results/biostatistics/plots/num_variants.html"))
 
 #--------------------------------#
 #  Studying the PolyPhen status  #
@@ -506,10 +496,9 @@ gt_polyphen <- df_polyphen %>%
     gt() %>%
     tab_header(title=md("PolyPhen for the variants"))
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_polyphen,
-           filename=glue("results/biostatistics/plots/polyphen.{type_file}"))
-}
+
+gtsave(data=gt_polyphen,
+       filename=glue("results/biostatistics/plots/polyphen.html"))
 
 ggsave(filename = "results/biostatistics/plots/polyphen.png",
        plot = polyphen_plot,
@@ -545,10 +534,8 @@ gt_sift <- df_sift %>%
     gt() %>%
     tab_header(title=md("Sift for the variants"))
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_sift,
-           filename=glue("results/biostatistics/plots/sift.{type_file}"))
-}
+gtsave(data=gt_sift,
+       filename=glue("results/biostatistics/plots/sift.html"))
 
 ggsave(filename = "results/biostatistics/plots/sift.png",
        plot = sift_plot,
@@ -584,10 +571,8 @@ gt_variant_class <- df_variant_class %>%
     gt() %>%
     tab_header(title=md("variant_class for the variants"))
 
-for(type_file in c("html", "docx")){
-    gtsave(data=gt_variant_class,
-           filename=glue("results/biostatistics/plots/variant_class.{type_file}"))
-}
+gtsave(data=gt_variant_class,
+       filename=glue("results/biostatistics/plots/variant_class.html"))
 
 ggsave(filename = "results/biostatistics/plots/variant_class.png",
        plot = variant_class_plot,
