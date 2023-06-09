@@ -271,19 +271,7 @@ ggsave(filename = "results/biostatistics/plots/clinvar.png",
 consequence_wider <- df_consequence %>%
     pivot_wider(consequence, names_from=sample,values_from=n)
 
-consequence_wider_fixed <- consequence_wider %>%
-    mutate(row_sum = rowSums(consequence_wider[,-1]),
-           consequence = case_when(row_sum < 200 ~ "other",
-                                   row_sum >= 200 ~ as.character(consequence))) %>%
-    select(-"row_sum") %>%
-    pivot_longer(-consequence, names_to="sample", values_to="n") %>%
-    group_by(consequence,sample) %>%
-    summarize(n = sum(n)) %>%
-    arrange(desc(n)) %>%
-    pivot_wider(consequence, names_from="sample", values_from="n") %>%
-    ungroup()
-
-ggconsequence <- consequence_wider_fixed %>% 
+ggconsequence <- consequence_wider %>% 
     pivot_longer(-consequence, names_to="sample", values_to="n") 
 
 max_consequence <- max(ggconsequence$n) 
@@ -306,7 +294,7 @@ consequence_plot <- ggconsequence %>%
         axis.text=element_text(size=11, color="black")
     )
 
-gt_consequence <- consequence_wider_fixed %>%
+gt_consequence <- consequence_wider %>%
     gt() %>%
     tab_header(title=md("Consequence product from the variation"))
 
