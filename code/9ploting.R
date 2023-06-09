@@ -65,7 +65,11 @@ df_clin_sig <- expand.grid(clin_sig=as.character(unique(as.character(clin_sig$cl
     left_join(
         clin_sig, by=c("clin_sig","sample")
         ) %>% 
-    mutate(n=ifelse(is.na(n),0,n)) 
+    mutate(n=ifelse(is.na(n),0,n)) %>%
+    separate_longer_delim(clin_sig, delim=",") %>%
+    group_by(clin_sig, sample) %>%
+    summarise(n=sum(n)) %>%
+    ungroup()  
 
 clinvar <- read_tsv("results/biostatistics/joined_tables/clinvar_clnsig.tsv") 
 df_clinvar <- expand.grid(clinvar_clnsig=as.character(unique(as.character(clinvar$clinvar_clnsig))),
