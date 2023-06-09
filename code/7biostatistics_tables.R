@@ -107,9 +107,11 @@ print("#########################################")
 print("===> Consequence of the variations <===")
 consequence <- variants %>%
   filter(Consequence != "-") %>%
+  separate_longer_delim(Consequence, delim=",") %>%
   group_by(Consequence) %>%
   count() %>%
-  arrange(desc(n))
+  arrange(desc(n)) 
+  
 
 colnames(consequence) <- tolower(colnames(consequence))
 
