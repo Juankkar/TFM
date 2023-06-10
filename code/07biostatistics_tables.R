@@ -12,18 +12,29 @@ suppressPackageStartupMessages(library(glue))
 ##  SYSTEM   ##
 ###############
 
-## Selecting our sample
-sample <- system(
-    'read -p "Select your sample -> " sample ; echo $sample',
-    intern=TRUE
+# ## Selecting our sample
+# sample <- system(
+#     'read -p "Select your sample -> " sample ; echo $sample',
+#     intern=TRUE
+# )
+
+# ## calculating the rows from the variants tsv to avoid them in order
+# ## to read our data 
+# rows_skip <- system(
+#     glue("grep ^## results/variants/vep/{sample}.txt | wc -l"),
+#     intern = TRUE
+#     )
+
+sample_list <- scan(
+  file="your_sample_list.txt",
+  what = character(),
+  quiet = TRUE,
+  sep = "\n"
 )
 
-## calculating the rows from the variants tsv to avoid them in order
-## to read our data 
-rows_skip <- system(
-    glue("grep ^## results/variants/vep/{sample}.txt | wc -l"),
-    intern = TRUE
-    )
+sample_list
+
+for(sample in sample_list){
 
 #####################
 ##  READING DATA   ## 
@@ -31,7 +42,18 @@ rows_skip <- system(
 ##  PRE-PROCESSED  ##
 #####################
 
-variants <- read_table(glue("results/variants/vep/{sample}.txt"), 
+sample_file <- glue("results/variants/vep/{sample}.txt")
+
+rows_skip <- tibble(
+  our_vector = scan(
+    file=sample_file,
+    what = character(),
+    quiet = TRUE,
+    sep = "\n")) %>%
+  filter(str_detect(our_vector,"^##")) %>%
+  nrow()
+
+variants <- read_table(sample_file, 
                        skip=as.numeric(rows_skip))
 
 #################
@@ -259,4 +281,4 @@ col1_protein_pos_name <- colnames(protein_pos_table)[1]
   
 write_tsv(x = protein_pos_table,
             file = glue("results/biostatistics/tables/{sample}_{col1_protein_pos_name}.tsv"))
-
+}
