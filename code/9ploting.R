@@ -180,33 +180,61 @@ biotype_wider_fixed <- biotype_wider %>%
 ggbiotype <- biotype_wider_fixed %>% 
     pivot_longer(-biotype, names_to="sample", values_to="n") 
 
-max_biotype <- max(ggbiotype$n) 
-
-biotype_plot <- ggbiotype %>% 
-    ggplot(aes(n, reorder(sample,n), fill=biotype)) +
-    geom_bar(stat="identity", position="dodge") +
-    scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_biotype+100)) +
+heatmap_biotyoe <- ggbiotype %>%
+    ggplot(aes(reorder(sample,n,decreasing=TRUE), 
+               reorder(biotype,n, decreasing=FALSE), 
+               fill = n)) +
+    geom_tile(color="black") +
+    geom_text(aes(label=n)) +
+    scale_fill_gradient(name="BIOTYPE\nvs\nSAMPLE",
+                        low="white", high="red") +
     labs(
-        title = "Biotype of the variants for each sample",
-        x = "Number of variants",
-        y = "Samples",
-        fill="BIOTYPE"
+        title="Biotype of the variants for each sample",
+        x=NULL,
+        y=NULL
     ) +
-    theme_classic() +
     theme(
-        plot.title=element_text(hjust=.5, size=14, face="bold"),
-        axis.title=element_text(size=12, face="bold"),
-        axis.text=element_text(size=11, color="black")
+        panel.background=element_blank(),
+        axis.line.x=element_line(),
+        plot.title=element_text(size=14, face="bold", hjust=.5),
+        axis.title.x = element_text(margin = margin(t = 10),size = 12),
+        axis.title.y = element_text(margin = margin(r = 10), size = 12),
+        axis.text.x = element_text(angle = 90,vjust = .05),
+        axis.text = element_text(size=10, color="black")
     )
+
+# max_biotype <- max(ggbiotype$n) 
+
+# biotype_plot <- ggbiotype %>% 
+#     ggplot(aes(n, reorder(sample,n), fill=biotype)) +
+#     geom_bar(stat="identity", position="dodge") +
+#     scale_x_continuous(expand=expansion(0),
+#                        limits=c(0,max_biotype+100)) +
+#     labs(
+#         title = "Biotype of the variants for each sample",
+#         x = "Number of variants",
+#         y = "Samples",
+#         fill="BIOTYPE"
+#     ) +
+#     theme_classic() +
+#     theme(
+#         plot.title=element_text(hjust=.5, size=14, face="bold"),
+#         axis.title=element_text(size=12, face="bold"),
+#         axis.text=element_text(size=11, color="black")
+#     )
 
 ## Saving Processed data
 gt_biotype <- biotype_wider_fixed %>%
     gt() %>%
     tab_header(title=md("Biotype product from the variation"))
 
-ggsave(filename = "results/biostatistics/plots/biotype.png",
-       plot = biotype_plot,
+# ggsave(filename = "results/biostatistics/plots/biotype.png",
+#        plot = biotype_plot,
+#        height = 5,
+#        width = 10)
+
+ggsave(filename = "results/biostatistics/plots/biotype_heatmap.png",
+       plot = heatmap_biotyoe,
        height = 5,
        width = 10)
 
