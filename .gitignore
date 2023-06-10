@@ -1,8 +1,7 @@
 ## Evitamos enviar archivos de los datos
 
 data/raw/*
-!data/raw/ERR753375_chr5_1.fastq.gz
-!data/raw/ERR753375_chr5_2.fastq.gz
+!data/raw/README.txt
 
 data/processed/*
 !data/processed/README.txt
