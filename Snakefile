@@ -17,7 +17,7 @@ def get_bwa_map_input_fastqs(wildcards):
 ## Downloading the data
 rule download_data:
     shell:
-        "code/1dl_rawdata.bash"
+        "code/01dl_rawdata.bash"
 
 ## View the quality of the samples
 rule fastqc:
@@ -87,31 +87,46 @@ rule bwa_mapping:
 
 ## script for joining the SAM files
 rule merge_sam_files:
+    input:
+        script = "code/02join_samfiles.sh" 
+    params:
+        ## For example mine are _1 and _2, but could be _R1 _R2
+        ends_1 = config["reads_fordward_termination"],
+        ends_2 = config["reads_reversed_termination"]
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
-        "bash code/2join_samfiles.sh"
+        "bash {input.script} {params.ends_1} {params.ends_2}"
 
 ## Transforming SAM to BAM and sorting
 rule sam_to_bam:
+    input:
+        script = "code/03sam_to_bam.sh"
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
-        "bash code/3sam_to_bam.sh"
+        "bash {input.script}"
 
 ## Delete duplicates
 rule delete_duplicates:
+    input:
+        script = "code/04delete_duplicates.sh"
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
-        "bash code/4delete_duplicates.sh"
+        "bash {input.script}"
 
 ## Extracting variants
 rule extracting_variants:
+    input:
+        script = "code/05extracting_variants.sh" 
+    params:
+        ref_genome = config["ref_genome_name_file"],
+        min_reads= config["min_reads_variant"]
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
-        "bash code/5extracting_variants.sh"
+        "bash {input.script} {params.ref_genome} {params.min_reads}"
 
 ## Variant Effect Prediction DB
 rule vep:
@@ -129,17 +144,22 @@ rule vep:
 
 ## Running VEP in the command line
 rule vep_cli:
+    input:
+        script = "code/06vep.sh"
+    params:
+        species = config["vep_species"],
+        assembly=config["vep_assembly"]
     conda: 
         "code/enviroments/vep.yml"
     shell:
-        "bash code/6vep.sh"
+        "bash {input.script} {params.species} {params.assembly}"
 
 ## Doing some biostatistics in R
 rule biostatisticsR_tables:
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
-        dir3 = "results/biostatistics/plots"
+        dir3 = "results/biostatistics/plots",
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
@@ -152,24 +172,26 @@ rule biostatisticsR_tables:
             fi
         done
 
-        Rscript code/7biostatistics_tables.R
+        Rscript code/07biostatistics_tables.R
         """
 
 ## Joining tables
 rule joining_tables:
+    input:
+        script = "code/08joining_tables.sh" 
     conda:
         ## It can be any of them for this one really
         "code/enviroments/Greference_tools.yml"
     shell:
         """
-        bash code/8joining_tables.sh     
+        bash {input.script}
         """
 
-## Finally we will plot the data
+## We will plot the data
 rule R_ploting:
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript code/9ploting.R
+        Rscript code/09ploting.R
         """

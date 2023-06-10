@@ -1,3 +1,4 @@
+## Samples that you are going to use:
 samples:
   ERR696683_chr5_1: data/raw/ERR696683_chr5_1.fastq.gz
   ERR696683_chr5_2: data/raw/ERR696683_chr5_2.fastq.gz
@@ -24,11 +25,23 @@ samples:
   ERR753378_chr5_1: data/raw/ERR753378_chr5_1.fastq.gz
   ERR753378_chr5_2: data/raw/ERR753378_chr5_2.fastq.gz
 
+## Fixing your fastq files, FASTP parameters:
 fastp_cuttail: 25
 fastp_cutfront: 25
 fastp_cutmeanq: 25
 fastp_length: 75
 
+## Termination of your reads i write this in case they could be _1/_2 or other
+## like _R1/_R2 for example
+reads_fordward_termination: _1
+reads_reversed_termination: _2
+
+## Extracting variants
+ref_genome_name_file: genome.fa
+# Min reads that has to be mapping to considerate a variant
+min_reads_variant: 25
+
+## Doing VEP for gene annotation
 vep_species: homo_sapiens
 vep_assembly: GRCh38
   
