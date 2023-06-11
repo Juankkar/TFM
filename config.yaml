@@ -1,4 +1,6 @@
-## Samples that you are going to use:
+#########################
+##  SNAKEFILE SAMPLES  ##
+#########################
 samples:
   ERR696683_chr5_1: data/raw/ERR696683_chr5_1.fastq.gz
   ERR696683_chr5_2: data/raw/ERR696683_chr5_2.fastq.gz
@@ -25,10 +27,17 @@ samples:
   ERR753378_chr5_1: data/raw/ERR753378_chr5_1.fastq.gz
   ERR753378_chr5_2: data/raw/ERR753378_chr5_2.fastq.gz
 
+########################
+##  SNAKEFILE PARAMS  ##
+########################
+
+## Choose your chromosome
+chromosome: chr5
+
 ## Fixing your fastq files, FASTP parameters:
-fastp_cuttail: 25
-fastp_cutfront: 25
-fastp_cutmeanq: 25
+fastp_cuttail: 30
+fastp_cutfront: 30
+fastp_cutmeanq: 30
 fastp_length: 75
 
 ## Termination of your reads i write this in case they could be _1/_2 or other
@@ -39,7 +48,7 @@ reads_reversed_termination: _2
 ## Extracting variants
 ref_genome_name_file: genome.fa
 # Min reads that has to be mapping to considerate a variant
-min_reads_variant: 25
+min_reads_variant: 30
 
 ## Doing VEP for gene annotation
 vep_species: homo_sapiens

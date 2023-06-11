@@ -1,5 +1,7 @@
 ## Evitamos enviar archivos de los datos
 
+.snakemake
+
 data/raw/*
 !data/raw/README.txt
 
