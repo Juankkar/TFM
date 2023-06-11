@@ -14,10 +14,35 @@ rule all:
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
 
+
 ## Downloading the data
 rule download_data:
+    input:
+        script = "code/01dl_rawdata.bash"
+    conda:
+        "code/enviroments/Greference_tools.yml"
     shell:
-        "code/01dl_rawdata.bash"
+        "bash {input.script}"
+
+
+## Preprocessing the data (Executing this twice will generate an error)
+rule pre_processing:
+    input:
+        script = "code/03extracting_fastq.sh"
+    params:
+        chr_choosed = config["chromosome"]
+    conda:
+        "code/enviroments/Greference_tools.yml"
+    shell:
+        """
+        python code/02rename.py || \
+            echo "" ; \
+            echo "THIS ERROR PROBABLY MEANS THAT YOU ALREADY RUN THIS SCRIPT!!!" ; \
+            echo ""
+        
+        bash {input.script} {params.chr_choosed}
+        """
+
 
 ## View the quality of the samples
 rule fastqc:
@@ -31,6 +56,7 @@ rule fastqc:
         """
         fastqc {input} -o results/fastqc_result/
         """
+
 
 ## Pre-processed of the data
 rule fastp:
@@ -56,6 +82,7 @@ rule fastp:
         mv fastp.html data/processed/fastp_processed
         """
 
+
 ## View the quality of the trimmed samples
 rule fastqc_trimmed:
     input: 
@@ -68,6 +95,7 @@ rule fastqc_trimmed:
         """
         fastqc {input} -o results/fastqc_result/trimmed/
         """
+
 
 ## Creating sam files for forward and reverse reads
 rule bwa_mapping:
@@ -85,10 +113,11 @@ rule bwa_mapping:
         mv info.out results/mapped_reads/
         """
 
+
 ## script for joining the SAM files
 rule merge_sam_files:
     input:
-        script = "code/02join_samfiles.sh" 
+        script = "code/04join_samfiles.sh" 
     params:
         ## For example mine are _1 and _2, but could be _R1 _R2
         ends_1 = config["reads_fordward_termination"],
@@ -98,28 +127,31 @@ rule merge_sam_files:
     shell:
         "bash {input.script} {params.ends_1} {params.ends_2}"
 
+
 ## Transforming SAM to BAM and sorting
 rule sam_to_bam:
     input:
-        script = "code/03sam_to_bam.sh"
+        script = "code/05sam_to_bam.sh"
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script}"
+
 
 ## Delete duplicates
 rule delete_duplicates:
     input:
-        script = "code/04delete_duplicates.sh"
+        script = "code/06delete_duplicates.sh"
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script}"
 
+
 ## Extracting variants
 rule extracting_variants:
     input:
-        script = "code/05extracting_variants.sh" 
+        script = "code/07extracting_variants.sh" 
     params:
         ref_genome = config["ref_genome_name_file"],
         min_reads= config["min_reads_variant"]
@@ -127,6 +159,7 @@ rule extracting_variants:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script} {params.ref_genome} {params.min_reads}"
+
 
 ## Variant Effect Prediction DB
 rule vep:
@@ -142,10 +175,11 @@ rule vep:
             ls-y {params.assembly}
         """
 
+
 ## Running VEP in the command line
 rule vep_cli:
     input:
-        script = "code/06vep.sh"
+        script = "code/08vep.sh"
     params:
         species = config["vep_species"],
         assembly=config["vep_assembly"]
@@ -153,6 +187,7 @@ rule vep_cli:
         "code/enviroments/vep.yml"
     shell:
         "bash {input.script} {params.species} {params.assembly}"
+
 
 ## Doing some biostatistics in R
 rule biostatisticsR_tables:
@@ -172,13 +207,14 @@ rule biostatisticsR_tables:
             fi
         done
 
-        Rscript code/07biostatistics_tables.R
+        Rscript code/09biostatistics_tables.R
         """
+
 
 ## Joining tables
 rule joining_tables:
     input:
-        script = "code/08joining_tables.sh" 
+        script = "code/10joining_tables.sh" 
     conda:
         ## It can be any of them for this one really
         "code/enviroments/Greference_tools.yml"
@@ -187,11 +223,12 @@ rule joining_tables:
         bash {input.script}
         """
 
+
 ## We will plot the data
 rule R_ploting:
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript code/09ploting.R
+        Rscript code/11ploting.R
         """

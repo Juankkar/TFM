@@ -25,7 +25,7 @@ for sample in ${sample_list[*]}
 do
     ## From SAM to BAM
     samtools view -bS \
-        results/mapped_reads/${sample}.sam \
+        results/mapped_reads/${sample}_sorted.sam \
         > results/mapped_reads/bam_files/${sample}.bam
 
     ## Sorting
