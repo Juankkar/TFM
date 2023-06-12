@@ -1,24 +1,24 @@
 ## ENSEMBL VARIANT EFFECT PREDICTOR v109.3
-## Output produced at 2023-06-11 17:03:09
+## Output produced at 2023-06-12 16:15:38
 ## Using cache in /home/juancarlos/.vep/homo_sapiens/109_GRCh38
 ## Using API version 109, DB version ?
-## ensembl-io version 109
 ## ensembl version 109.10baaec
 ## ensembl-funcgen version 109
 ## ensembl-variation version 109
-## sift version 6.2.1
-## gnomADe version r2.1.1
+## ensembl-io version 109
 ## 1000genomes version phase3
-## genebuild version 2014-07
-## regbuild version 1.0
-## assembly version GRCh38.p13
-## dbSNP version 154
-## gnomADg version v3.1.2
-## ClinVar version 202209
-## gencode version GENCODE 43
-## COSMIC version 96
 ## polyphen version 2.2.3
+## assembly version GRCh38.p13
+## regbuild version 1.0
 ## HGMD-PUBLIC version 20204
+## genebuild version 2014-07
+## ClinVar version 202209
+## gnomADg version v3.1.2
+## gencode version GENCODE 43
+## sift version 6.2.1
+## COSMIC version 96
+## dbSNP version 154
+## gnomADe version r2.1.1
 ## Column descriptions:
 ## Uploaded_variation : Identifier of uploaded variant
 ## Location : Location of variant in standard coordinate format (chr:start or chr:start-end)
@@ -931,9 +931,9 @@
 5_62476708_G/T	5:62476708	T	ENSG00000086200	ENST00000409296.7	Transcript	synonymous_variant	1033	903	301	V	gtG/gtT	rs26635,COSV57573427	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	protein_coding	-	-	2	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
 5_62476708_G/T	5:62476708	T	ENSG00000086200	ENST00000424533.5	Transcript	synonymous_variant,NMD_transcript_variant	896	783	261	V	gtG/gtT	rs26635,COSV57573427	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	nonsense_mediated_decay	-	-	2	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
 5_62476708_G/T	5:62476708	T	ENSG00000086200	ENST00000507640.1	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	rs26635,COSV57573427	MODIFIER	-	1	-	SNV	IPO11	HGNC	HGNC:20628	retained_intron	-	-	3	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
-5_62490109_T/C	5:62490109	C	ENSG00000086200	ENST00000325324.11	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs26644,COSV57573437	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	protein_coding	NM_016338.5	-	1	P1	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
-5_62490109_T/C	5:62490109	C	ENSG00000086200	ENST00000409296.7	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs26644,COSV57573437	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	protein_coding	-	-	2	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
-5_62490109_T/C	5:62490109	C	ENSG00000086200	ENST00000424533.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	rs26644,COSV57573437	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	nonsense_mediated_decay	-	-	2	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_62490109_T/C	5:62490109	C	ENSG00000086200	ENST00000325324.11	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs26644,COSV57573437	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	protein_coding	NM_016338.5	-	1	P1	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_62490109_T/C	5:62490109	C	ENSG00000086200	ENST00000409296.7	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs26644,COSV57573437	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	protein_coding	-	-	2	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_62490109_T/C	5:62490109	C	ENSG00000086200	ENST00000424533.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	rs26644,COSV57573437	LOW	-	1	-	SNV	IPO11	HGNC	HGNC:20628	nonsense_mediated_decay	-	-	2	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
 5_65552585_C/T	5:65552585	T	ENSG00000123219	ENST00000242872.7	Transcript	intron_variant	-	-	-	-	-	rs3213939	MODIFIER	-	-1	-	SNV	CENPK	HGNC	HGNC:29479	protein_coding	-	-	1	P1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_65552585_C/T	5:65552585	T	ENSG00000123219	ENST00000396679.6	Transcript	intron_variant	-	-	-	-	-	rs3213939	MODIFIER	-	-1	-	SNV	CENPK	HGNC	HGNC:29479	protein_coding	NM_022145.5	-	1	P1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_65552585_C/T	5:65552585	T	ENSG00000123219	ENST00000502997.5	Transcript	intron_variant	-	-	-	-	-	rs3213939	MODIFIER	-	-1	cds_end_NF	SNV	CENPK	HGNC	HGNC:29479	protein_coding	-	-	3	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
@@ -972,9 +972,9 @@
 5_65569831_T/C	5:65569831	C	ENSG00000113593	ENST00000515447.5	Transcript	intron_variant,NMD_transcript_variant	-	-	-	-	-	rs3752673	MODIFIER	-	1	-	SNV	PPWD1	HGNC	HGNC:28954	nonsense_mediated_decay	-	-	4	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_65569831_T/C	5:65569831	C	ENSG00000113593	ENST00000535264.5	Transcript	intron_variant	-	-	-	-	-	rs3752673	MODIFIER	-	1	-	SNV	PPWD1	HGNC	HGNC:28954	protein_coding	-	-	2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_65569831_T/C	5:65569831	C	ENSG00000113593	ENST00000538977.5	Transcript	intron_variant	-	-	-	-	-	rs3752673	MODIFIER	-	1	-	SNV	PPWD1	HGNC	HGNC:28954	protein_coding	-	-	2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_65594652_A/C	5:65594652	C	ENSG00000113595	ENST00000231524.14	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs36135,COSV51551564	LOW	-	-1	-	SNV	TRIM23	HGNC	HGNC:660	protein_coding	NM_001656.4	-	1	P1	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	32211018	-	-	-	-	-	-	-	-	-
-5_65594652_A/C	5:65594652	C	ENSG00000113595	ENST00000274327.11	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs36135,COSV51551564	LOW	-	-1	-	SNV	TRIM23	HGNC	HGNC:660	protein_coding	-	-	1	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	32211018	-	-	-	-	-	-	-	-	-
-5_65594652_A/C	5:65594652	C	ENSG00000113595	ENST00000381018.7	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs36135,COSV51551564	LOW	-	-1	-	SNV	TRIM23	HGNC	HGNC:660	protein_coding	-	-	1	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	32211018	-	-	-	-	-	-	-	-	-
+5_65594652_A/C	5:65594652	C	ENSG00000113595	ENST00000231524.14	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs36135,COSV51551564	LOW	-	-1	-	SNV	TRIM23	HGNC	HGNC:660	protein_coding	NM_001656.4	-	1	P1	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	32211018	-	-	-	-	-	-	-	-	-
+5_65594652_A/C	5:65594652	C	ENSG00000113595	ENST00000274327.11	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs36135,COSV51551564	LOW	-	-1	-	SNV	TRIM23	HGNC	HGNC:660	protein_coding	-	-	1	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	32211018	-	-	-	-	-	-	-	-	-
+5_65594652_A/C	5:65594652	C	ENSG00000113595	ENST00000381018.7	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs36135,COSV51551564	LOW	-	-1	-	SNV	TRIM23	HGNC	HGNC:660	protein_coding	-	-	1	-	-	-	-	1KG_ALL:C:NA	-	0,1	0,1	32211018	-	-	-	-	-	-	-	-	-
 5_65664485_TCTCTCTCTCTCTCA/TCTCTCTCTCTCTCTCTCA	5:65664485-65664499	TCTCTCTCTCTCTCTCTCA	ENSG00000113597	ENST00000231526.8	Transcript	splice_acceptor_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs3830443	HIGH	-	1	-	indel	TRAPPC13	HGNC	HGNC:25828	protein_coding	-	-	5	A1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_65664485_TCTCTCTCTCTCTCA/TCTCTCTCTCTCTCTCTCA	5:65664485-65664499	TCTCTCTCTCTCTCTCTCA	ENSG00000197860	ENST00000381007.9	Transcript	downstream_gene_variant	-	-	-	-	-	rs3830443	MODIFIER	1429	-1	-	indel	SGTB	HGNC	HGNC:23567	protein_coding	NM_019072.3	-	1	P1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_65664485_TCTCTCTCTCTCTCA/TCTCTCTCTCTCTCTCTCA	5:65664485-65664499	TCTCTCTCTCTCTCTCTCA	ENSG00000113597	ENST00000399438.8	Transcript	splice_acceptor_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs3830443	HIGH	-	1	-	indel	TRAPPC13	HGNC	HGNC:25828	protein_coding	NM_024941.4	-	2	A1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
@@ -2553,10 +2553,10 @@
 5_146164409_G/A	5:146164409	A	ENSG00000133706	ENST00000674450.1	Transcript	non_coding_transcript_exon_variant	514	-	-	-	-	rs3763373,COSV50972276	MODIFIER	-	-1	-	SNV	LARS1	HGNC	HGNC:6512	retained_intron	-	-	-	-	-	-	-	1KG_ALL:A:NA	benign	0,1	1,1	-	-	-	-	-	-	138082	Benign	criteria_provided,_multiple_submitters,_no_conflicts	not_specified|not_provided
 5_146164409_G/A	5:146164409	A	ENSG00000133706	ENST00000674467.1	Transcript	synonymous_variant,NMD_transcript_variant	672	495	165	G	ggC/ggT	rs3763373,COSV50972276	LOW	-	-1	-	SNV	LARS1	HGNC	HGNC:6512	nonsense_mediated_decay	-	-	-	-	-	-	-	1KG_ALL:A:NA	benign	0,1	1,1	-	-	-	-	-	-	138082	Benign	criteria_provided,_multiple_submitters,_no_conflicts	not_specified|not_provided
 5_146164409_G/A	5:146164409	A	ENSG00000133706	ENST00000674479.1	Transcript	non_coding_transcript_exon_variant	672	-	-	-	-	rs3763373,COSV50972276	MODIFIER	-	-1	-	SNV	LARS1	HGNC	HGNC:6512	retained_intron	-	-	-	-	-	-	-	1KG_ALL:A:NA	benign	0,1	1,1	-	-	-	-	-	-	138082	Benign	criteria_provided,_multiple_submitters,_no_conflicts	not_specified|not_provided
-5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000265272.9	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	-	-	1	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
-5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000333010.6	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	-	-	2	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
-5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000507386.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	-	-	1	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
-5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000616793.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	NM_001270941.2	-	5	P1	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000265272.9	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	-	-	1	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000333010.6	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	-	-	2	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000507386.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	-	-	1	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
+5_147591690_C/T	5:147591690	T	ENSG00000176049	ENST00000616793.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs7449194,COSV54606738	LOW	-	-1	-	SNV	JAKMIP2	HGNC	HGNC:29067	protein_coding	NM_001270941.2	-	5	P1	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
 5_147591690_C/T	5:147591690	T	ENSG00000280780	ENST00000626945.2	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	rs7449194,COSV54606738	MODIFIER	-	1	-	SNV	JAKMIP2-AS1	HGNC	HGNC:27203	lncRNA	-	-	2	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
 5_147591690_C/T	5:147591690	T	ENSG00000280780	ENST00000627433.3	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	rs7449194,COSV54606738	MODIFIER	-	1	-	SNV	JAKMIP2-AS1	HGNC	HGNC:27203	lncRNA	-	-	3	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
 5_147591690_C/T	5:147591690	T	ENSG00000280780	ENST00000630514.2	Transcript	intron_variant,non_coding_transcript_variant	-	-	-	-	-	rs7449194,COSV54606738	MODIFIER	-	1	-	SNV	JAKMIP2-AS1	HGNC	HGNC:27203	lncRNA	-	-	3	-	-	-	-	1KG_ALL:T:NA	-	0,1	0,1	-	-	-	-	-	-	-	-	-	-
@@ -2753,18 +2753,18 @@
 5_150133509_A/G	5:150133509	G	ENSG00000113721	ENST00000520579.5	Transcript	intron_variant,NMD_transcript_variant	-	-	-	-	-	rs2240780,COSV55806087	MODIFIER	-	-1	-	SNV	PDGFRB	HGNC	HGNC:8804	nonsense_mediated_decay	-	-	1	-	-	-	-	1KG_ALL:G:NA	benign	0,1	1,1	-	-	-	-	-	-	1272524	Benign	criteria_provided,_single_submitter	not_provided
 5_150133509_A/G	5:150133509	G	ENSG00000113721	ENST00000522466.1	Transcript	downstream_gene_variant	-	-	-	-	-	rs2240780,COSV55806087	MODIFIER	186	-1	-	SNV	PDGFRB	HGNC	HGNC:8804	retained_intron	-	-	3	-	-	-	-	1KG_ALL:G:NA	benign	0,1	1,1	-	-	-	-	-	-	1272524	Benign	criteria_provided,_single_submitter	not_provided
 5_150133509_A/G	5:150133509	G	-	ENSR00001262050	RegulatoryFeature	regulatory_region_variant	-	-	-	-	-	rs2240780,COSV55806087	MODIFIER	-	-	-	SNV	-	-	-	enhancer	-	-	-	-	-	-	-	1KG_ALL:G:NA	benign	0,1	1,1	-	-	-	-	-	-	1272524	Benign	criteria_provided,_single_submitter	not_provided
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000354546.10	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	NM_001155.5	-	1	P3	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000354546.10	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	NM_001155.5	-	1	P3	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000377751.9	Transcript	intron_variant	-	-	-	-	-	rs386693594	MODIFIER	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000517486.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000517677.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	nonsense_mediated_decay	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000517757.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	4	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000519644.6	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	nonsense_mediated_decay	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000517486.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000517677.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	nonsense_mediated_decay	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000517757.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	4	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000519644.6	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant,NMD_transcript_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	nonsense_mediated_decay	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000520378.1	Transcript	non_coding_transcript_exon_variant	890-891	-	-	-	-	rs386693594	MODIFIER	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	retained_intron	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000521512.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000521749.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	3	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000523164.1	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000523714.5	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000700367.1	Transcript	splice_region_variant,splice_polypyrimidine_tract_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	-	A1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000521512.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000521749.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	3	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000523164.1	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	cds_end_NF	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	5	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000523714.5	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+5_151138797_AG/GA	5:151138797-151138798	GA	ENSG00000197043	ENST00000700367.1	Transcript	splice_polypyrimidine_tract_variant,splice_region_variant,intron_variant	-	-	-	-	-	rs386693594	LOW	-	-1	-	substitution	ANXA6	HGNC	HGNC:544	protein_coding	-	-	-	A1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_151563358_A/G	5:151563358	G	ENSG00000086570	ENST00000261800.6	Transcript	missense_variant	3728	3541	1181	Y/H	Tac/Cac	rs6872614	MODERATE	-	-1	-	SNV	FAT2	HGNC	HGNC:3596	protein_coding	NM_001447.3	-	1	P1	-	tolerated(1)	benign(0)	-	benign	-	1	-	-	-	-	-	-	1273017	Benign	criteria_provided,_multiple_submitters,_no_conflicts	not_provided|Spinocerebellar_ataxia_45
 5_151849992_G/A	5:151849992	A	ENSG00000145888	ENST00000274576.9	Transcript	intron_variant	-	-	-	-	-	rs72802219	MODIFIER	-	-1	-	SNV	GLRA1	HGNC	HGNC:4326	protein_coding	NM_000171.4	-	1	P2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
 5_151849992_G/A	5:151849992	A	ENSG00000145888	ENST00000455880.2	Transcript	intron_variant	-	-	-	-	-	rs72802219	MODIFIER	-	-1	-	SNV	GLRA1	HGNC	HGNC:4326	protein_coding	-	-	1	A1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-

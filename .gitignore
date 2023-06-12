@@ -1,6 +1,6 @@
 ## Evitamos enviar archivos de los datos
 
-.snakemake
+
 
 data/raw/*
 !data/raw/README.txt
@@ -21,6 +21,9 @@ data/reference/*
 
 results/fastqc_result/*
 !results/fastqc_result/README.txt
+
+tasks/*
+!tasks/README.txt
 
 ## Voy a trabajar con esto desde Windows, espero que no se me olvide
 ## quitarlo de aquí de nueve 
@@ -596,3 +599,34 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+## Snakemake
+
+*~
+*.pyc
+*.swp
+
+docs/_build
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+.snakemake*
+.venv
+.venv/*
+.python-version
+
+
+.idea
+
+.pytest*
+.cache
+.mypy_cache
+.ipynb*
+.vscode
+.ropeproject
+.test*
+tests/test*/*
+playground/*
+tutorial/*

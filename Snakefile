@@ -9,26 +9,42 @@ rule all:
         expand("results/fastqc_result/trimmed/{sample}_fastp_fastqc.html", 
                sample=config["samples"]),
         expand("results/mapped_reads/{sample}.sam", 
-               sample=config["samples"])
+               sample=config["samples"]),
+        "tasks/01download_data.done",
+        "tasks/02pre_processing.done",
+        "tasks/08merged_sam.done",
+        "tasks/09sam_to_bam.done",
+        "tasks/10deleted_duplicates.done",
+        "tasks/11extracting_variants.done",
+        "tasks/12vep_dependencies.done",
+        "tasks/13vep_cli.done.done",
+        "tasks/14biostatisticsR_tables.done",
+        "tasks/15joining_tables.done"
+        "tasks/16R_poting.done"
+
 
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
 
 
-## Downloading the data
+## 1 Downloading the data
 rule download_data:
     input:
-        script = "code/01dl_rawdata.bash"
+        script = "code/01dl_rawdata.bash",
+    output:
+        touch("tasks/01download_data.done")
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script}"
 
 
-## Preprocessing the data (Executing this twice will generate an error)
+## 2 Preprocessing the data (Executing this twice will generate an error)
 rule pre_processing:
     input:
         script = "code/03extracting_fastq.sh"
+    output:
+        touch("tasks/02pre_processing.done")
     params:
         chr_choosed = config["chromosome"]
     conda:
@@ -37,14 +53,29 @@ rule pre_processing:
         """
         python code/02rename.py || \
             echo "" ; \
-            echo "THIS ERROR PROBABLY MEANS THAT YOU ALREADY RUN THIS SCRIPT!!!" ; \
+            echo "THIS ERROR PROBABLY MEANS THAT YOU ALREADY RAN THIS SCRIPT!!!" ; \
             echo ""
         
         bash {input.script} {params.chr_choosed}
         """
 
 
-## View the quality of the samples
+## 3 Downloading the reference genome:
+rule reference_genome:
+    output:
+        "data/reference/genome.fa"
+    params:
+        url = config["url_reference_genome"]
+    conda:
+        "code/enviroments/Greference_tools.yml"
+    shell:
+        """
+        wget -O {output}.gz {params.url}
+        gzip -d {output}.gz 
+        """
+
+
+## 4 View the quality of the samples
 rule fastqc:
     input: 
         "data/raw/{sample}.fastq.gz"
@@ -58,7 +89,7 @@ rule fastqc:
         """
 
 
-## Pre-processed of the data
+## 5 Pre-processed of the data
 rule fastp:
     input:
         "data/raw/{sample}.fastq.gz"
@@ -83,7 +114,7 @@ rule fastp:
         """
 
 
-## View the quality of the trimmed samples
+## 6 View the quality of the trimmed samples
 rule fastqc_trimmed:
     input: 
         "data/processed/fastp_processed/{sample}_fastp.fastq.gz"
@@ -97,61 +128,72 @@ rule fastqc_trimmed:
         """
 
 
-## Creating sam files for forward and reverse reads
+## 7 Creating sam files for forward and reverse reads
 rule bwa_mapping:
     input:
         reference = "data/reference/genome.fa",
         files = get_bwa_map_input_fastqs
     output:
         "results/mapped_reads/{sample}.sam"
+    log:
+        "logs/{sample}_infosam.out"
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         """
         bwa index {input.reference}
-        bwa mem -a {input.reference} {input.files} -o {output} 2> info.out
-        mv info.out results/mapped_reads/
+        bwa mem -a {input.reference} {input.files} \
+            -o {output} \
+            2> {log}
         """
 
 
-## script for joining the SAM files
+## 8 script for joining the SAM files
 rule merge_sam_files:
     input:
-        script = "code/04join_samfiles.sh" 
+        script = "code/04join_samfiles.sh"
+    output:
+        touch("tasks/08merged_sam.done")
     params:
         ## For example mine are _1 and _2, but could be _R1 _R2
-        ends_1 = config["reads_fordward_termination"],
-        ends_2 = config["reads_reversed_termination"]
+        ends_1 = config["reads_forward_termination"],
+        ends_2 = config["reads_reverse_termination"]
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script} {params.ends_1} {params.ends_2}"
 
 
-## Transforming SAM to BAM and sorting
+## 9 Transforming SAM to BAM and sorting
 rule sam_to_bam:
     input:
-        script = "code/05sam_to_bam.sh"
+        script = "code/05sam_to_bam.sh",
+    output:
+        touch("tasks/09sam_to_bam.done")
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script}"
 
 
-## Delete duplicates
+## 10 Deleting duplicates
 rule delete_duplicates:
     input:
-        script = "code/06delete_duplicates.sh"
+        script = "code/06delete_duplicates.sh",
+    output:
+        touch("tasks/10deleted_duplicates.done")
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
         "bash {input.script}"
 
 
-## Extracting variants
+## 11 Extracting variants
 rule extracting_variants:
     input:
-        script = "code/07extracting_variants.sh" 
+        script = "code/07extracting_variants.sh"
+    output:
+        touch("tasks/11extracting_variants.done")
     params:
         ref_genome = config["ref_genome_name_file"],
         min_reads= config["min_reads_variant"]
@@ -161,8 +203,10 @@ rule extracting_variants:
         "bash {input.script} {params.ref_genome} {params.min_reads}"
 
 
-## Variant Effect Prediction DB
+## 12 Variant Effect Prediction DB
 rule vep:
+    output:
+        touch("tasks/12vep_dependencies.done")
     params:
         species = config["vep_species"],
         assembly = config["vep_assembly"]
@@ -172,14 +216,17 @@ rule vep:
         """
         vep_install -a cf \
             -s {params.species} \
-            ls-y {params.assembly}
+            ls-y {params.assembly} \
+            --ASSEMBLY {params.assembly}
         """
 
 
-## Running VEP in the command line
+## 13 Running VEP in the command line
 rule vep_cli:
     input:
         script = "code/08vep.sh"
+    output:
+        touch("tasks/13vep_cli.done")
     params:
         species = config["vep_species"],
         assembly=config["vep_assembly"]
@@ -189,8 +236,12 @@ rule vep_cli:
         "bash {input.script} {params.species} {params.assembly}"
 
 
-## Doing some biostatistics in R
+## 14 Doing some biostatistics in R, data manipulation, obtaining tables
 rule biostatisticsR_tables:
+    input:
+        script = "code/09biostatistics_tables.R"
+    output:
+        touch("tasks/14biostatisticsR_tables")
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
@@ -207,14 +258,16 @@ rule biostatisticsR_tables:
             fi
         done
 
-        Rscript code/09biostatistics_tables.R
+        Rscript {input.script}
         """
 
 
-## Joining tables
+## 15 Joining the tables from the last rule 
 rule joining_tables:
     input:
-        script = "code/10joining_tables.sh" 
+        script = "code/10joining_tables.sh"
+    output:
+        touch("tasks/15joining_tables.done")
     conda:
         ## It can be any of them for this one really
         "code/enviroments/Greference_tools.yml"
@@ -224,8 +277,12 @@ rule joining_tables:
         """
 
 
-## We will plot the data
+## 16 We will plot the data of the joined tables
 rule R_ploting:
+    input:
+        script = "code/11ploting.R"
+    output:
+        touch("tasks/16R_poting.done")
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
