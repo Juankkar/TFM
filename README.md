@@ -4,7 +4,7 @@
 
 ### Alumno: Juan Carlos García Estupiñán
 
-Tema Cáncer de colorrectal. Pipeline automatizado usando snakemake como cotrolador de flujo de trabajo.
+Tema Cáncer de colorrectal. Pipeline automatizado usando snakemake como controlador de flujo de trabajo.
 
 Se creará un pipleine en el que se usará un software que permite el control de flujo de trabajo: **Snakemake** (ver [aquí](https://snakemake.readthedocs.io/en/stable/#) su página web con intrucciones y tutoriales entre otras cosas de utilidad).
 
@@ -25,6 +25,8 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 
     * [biostadisticsR](code/enviroments/biostatisticsR.yml): herramientas de R para realizar manipulación de datos, análisis estadísticos y gráficas.
 
+	* [igv](code/enviroments/biostatisticsR.yml): con este ambiente se descarga El visualizador Integrative Genomic Viewer, con el que podemos ver el mapeado de una forma más visual.
+
 * Scripts con los programas desarrollados:
 
     * [01dl_rawdata.sh](code/01dl_rawdata.bash): script que descarga los BAMs del repositorio público. Para su funcionamiento es necesario tener en los tetadatos la siguiente tabla llamada report.tsv en los metadatos, obtenida de este repositorio: [metadatos (report.tsv)](metadata/report.tsv).
@@ -33,19 +35,19 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 
     * [03extracting_fastq.sh](code/03extracting_fastq.sh): script de Bash con el que se pretende hacer un pre-procesado de los datos. Objetivo: filtrar de los archivos BAM originales uno de los cromosomas y pasarlos a formato fastq (lecturas forward y reverse).
 
-    * [04join_samfiles.sh](code/02join_samfiles.sh): unimos los archivos *SAM* que han sido obtenidos al pasar los en un procesamiento con ```fastp``` (proceso se encuentra en el archivo Snakefile) *fastq.gz* a este formato.
+    * [04join_samfiles.sh](code/04join_samfiles.sh): unimos los archivos *SAM* que han sido obtenidos al pasar los en un procesamiento con ```fastp``` (proceso se encuentra en el archivo Snakefile) *fastq.gz* a este formato.
 
     * [05sam_to_bam.sh](code/05sam_to_bam.sh): convertimos los archivos SAMs unidos y los transformamos en *BAMs*, además de indexarlo y ordenamos.
 
     * [06delete_duplicates](code/06delete_duplicates.sh): eliminamos los elementos duplicados de los archivos BAM ordendados.
 
-    * [07extracting_variants.sh](code/05extracting_variants.sh): extraemos los varientes en un archivo *VCF*.
+    * [07extracting_variants.sh](code/07extracting_variants.sh): extraemos los varientes en un archivo *VCF*.
 
     * [08vep.sh](code/08vep.sh): corremos VEP en la línea de comandos.
 
-    * [09biostatistics.R](code/09biostatistics.R): obtenemos tablas con distintos parámetros para cada uno de las muestras.
+    * [09biostatistics_tables.R](code/09biostatistics_tables.R): obtenemos tablas con distintos parámetros para cada uno de las muestras.
 
-    * [10joining_tables.sh](code/joining_tables.sh): Unimos las tablas singulares para cada muestra en una sola para cada parámetro.
+    * [10joining_tables.sh](code/10joining_tables.sh): Unimos las tablas singulares para cada muestra en una sola para cada parámetro.
 
     * [11ploting.R](code/code/11ploting.R): Graficamos las tablas R, así como obtener tablas html.
 
@@ -68,7 +70,7 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 
 1. [report.tsv](metadata/report.tsv): archivo con información y links de descarga de los datos proporcionados por el repositorio público. Se hace **uso** del campo ***8*** para descargar los datos en el script [01dl_rawdata.sh](code/01dl_rawdata.bash).
 
-2. [severe_consequence.csv](metadata/severe_consequence.csv): tabla obtenida de **ENSEMBLE** usando el Jupyter Notebook [annotations.ipynb](code/annotations.ipynb), que muestra la severidad de los tipos de variantes, la que se usará en el script [11ploting.R](code/11ploting.R) para extraer esta información de los datos.
+2. [severe_consequences.csv](metadata/severe_consequences.csv): tabla obtenida de **ENSEMBLE** usando el Jupyter Notebook [annotations.ipynb](code/annotations.ipynb), que muestra la severidad de los tipos de variantes, la que se usará en el script [11plotting.R](code/11ploting.R) para extraer esta información de los datos.
 
 3. [table3.csv](metadata/table3.csv): tabla que proporcionan los autores para una información adicional sobre la secuenciación que realizaron.
 
