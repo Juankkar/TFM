@@ -17,10 +17,10 @@ rule all:
         "tasks/10deleted_duplicates.done",
         "tasks/11extracting_variants.done",
         "tasks/12vep_dependencies.done",
-        "tasks/13vep_cli.done.done",
+        "tasks/13vep_cli.done",
         "tasks/14biostatisticsR_tables.done",
-        "tasks/15joining_tables.done"
-        "tasks/16R_poting.done"
+        "tasks/15joining_tables.done",
+        "tasks/16R_potting.done"
 
 
 def get_bwa_map_input_fastqs(wildcards):
@@ -241,7 +241,7 @@ rule biostatisticsR_tables:
     input:
         script = "code/09biostatistics_tables.R"
     output:
-        touch("tasks/14biostatisticsR_tables")
+        touch("tasks/14biostatisticsR_tables.done")
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
@@ -278,14 +278,14 @@ rule joining_tables:
 
 
 ## 16 We will plot the data of the joined tables
-rule R_ploting:
+rule R_plotting:
     input:
-        script = "code/11ploting.R"
+        script = "code/11plotting.R"
     output:
-        touch("tasks/16R_poting.done")
+        touch("tasks/16R_potting.done")
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript code/11ploting.R
+        Rscript code/11plotting.R
         """
