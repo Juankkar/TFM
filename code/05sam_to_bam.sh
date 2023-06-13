@@ -4,11 +4,11 @@
 ## DIRECTORIES ##
 #################
 
-if [[ ! -d results/mapped_reads/bam_files/ || 
-        ! -d results/mapped_reads/bam_files/info/ ]]
+if [[ ! -d results/mapped_reads/bam_files/ ]]
 then 
     mkdir results/mapped_reads/bam_files/
     mkdir results/mapped_reads/bam_files/info/
+    mkdir metadata/logs/flagstats/
 fi
 
 #################
@@ -39,5 +39,5 @@ do
     ## Summary, basic statistics
     samtools flagstats \
         results/mapped_reads/bam_files/${sample}_sorted.bam \
-        > results/mapped_reads/bam_files/info/${sample}.flagstats
+        > metadata/logs/flagstats/${sample}.flagstats
 done

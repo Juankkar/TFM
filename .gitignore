@@ -1,6 +1,6 @@
 ## Evitamos enviar archivos de los datos
 
-
+metadata/logs/
 
 data/raw/*
 !data/raw/README.txt

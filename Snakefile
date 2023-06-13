@@ -53,10 +53,13 @@ rule pre_processing:
         """
         python code/02rename.py || \
             echo "" ; \
-            echo "THIS ERROR PROBABLY MEANS THAT YOU ALREADY RAN THIS SCRIPT!!!" ; \
+            echo "IF IT'S AN ERROR, PROBABLY MEANS THAT YOU ALREADY RAN THIS SCRIPT!!!" ; \
             echo ""
         
         bash {input.script} {params.chr_choosed}
+
+        ## This is to prevent excessive space usage!!!
+        rm data/original_bam/filtering/*
         """
 
 
@@ -136,7 +139,7 @@ rule bwa_mapping:
     output:
         "results/mapped_reads/{sample}.sam"
     log:
-        "logs/{sample}_infosam.out"
+        "metadata/logs/sam/{sample}_infosam.out"
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
@@ -155,7 +158,7 @@ rule merge_sam_files:
     output:
         touch("tasks/08merged_sam.done")
     params:
-        ## For example mine are _1 and _2, but could be _R1 _R2
+        # For example mine are _1 and _2, but could be _R1 _R2
         ends_1 = config["reads_forward_termination"],
         ends_2 = config["reads_reverse_termination"]
     conda:
@@ -287,5 +290,5 @@ rule R_plotting:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript code/11plotting.R
+        Rscript {input.script}
         """
