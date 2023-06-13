@@ -26,6 +26,11 @@ rule all:
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
 
+##-----------------------------------##
+##     SETUP FOR THE WORKFLOW        ##
+##-----------------------------------##
+
+## These first 3 rules are necessary to set everything ready
 
 ## 1 Downloading the data
 rule download_data:
@@ -77,6 +82,13 @@ rule reference_genome:
         gzip -d {output}.gz 
         """
 
+##-----------------------------------##
+##     REAL STARTING WORKFLOW        ##
+##-----------------------------------##
+
+## Now you can check using the command:
+## snakemake -n 
+## If this doesn't work, something bad happened
 
 ## 4 View the quality of the samples
 rule fastqc:
