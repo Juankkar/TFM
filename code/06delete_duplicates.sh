@@ -4,9 +4,9 @@
 ## DIRECTORIES ##
 #################
 
-if [[ ! -d results/mapped_reads/bam_files/markduplicates ]]
+if [[ ! -d metadata/logs/markduplicates ]]
 then
-    mkdir results/mapped_reads/bam_files/markduplicates/
+    mkdir metadata/logs/markduplicates/
 fi
 
 #################
@@ -24,7 +24,7 @@ do
     ## Mark duplicates
     picard MarkDuplicates --INPUT results/mapped_reads/bam_files/${sample}_sorted.bam \
         --OUTPUT results/mapped_reads/bam_files/${sample}_dedup.bam \
-        --METRICS_FILE results/mapped_reads/bam_files/markduplicates/${sample}_markDuplicatesMetrics.txt \
+        --METRICS_FILE metadata/logs/markduplicates/${sample}_markDuplicatesMetrics.txt \
         --ASSUME_SORTED True
 
     ## Indexamos de nuevo el bam de duplicados en este caso
