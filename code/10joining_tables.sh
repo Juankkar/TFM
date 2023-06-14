@@ -13,7 +13,7 @@ fi
 ##  EXECUTION  ##
 #################
 
-for pattern in biotype clin_sig clinvar_clnsig consequence location polyphen protein_position sift variant_class num_variants
+for pattern in biotype clin_sig clinvar_clnsig consequence location polyphen protein_position sift variant_class num_variants clinvar_clndn
 do
     cat results/biostatistics/tables/*$pattern* \
         | awk "!/^${pattern}/ || NR == 1" \

@@ -82,11 +82,11 @@ rule reference_genome:
         gzip -d {output}.gz 
         """
 
-##-----------------------------------##
-##     REAL STARTING WORKFLOW        ##
-##-----------------------------------##
+##-----------------------------------------##
+##     REAL STARTING POINT WORKFLOW        ##
+##-----------------------------------------##
 
-## Now you can check using the command:
+## Now you can check if everything is ready to go using the command:
 ## snakemake -n 
 ## If this doesn't work, something bad happened
 
@@ -261,6 +261,7 @@ rule biostatisticsR_tables:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
         dir3 = "results/biostatistics/plots",
+        gene_filter=config["gene_to_filterR"]
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
@@ -273,7 +274,7 @@ rule biostatisticsR_tables:
             fi
         done
 
-        Rscript {input.script}
+        Rscript {input.script} {params.gene_filter}
         """
 
 
