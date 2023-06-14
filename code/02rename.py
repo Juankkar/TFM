@@ -7,7 +7,7 @@
 import os
 
 ################
-##  VARIBLES  ##
+##  VARIBLES  ##old_filename_list
 ################
 
 old_filename_list = ["data/original_bam/C2466_GCCAAT.bwa.sorted.rmdup.recal.realigned.fixed.bam",

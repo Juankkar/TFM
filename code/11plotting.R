@@ -166,9 +166,10 @@ biotype_wider <- df_biotype %>%
     pivot_wider(biotype, names_from=sample,values_from=n)
 
 biotype_wider_fixed <- biotype_wider %>%
-    mutate(row_sum = rowSums(biotype_wider[,-1]),
-           biotype = case_when(row_sum < 100 ~ "Others",
-                               row_sum >= 100 ~ as.character(biotype))) %>% 
+    mutate(row_sum = rowSums(biotype_wider[,-1])
+        #    biotype = case_when(row_sum < 100 ~ "Others",
+        #                        row_sum >= 100 ~ as.character(biotype))
+                               ) %>% 
     select(-"row_sum") %>%
     pivot_longer(-biotype, names_to="sample", values_to="n") %>%
     group_by(biotype,sample) %>%
@@ -248,10 +249,6 @@ clin_sig_wider <- df_clin_sig %>%
     pivot_wider(clin_sig, names_from=sample,values_from=n) 
 
 clinsig_wider_fixed <- clin_sig_wider %>%
-    mutate(row_sum = rowSums(clin_sig_wider[,-1]),
-           clin_sig = case_when(row_sum < 20 ~ "other",
-                                row_sum >= 20 ~ as.character(clin_sig))) %>%
-    select(-"row_sum") %>%
     pivot_longer(-clin_sig, names_to="sample", values_to="n") %>%
     group_by(clin_sig,sample) %>%
     summarize(n = sum(n)) %>%
@@ -396,8 +393,8 @@ consequence_coding_only <- df_consequence %>%
 max_con_coding_only <- max(consequence_coding_only$n) 
 
 con_coding_only_plot <- consequence_coding_only %>%
-    mutate(consequence=case_when(n < 50 ~ "other",
-                                 n > 50 ~ as.character(consequence))) %>%
+    # mutate(consequence=case_when(n < 50 ~ "other",
+    #                              n > 50 ~ as.character(consequence))) %>%
     ggplot(aes(n, reorder(sample,n), fill=consequence)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),

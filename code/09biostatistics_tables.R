@@ -21,6 +21,12 @@ sample_list <- scan(
 
 sample_list
 
+param <- commandArgs(trailingOnly = TRUE)
+
+gene_filter <- param[1]
+
+gene_filter
+
 for(sample in sample_list){
 
 #####################
@@ -41,7 +47,8 @@ rows_skip <- tibble(
   nrow()
 
 variants <- read_table(sample_file, 
-                       skip=as.numeric(rows_skip))
+                       skip=as.numeric(rows_skip)) %>%
+  filter(SYMBOL == gene_filter)
 
 #################
 ##  EXECUTION  ##
@@ -213,6 +220,27 @@ print(glue("===> CLINVAR STATUS {sample} DONE <==="))
 print("#########################################")
 print("#########################################")
 
+clinvar_clndn <- variants %>%
+  select("ClinVar", "ClinVar_CLNSIG", "ClinVar_CLNREVSTAT", "ClinVar_CLNDN") %>%
+  filter(ClinVar_CLNDN != "-") %>%
+  group_by(ClinVar_CLNDN) %>%
+  count()
+
+colnames(clinvar_clndn) <- tolower(colnames(clinvar_clndn))
+
+clinvar_clndn_table <- clinvar_clndn %>%
+    mutate(sample=sample)
+
+col1_clinvar_clndn_name <- colnames(clinvar_clndn_table)[1]
+  
+write_tsv(x = clinvar_clndn_table,
+          file = glue("results/biostatistics/tables/{sample}_{col1_clinvar_clndn_name}.tsv"))
+
+print(glue("===> CLINVAR DIAGNOSIS {sample} DONE <==="))
+
+print("#########################################")
+print("#########################################")
+
 num_variants <- tibble(num_variants=nrow(variants),
                        sample=sample)
 
@@ -231,9 +259,10 @@ print("#########################################")
 location <- variants %>%
   select(Location) %>%
   mutate(Location = str_replace(Location, 
-                                pattern = "^+\\d:",
-                                replacement=""),
-          Location=as.numeric(Location)) %>%
+                                pattern = "^\\d+:",
+                                replacement="")) %>%
+  separate_longer_delim(Location, "-") %>%
+  mutate(Location=as.numeric(Location)) %>%
   group_by(Location) %>%
   summarise(n=n()) %>%
   arrange(Location) %>%
