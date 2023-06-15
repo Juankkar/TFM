@@ -32,7 +32,7 @@ def get_bwa_map_input_fastqs(wildcards):
 
 ## These first 3 rules are necessary to set everything ready
 
-## 1 Downloading the data
+## 1 Downloading the data == "no_pain_no_gain"
 rule download_data:
     input:
         script = "code/01dl_rawdata.bash",
@@ -285,7 +285,6 @@ rule joining_tables:
     output:
         touch("tasks/15joining_tables.done")
     conda:
-        ## It can be any of them for this one really
         "code/enviroments/Greference_tools.yml"
     shell:
         """
