@@ -2,43 +2,44 @@
 ##  SNAKEFILE SAMPLES  ##
 #########################
 samples:
-  ERR696683_chr12_1: data/raw/ERR696683_chr12_1.fastq.gz
-  ERR696683_chr12_2: data/raw/ERR696683_chr12_2.fastq.gz
-  ERR753368_chr12_1: data/raw/ERR753368_chr12_1.fastq.gz
-  ERR753368_chr12_2: data/raw/ERR753368_chr12_2.fastq.gz
-  ERR753369_chr12_1: data/raw/ERR753369_chr12_1.fastq.gz
-  ERR753369_chr12_2: data/raw/ERR753369_chr12_2.fastq.gz
-  ERR753370_chr12_1: data/raw/ERR753370_chr12_1.fastq.gz
-  ERR753370_chr12_2: data/raw/ERR753370_chr12_2.fastq.gz
-  ERR753371_chr12_1: data/raw/ERR753371_chr12_1.fastq.gz
-  ERR753371_chr12_2: data/raw/ERR753371_chr12_2.fastq.gz
-  ERR753372_chr12_1: data/raw/ERR753372_chr12_1.fastq.gz
-  ERR753372_chr12_2: data/raw/ERR753372_chr12_2.fastq.gz
-  ERR753373_chr12_1: data/raw/ERR753373_chr12_1.fastq.gz
-  ERR753373_chr12_2: data/raw/ERR753373_chr12_2.fastq.gz
-  ERR753374_chr12_1: data/raw/ERR753374_chr12_1.fastq.gz
-  ERR753374_chr12_2: data/raw/ERR753374_chr12_2.fastq.gz
-  ERR753375_chr12_1: data/raw/ERR753375_chr12_1.fastq.gz
-  ERR753375_chr12_2: data/raw/ERR753375_chr12_2.fastq.gz
-  ERR753376_chr12_1: data/raw/ERR753376_chr12_1.fastq.gz
-  ERR753376_chr12_2: data/raw/ERR753376_chr12_2.fastq.gz
-  ERR753377_chr12_1: data/raw/ERR753377_chr12_1.fastq.gz
-  ERR753377_chr12_2: data/raw/ERR753377_chr12_2.fastq.gz
-  ERR753378_chr12_1: data/raw/ERR753378_chr12_1.fastq.gz
-  ERR753378_chr12_2: data/raw/ERR753378_chr12_2.fastq.gz
+  ERR696683_chr3_1: data/raw/ERR696683_chr3_1.fastq.gz
+  ERR696683_chr3_2: data/raw/ERR696683_chr3_2.fastq.gz
+  ERR753368_chr3_1: data/raw/ERR753368_chr3_1.fastq.gz
+  ERR753368_chr3_2: data/raw/ERR753368_chr3_2.fastq.gz
+  ERR753369_chr3_1: data/raw/ERR753369_chr3_1.fastq.gz
+  ERR753369_chr3_2: data/raw/ERR753369_chr3_2.fastq.gz
+  ERR753370_chr3_1: data/raw/ERR753370_chr3_1.fastq.gz
+  ERR753370_chr3_2: data/raw/ERR753370_chr3_2.fastq.gz
+  ERR753371_chr3_1: data/raw/ERR753371_chr3_1.fastq.gz
+  ERR753371_chr3_2: data/raw/ERR753371_chr3_2.fastq.gz
+  ERR753372_chr3_1: data/raw/ERR753372_chr3_1.fastq.gz
+  ERR753372_chr3_2: data/raw/ERR753372_chr3_2.fastq.gz
+  ERR753373_chr3_1: data/raw/ERR753373_chr3_1.fastq.gz
+  ERR753373_chr3_2: data/raw/ERR753373_chr3_2.fastq.gz
+  ERR753374_chr3_1: data/raw/ERR753374_chr3_1.fastq.gz
+  ERR753374_chr3_2: data/raw/ERR753374_chr3_2.fastq.gz
+  ERR753375_chr3_1: data/raw/ERR753375_chr3_1.fastq.gz
+  ERR753375_chr3_2: data/raw/ERR753375_chr3_2.fastq.gz
+  ERR753376_chr3_1: data/raw/ERR753376_chr3_1.fastq.gz
+  ERR753376_chr3_2: data/raw/ERR753376_chr3_2.fastq.gz
+  ERR753377_chr3_1: data/raw/ERR753377_chr3_1.fastq.gz
+  ERR753377_chr3_2: data/raw/ERR753377_chr3_2.fastq.gz
+  ERR753378_chr3_1: data/raw/ERR753378_chr3_1.fastq.gz
+  ERR753378_chr3_2: data/raw/ERR753378_chr3_2.fastq.gz
 
 ########################
 ##  SNAKEFILE PARAMS  ##
 ########################
 
 ## Choose your chromosome
-chromosome: chr12
+chromosome: chr3
 # Chromosome 5, 7, 12, 17 ENSEMBL:
+# https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.5.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.7.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.12.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
-url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.12.fa.gz
+url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
 
 ## Fixing the fastq files, FASTP parameters:
 fastp_cuttail: 30
@@ -61,6 +62,6 @@ vep_species: homo_sapiens
 vep_assembly: GRCh38
 
 ## Gene That you want to filter in the VCF using R
-## APC (chr5); BRAF (chr7); KRAS (chr12) ;TP53 (chr12)
-gene_to_filterR: KRAS
+## PIK3CA (chr3); APC (chr5); BRAF (chr7); KRAS (chr3) ;TP53 (chr3)
+gene_to_filterR: PIK3CA
   
