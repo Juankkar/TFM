@@ -2,41 +2,43 @@
 ##  SNAKEFILE SAMPLES  ##
 #########################
 samples:
-  ERR696683_chr17_1: data/raw/ERR696683_chr17_1.fastq.gz
-  ERR696683_chr17_2: data/raw/ERR696683_chr17_2.fastq.gz
-  ERR753368_chr17_1: data/raw/ERR753368_chr17_1.fastq.gz
-  ERR753368_chr17_2: data/raw/ERR753368_chr17_2.fastq.gz
-  ERR753369_chr17_1: data/raw/ERR753369_chr17_1.fastq.gz
-  ERR753369_chr17_2: data/raw/ERR753369_chr17_2.fastq.gz
-  ERR753370_chr17_1: data/raw/ERR753370_chr17_1.fastq.gz
-  ERR753370_chr17_2: data/raw/ERR753370_chr17_2.fastq.gz
-  ERR753371_chr17_1: data/raw/ERR753371_chr17_1.fastq.gz
-  ERR753371_chr17_2: data/raw/ERR753371_chr17_2.fastq.gz
-  ERR753372_chr17_1: data/raw/ERR753372_chr17_1.fastq.gz
-  ERR753372_chr17_2: data/raw/ERR753372_chr17_2.fastq.gz
-  ERR753373_chr17_1: data/raw/ERR753373_chr17_1.fastq.gz
-  ERR753373_chr17_2: data/raw/ERR753373_chr17_2.fastq.gz
-  ERR753374_chr17_1: data/raw/ERR753374_chr17_1.fastq.gz
-  ERR753374_chr17_2: data/raw/ERR753374_chr17_2.fastq.gz
-  ERR753375_chr17_1: data/raw/ERR753375_chr17_1.fastq.gz
-  ERR753375_chr17_2: data/raw/ERR753375_chr17_2.fastq.gz
-  ERR753376_chr17_1: data/raw/ERR753376_chr17_1.fastq.gz
-  ERR753376_chr17_2: data/raw/ERR753376_chr17_2.fastq.gz
-  ERR753377_chr17_1: data/raw/ERR753377_chr17_1.fastq.gz
-  ERR753377_chr17_2: data/raw/ERR753377_chr17_2.fastq.gz
-  ERR753378_chr17_1: data/raw/ERR753378_chr17_1.fastq.gz
-  ERR753378_chr17_2: data/raw/ERR753378_chr17_2.fastq.gz
+  ERR696683_chr12_1: data/raw/ERR696683_chr12_1.fastq.gz
+  ERR696683_chr12_2: data/raw/ERR696683_chr12_2.fastq.gz
+  ERR753368_chr12_1: data/raw/ERR753368_chr12_1.fastq.gz
+  ERR753368_chr12_2: data/raw/ERR753368_chr12_2.fastq.gz
+  ERR753369_chr12_1: data/raw/ERR753369_chr12_1.fastq.gz
+  ERR753369_chr12_2: data/raw/ERR753369_chr12_2.fastq.gz
+  ERR753370_chr12_1: data/raw/ERR753370_chr12_1.fastq.gz
+  ERR753370_chr12_2: data/raw/ERR753370_chr12_2.fastq.gz
+  ERR753371_chr12_1: data/raw/ERR753371_chr12_1.fastq.gz
+  ERR753371_chr12_2: data/raw/ERR753371_chr12_2.fastq.gz
+  ERR753372_chr12_1: data/raw/ERR753372_chr12_1.fastq.gz
+  ERR753372_chr12_2: data/raw/ERR753372_chr12_2.fastq.gz
+  ERR753373_chr12_1: data/raw/ERR753373_chr12_1.fastq.gz
+  ERR753373_chr12_2: data/raw/ERR753373_chr12_2.fastq.gz
+  ERR753374_chr12_1: data/raw/ERR753374_chr12_1.fastq.gz
+  ERR753374_chr12_2: data/raw/ERR753374_chr12_2.fastq.gz
+  ERR753375_chr12_1: data/raw/ERR753375_chr12_1.fastq.gz
+  ERR753375_chr12_2: data/raw/ERR753375_chr12_2.fastq.gz
+  ERR753376_chr12_1: data/raw/ERR753376_chr12_1.fastq.gz
+  ERR753376_chr12_2: data/raw/ERR753376_chr12_2.fastq.gz
+  ERR753377_chr12_1: data/raw/ERR753377_chr12_1.fastq.gz
+  ERR753377_chr12_2: data/raw/ERR753377_chr12_2.fastq.gz
+  ERR753378_chr12_1: data/raw/ERR753378_chr12_1.fastq.gz
+  ERR753378_chr12_2: data/raw/ERR753378_chr12_2.fastq.gz
 
 ########################
 ##  SNAKEFILE PARAMS  ##
 ########################
 
 ## Choose your chromosome
-chromosome: chr17
-# Chromosome 5, 17 ENSEMBL:
+chromosome: chr12
+# Chromosome 5, 7, 12, 17 ENSEMBL:
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.5.fa.gz
+# https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.7.fa.gz
+# https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.12.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
-url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
+url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.12.fa.gz
 
 ## Fixing the fastq files, FASTP parameters:
 fastp_cuttail: 30
@@ -59,6 +61,6 @@ vep_species: homo_sapiens
 vep_assembly: GRCh38
 
 ## Gene That you want to filter in the VCF using R
-## APC (chr5) TP53 (chr17)
-gene_to_filterR: TP53
+## APC (chr5); BRAF (chr7); KRAS (chr12) ;TP53 (chr12)
+gene_to_filterR: KRAS
   
