@@ -251,22 +251,25 @@ rule vep_cli:
         "bash {input.script} {params.species} {params.assembly}"
 
 
-## 14 Doing some biostatistics in R, data manipulation, obtaining tables
-rule biostatisticsR_tables:
+## 14 Parsing data from the VCF files with R
+rule parsing_dataR:
     input:
-        script = "code/09biostatistics_tables.R"
+        script = "code/09parsing_vep_data.R"
     output:
         touch("tasks/14biostatisticsR_tables.done")
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
         dir3 = "results/biostatistics/plots",
-        gene_filter=config["gene_to_filterR"]
+        dir4 = "results/biostatistics/joined_tables",
+        gene_filter=config["gene_to_filterR"],
+        chr_choosed=config["chromosome"],
+        gene=config["gene_to_filterR"]
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        for dir in {params.dir1} {params.dir2} {params.dir3}
+        for dir in {params.dir1} {params.dir2} {params.dir3} {params.dir4}
         do
             if [[ ! -d $dir ]]
             then
@@ -275,20 +278,11 @@ rule biostatisticsR_tables:
         done
 
         Rscript {input.script} {params.gene_filter}
-        """
 
-
-## 15 Joining the tables from the last rule 
-rule joining_tables:
-    input:
-        script = "code/10joining_tables.sh"
-    output:
-        touch("tasks/15joining_tables.done")
-    conda:
-        "code/enviroments/Greference_tools.yml"
-    shell:
-        """
-        bash {input.script}
+        ## Joining parsed tables for each sample
+        cat results/biostatistics/tables/*{params.chr_choosed}* \
+            | awk "!/^$(cat results/biostatistics/tables/*{params.chr_choosed}* | cut -f 1 | head -n 1)/ || NR == 1" \
+            > results/biostatistics/joined_tables/{params.gene}.tsv
         """
 
 
@@ -298,9 +292,11 @@ rule R_plotting:
         script = "code/11plotting.R"
     output:
         touch("tasks/16R_potting.done")
+    params:
+        gene=config["gene_to_filterR"]
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript {input.script}
+        Rscript {input.script} {params.gene}
         """
