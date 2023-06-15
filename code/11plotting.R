@@ -265,7 +265,7 @@ clin_sig_plot <- ggclinsig %>%
     ggplot(aes(n, reorder(sample,n), fill=clin_sig)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_clinsig+100)) +
+                       limits=c(0,max_clinsig+50)) +
     labs(
         title = "Clinical Significance of the variants",
         x = "Number of variants",
@@ -302,7 +302,7 @@ clinvar_plot <- df_clinvar %>%
     ggplot(aes(n, reorder(sample,n), fill=clinvar_clnsig)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_clinvar_clnsig+100)) +
+                       limits=c(0,max_clinvar_clnsig+50)) +
     labs(
         title = "ClinVar Status of the variants for each sample",
         x = "Number of variants",
@@ -349,7 +349,7 @@ consequence_level_plot <- consequence_level %>%
     ggplot(aes(n, reorder(sample,n), fill=level)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_consequence_level+100)) +
+                       limits=c(0,max_consequence_level+50)) +
     labs(
         title = "Consequences of the variation (severe levels)",
         x = "Number of variants",
@@ -398,7 +398,7 @@ con_coding_only_plot <- consequence_coding_only %>%
     ggplot(aes(n, reorder(sample,n), fill=consequence)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_con_coding_only+100)) +
+                       limits=c(0,max_con_coding_only+50)) +
     labs(
         title = "Consequences of the variation (coding only)",
         x = "Number of variants",
@@ -471,7 +471,7 @@ nvariants_plot <- num_variants %>%
     ggplot(aes(num_variants, reorder(sample,num_variants))) +
     geom_bar(stat="identity", fill="#1e81b0", color="black") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_number+1000)) +
+                       limits=c(0,max_number+100)) +
     labs(
         title = "Number of variants of echa samples",
         x = "Number of variants",
@@ -507,7 +507,7 @@ polyphen_plot <- df_polyphen %>%
     ggplot(aes(n, reorder(sample,n), fill=polyphen)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_polyphen+100)) +
+                       limits=c(0,max_polyphen+50)) +
     labs(
         title = "PolyPhen Status of the variants for each sample",
         x = "Number of variants",
@@ -544,7 +544,7 @@ sift_plot <- df_sift %>%
     ggplot(aes(n, reorder(sample,n), fill=sift)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_sift+100)) +
+                       limits=c(0,max_sift+50)) +
     labs(
         title = "Sift Status of the variants",
         x = "Number of variants",
@@ -581,7 +581,7 @@ variant_class_plot <- df_variant_class %>%
     ggplot(aes(n, reorder(sample,n), fill=variant_class)) +
     geom_bar(stat="identity", position="dodge") +
     scale_x_continuous(expand=expansion(0),
-                       limits=c(0,max_variant_class+100)) +
+                       limits=c(0,max_variant_class+50)) +
     labs(
         title = "Variants Classes",
         x = "Number of variants",
