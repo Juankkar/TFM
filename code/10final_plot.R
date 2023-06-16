@@ -80,9 +80,10 @@ final_plot <- df_genes_processed %>%
                                "#99DBF5","#FFEEBB",
                                "#EA906C")) +
     scale_y_continuous(expand=expansion(0),
-                       limits=c(0,250),
+                       limits=c(0,260),
                        breaks=seq(0,250,50)) +
-    facet_wrap(~variant_class, ncol=1, scales="free_y") +
+    facet_wrap(~variant_class, ncol=1, 
+               strip.position="left", scales="free_y") +
     labs(
         title = "Distribution of the variants per genes and samples",
         x = "Samples",
@@ -101,7 +102,8 @@ final_plot <- df_genes_processed %>%
         legend.position="top",
         legend.title=element_text(size=12, face="bold"),
         strip.background=element_blank(),
-        strip.text=element_text(size=11)
+        strip.text=element_text(size=10.5, face="bold"),
+        strip.placement="outside"
     )
     
 ggsave(file="results/biostatistics/plots/final_plot.png",
