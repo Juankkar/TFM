@@ -8,9 +8,9 @@
 suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
 suppressPackageStartupMessages(library(glue))
 
-################
-##  SAMPLES   ##
-################
+########################
+##  SAMPLES AND GENE  ##
+########################
 
 sample_list <- scan(
   file="your_sample_list.txt",
@@ -19,13 +19,19 @@ sample_list <- scan(
   sep = "\n"
 )
 
+print("this is your sample list: ")
 sample_list
 
 param <- commandArgs(trailingOnly = TRUE)
 
 gene_filter <- param[1]
 
+print("This is your gene: ")
 gene_filter
+
+####################
+## EXECUTION LOOP ##
+####################
 
 for(sample in sample_list){
 

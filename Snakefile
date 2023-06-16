@@ -9,18 +9,7 @@ rule all:
         expand("results/fastqc_result/trimmed/{sample}_fastp_fastqc.html", 
                sample=config["samples"]),
         expand("results/mapped_reads/{sample}.sam", 
-               sample=config["samples"]),
-        "tasks/01download_data.done",
-        "tasks/02pre_processing.done",
-        "tasks/08merged_sam.done",
-        "tasks/09sam_to_bam.done",
-        "tasks/10deleted_duplicates.done",
-        "tasks/11extracting_variants.done",
-        "tasks/12vep_dependencies.done",
-        "tasks/13vep_cli.done",
-        "tasks/14biostatisticsR_tables.done",
-        "tasks/15joining_tables.done",
-        "tasks/16R_potting.done"
+               sample=config["samples"])
 
 
 def get_bwa_map_input_fastqs(wildcards):
@@ -256,7 +245,7 @@ rule parsing_dataR:
     input:
         script = "code/09parsing_vep_data.R"
     output:
-        touch("tasks/14biostatisticsR_tables.done")
+        touch("tasks/14parsing_dataR.done")
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
@@ -286,17 +275,24 @@ rule parsing_dataR:
         """
 
 
-## 16 We will plot the data of the joined tables
+##---------------------------------------------------------##
+##     FINAL BOSS, YOU NEED TO HAVE THE 5 GENE TABLES      ##
+##---------------------------------------------------------##
+
 rule R_plotting:
     input:
-        script = "code/11plotting.R"
+        script = "code/10final_plot.R"
     output:
-        touch("tasks/16R_potting.done")
+        touch("tasks/DONE.done")
     params:
         gene=config["gene_to_filterR"]
     conda:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript {input.script} {params.gene}
+        Rscript {input.script} && echo "THE SCRIPT RAN WELL" || \        
+            echo "If you didn't made it yet, maybe this will encourage you :)"
+            echo "\thttps://www.youtube.com/watch?v=tYzMYcUty6s&ab_channel=TeamPsycosmos"
+            echo ""
+            echo "Otherwise congrats :)"
         """
