@@ -58,13 +58,13 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 
     * [08vep.sh](code/08vep.sh): corremos VEP en la línea de comandos.
 
-    * [09biostatistics_tables.R](code/09biostatistics_tables.R): obtenemos tablas con distintos parámetros para cada uno de las muestras.
+    * [09parsing_vep_data.R](code/09parsing_vep_data.R): filtramos el gen que nos interesa de las tablas obtenida por la predicción de variantes con VEP de cada una de las muestras.
 
-    * [10joining_tables.sh](code/10joining_tables.sh): Unimos las tablas singulares para cada muestra en una sola para cada parámetro.
-
-    * [11ploting.R](code/code/11ploting.R): Graficamos las tablas R, así como obtener tablas html.
+    * [10final_plot.R](code/10final_plot.R): Graficamos las tablas R, así como obtener tablas html.
 
     * [annotations.ipynb](code/annotations.ipynb): Jupyter Notebook con el que se obtienen tablas que nos permiten obtener las muestras del artículo, además de otras tablas que permiten analizar los datos (alojadas en los [metadatos](metadata))
+
+    * [design_final_plot.ipynb](code/design_final_plot.ipynb): Jupyter Notebook en que se ha hecho un diseño del plot final.
 
 ### **[Data](data)**
 
