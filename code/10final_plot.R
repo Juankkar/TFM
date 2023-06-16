@@ -71,7 +71,7 @@ final_plot <- df_genes_processed %>%
         variant_class=factor(variant_class,
                              levels=c("indel","SNV"),
                              labels=c("Copy number variation (CNV)",
-                                      "Single nucleotide polimorfism (SNP)"))
+                                      "Single nucleotide variant (SNV)"))
     ) %>%
     ggplot(aes(sample, n, fill=symbol)) +
     geom_bar(stat="identity", color="black", 
