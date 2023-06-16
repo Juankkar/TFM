@@ -100,7 +100,7 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 	1. ```rule download_data``` **(1 vez)**: Descargamos los datos. El código tiene truco, se tarda mucho en descargar los datos (~2 horas por archivo), si detienes la regla (ctrl C), el mismo script, la siguiente vez que la ejecutes, los archivos que ya están en tu ordenandor no volverán a descargarse (```"===>>> THE FILE x.bam ALREADY EXIST!!! <<<==="```). Tiene un **PERO**, si uno de ellos no se ha descargado del todo (el último que se estaba intentando), hay que eliminar lo descargado, el script no distingue cuánto, solo si el nombre del archivo está o no. Con esto se puede organizar la descarga de estos archivos. 
 	2. ```rule pre_processing``` (***cíclica***): Preprocesado de los datos BAM originales (```samtools```).  
 	3. ```rule reference_genome``` (***cíclica***): Descargar el genoma de referencia. 
-	4. ```rule fastqc```: Realizar una inspección primaria de los archivos "crudos" (```fastqc```).
+	4. ```rule fastqc``` (***cíclica***): Realizar una inspección primaria de los archivos "crudos" (```fastqc```).
 	5. ```rule fastp``` (***cíclica***): Arreglar los archivos crudos con ```fastp```.
 	6. ```rule fastqc_trimmed``` (***cíclica***): Inspección secundaria de los archivos arreglados con el paquete anterior (```fastqc```). 
 	7. ```rule bwa_mapping``` (***cíclica***): Mapeado con genoma de referencia usando el paquete ```bwa```.
