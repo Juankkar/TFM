@@ -208,7 +208,7 @@ rule extracting_variants:
 
 
 ## 12 Variant Effect Prediction DB
-rule vep:
+rule vep_install_db:
     output:
         touch("tasks/12vep_dependencies.done")
     params:
@@ -279,6 +279,7 @@ rule parsing_dataR:
 ##     FINAL BOSS, YOU NEED TO HAVE THE 5 GENE TABLES      ##
 ##---------------------------------------------------------##
 
+## 15
 rule R_plotting:
     input:
         script = "code/10final_plot.R"
