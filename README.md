@@ -10,7 +10,7 @@ Tema Cáncer de colorrectal. Pipeline automatizado, jerárquico y cíclico usand
 
 Se creará un pipleine en el que se usará un software que permite el control de flujo de trabajo: **Snakemake** (ver [aquí](https://snakemake.readthedocs.io/en/stable/#) su página web con intrucciones y tutoriales entre otras cosas de utilidad). 
 
-Este flujo de trabajo tiene como objetivo filtrar las variantes genómicas de 12 muestras que provienen de una familia con propencia a enferemedades colorrectales. Para ello se hará de tal forma que se pueda repetir el flujo de forma cíclica con varios cormosomas con un gen target específico, estos genes serán:
+Este flujo de trabajo tiene como objetivo filtrar las variantes genómicas de 12 muestras que provienen de una familia con historial de enferemedades colorrectales. Para ello se hará de tal forma que se pueda repetir el flujo de forma cíclica con varios cormosomas con un gen target específico, estos genes serán:
 
 * PIK3CA (cromosoma 3)
 * APC (cromosoma 5)
