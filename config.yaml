@@ -33,7 +33,7 @@ samples:
 
 ## Choose your chromosome
 chromosome: chr17
-# Chromosome 5, 7, 12, 17 ENSEMBL:
+# Chromosome 3, 5, 7, 12, 17 ENSEMBL:
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.5.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.7.fa.gz

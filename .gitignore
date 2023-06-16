@@ -13,12 +13,8 @@ data/ClinVar/*
 
 results/*
 !results/README.txt
-!results/results_workflow/
-results/results_workflow/plots_workflow/
-!results/results_workflow/chromosome5/*
-!results/results_workflow/chromosome7/*
-!results/results_workflow/chromosome12/*
-!results/results_workflow/chromosome17/*
+!results/objective/
+!results/objective/final_plot.png
 
 data/original_bam/*
 
