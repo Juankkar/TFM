@@ -115,12 +115,36 @@ o <- df_clinvar %>%
                                   levels = c("APC-Associated Polyposis Disorders", "Carcinoma of colon",
                                              "Colorectal cancer", "Familial multiple polyposis syndrome",
                                              "Familial colorectal cancer"),
-                                  labels = c("Associated\nPolyposis\nDisorders\n(APC)", "Carcinoma\ncolon",
+                                  labels = c("Associated\nPolyposis\nDisorders (APC)", "Carcinoma\ncolon",
                                              "Colorectal\ncancer", "Familial\nmultiple\npolyposis\nsyndrome",
                                              "Familial\ncolorectal\ncancer"))) %>%
     ggplot(aes(clinvar_clndn, n, fill = clinvar_clnsig)) +
-    geom_bar(stat="identity", position="dodge") + 
-    facet_wrap(~sample, ncol=2)
+    geom_bar(stat="identity", position="dodge", width=.5, color="black") + 
+    facet_wrap(~sample, ncol=2) +
+    scale_y_continuous(expand=expansion(0),
+                       limits=c(0,65),
+                       breaks=seq(0,60,15)) +
+    scale_fill_manual(values=c("#99DBF5","#FFEEBB","lightgray")) +
+    labs(
+        title="Variants identified by ClinVar databse",
+        x = "Dissease",
+        y = "Number of variants",
+        fill = "Significance"
+    ) +
+    theme_test() +
+    theme(
+        plot.title=element_text(hjust=.5,size=16,face="bold"),
+        axis.title=element_text(face="bold", size=14),
+        axis.text=element_text(color="black", size=10),
+        axis.ticks.x = element_line(linewidth=.5),
+        axis.ticks.length.x = unit(.2,"cm"),
+        legend.position="top",
+        legend.title=element_text(size=14, face="bold"),
+        legend.text=element_text(size=12, face="bold"),
+        strip.background=element_blank(),
+        strip.text=element_text(size=11, face="bold"),
+        strip.placement="outside"
+    )
 
 
 ggsave(file="results/biostatistics/plots/other_plot.png",
