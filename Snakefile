@@ -292,9 +292,8 @@ rule R_plotting:
         "code/enviroments/biostatisticsR.yml"
     shell:
         """
-        Rscript {input.script} && echo "THE SCRIPT RAN WELL" || \        
-            echo "If you didn't made it yet, maybe this will encourage you :)"
-            echo "\thttps://www.youtube.com/watch?v=tYzMYcUty6s&ab_channel=TeamPsycosmos"
-            echo ""
-            echo "Otherwise congrats :)"
+        Rscript {input.script} && echo "THE SCRIPT RAN WELL congrats :)"        
+
+            # If this is red you didn't made it yet, maybe this will encourage you :)
+            # https://www.youtube.com/watch?v=tYzMYcUty6s&ab_channel=TeamPsycosmos
         """
