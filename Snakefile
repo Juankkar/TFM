@@ -284,7 +284,8 @@ rule R_plotting:
     input:
         script = "code/10final_plot.R"
     output:
-        touch("tasks/DONE.done")
+        png1="results/biostatistics/plots/final_plot.png",
+        png2="results/biostatistics/plots/other_plot.png"
     params:
         gene=config["gene_to_filterR"]
     conda:
