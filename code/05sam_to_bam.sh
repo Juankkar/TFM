@@ -4,12 +4,13 @@
 ## DIRECTORIES ##
 #################
 
-if [[ ! -d results/mapped_reads/bam_files/ ]]
-then 
-    mkdir results/mapped_reads/bam_files/
-    mkdir results/mapped_reads/bam_files/info/
-    mkdir metadata/logs/flagstats/
-fi
+for dir in results/mapped_reads/bam_files/ metadata/logs/flagstats/
+do 
+    if [[ ! -d $dir ]]
+    then 
+        mkdir $dir 
+    fi
+done
 
 #################
 ##  VARIABLES  ##

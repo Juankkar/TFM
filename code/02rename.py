@@ -36,18 +36,14 @@ new_filename_list = ["data/original_bam/ERR696683.bam",
                      "data/original_bam/ERR753377.bam",
                      "data/original_bam/ERR753378.bam"]
 
+
 #################
 ##  EXECUTION  ##
 #################
 
-## rename the files
-if len(old_filename_list) != len(new_filename_list):
-    print("Error: The number of BAM filenames does not match the number of new filenames.")
-    exit(1)
-
-for i in range(len(old_filename_list)):
-    old_filename = old_filename_list[i]
-    new_filename = new_filename_list[i]
+for name in range(len(old_filename_list)):
+    old_filename = old_filename_list[name]
+    new_filename = new_filename_list[name]
 
     # Rename the file
     os.rename(old_filename, new_filename)

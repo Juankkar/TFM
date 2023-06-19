@@ -13,49 +13,48 @@ suppressMessages(suppressWarnings({
     tp53 <- read_tsv("results/biostatistics/joined_tables/TP53.tsv")
 }))
 
-## Processing to get the values that we want
-
-df_apc <- apc %>%
-    select("sample","symbol","variant_class") %>% 
-    separate_wider_delim(sample, delim="_", names=c("sample","chr")) %>% 
-    select(-"chr") 
-
-df_braf <- braf %>%
-    select("sample","symbol","variant_class") %>% 
-    separate_wider_delim(sample, delim="_", names=c("sample","chr")) %>% 
-    select(-"chr") 
-
-df_kras <- kras %>%
-    select("sample","symbol","variant_class") %>% 
-    separate_wider_delim(sample, delim="_", names=c("sample","chr")) %>% 
-    select(-"chr") 
-
-df_pik3ca <- pik3ca %>%
-    select("sample","symbol","variant_class") %>% 
-    separate_wider_delim(sample, delim="_", names=c("sample","chr")) %>% 
-    select(-"chr") 
-
-df_tp53 <- tp53 %>%
-    select("sample","symbol","variant_class") %>% 
+## joining tables and processing
+df_genes <- rbind(apc,braf,kras,pik3ca,tp53) %>% 
     separate_wider_delim(sample, delim="_", names=c("sample","chr")) %>% 
     select(-"chr")
 
-## Joining the data together
 suppressMessages(suppressWarnings({
-    df_genes <- rbind(df_apc,df_braf,df_kras,df_pik3ca,df_tp53) %>%
-        group_by(sample,symbol,variant_class) %>%
+df_nvariants <- df_genes %>%
+    select("sample","symbol","variant_class") %>%
+    group_by(sample,symbol,variant_class) %>%
         summarise(n=n())
-    
-    df_genes_processed <- expand.grid(sample=as.character(unique(as.character(df_genes$sample))),
-                                      symbol=as.character(unique(as.character(df_genes$symbol))),
-                                      variant_class=as.character(unique(as.character(df_genes$variant_class)))) %>% 
-    left_join(
-        df_genes, by=c("sample","symbol","variant_class")
-        ) %>% 
-    mutate(n=ifelse(is.na(n),0,n))
+
+df_clinvar <- df_genes %>%
+    select("clinvar_clnsig", "clinvar_clndn", "sample") %>%
+    separate_longer_delim(clinvar_clndn, delim="|") %>%
+    separate_longer_delim(clinvar_clnsig, delim="/") %>%
+    group_by(clinvar_clnsig, clinvar_clndn,sample) %>%
+        summarise(n=n()) %>%
+    mutate(clinvar_clnsig = str_replace_all(clinvar_clnsig, pattern="_", replacement=" "),
+           clinvar_clndn = str_replace_all(clinvar_clndn, pattern="_", replacement=" ")) %>%
+    filter(clinvar_clnsig != "-" & 
+           clinvar_clndn %in% c("APC-Associated Polyposis Disorders", "Carcinoma of colon",
+                                "Colorectal cancer", "Familial multiple polyposis syndrome",
+                                "Familial colorectal cancer"))
 }))
 
-## Plotting the data
+## Varaintes totales
+df_genes_processed <- expand.grid(sample=as.character(unique(as.character(df_nvariants$sample))),
+                                  symbol=as.character(unique(as.character(df_nvariants$symbol))),
+                                  variant_class=as.character(unique(as.character(df_nvariants$variant_class)))) %>% 
+left_join(
+    df_nvariants, by=c("sample","symbol","variant_class")
+    ) %>% 
+    mutate(n=ifelse(is.na(n),0,n))
+    
+    ## Variantes de ClinVar
+df_clinvar <- expand.grid(clinvar_clnsig=as.character(unique(as.character(df_clinvar$clinvar_clnsig))),
+                          clinvar_clndn=as.character(unique(as.character(df_clinvar$clinvar_clndn))),
+                          sample=as.character(unique(as.character(df_clinvar$sample)))) %>% 
+    left_join(
+        df_clinvar, by=c("clinvar_clnsig", "clinvar_clndn", "sample")
+        ) %>% 
+    mutate(n=ifelse(is.na(n),0,n))
 
 ## Plotting the data
 
@@ -93,7 +92,6 @@ final_plot <- df_genes_processed %>%
     theme_test() +
     theme(
         plot.title=element_text(hjust=.5,size=16,face="bold"),
-        plot.background=element_rect(linewidth=1, color="black"),
         axis.title=element_text(face="bold", size=14),
         axis.text=element_text(color="black", size=10),
         axis.text.x=element_text(angle = 20, hjust = .9, vjust = .9),
@@ -108,6 +106,25 @@ final_plot <- df_genes_processed %>%
     
 ggsave(file="results/biostatistics/plots/final_plot.png",
        plot=final_plot,
+       heigh=7,
+       width=9)
+
+
+o <- df_clinvar %>% 
+    mutate(clinvar_clndn = factor(clinvar_clndn,
+                                  levels = c("APC-Associated Polyposis Disorders", "Carcinoma of colon",
+                                             "Colorectal cancer", "Familial multiple polyposis syndrome",
+                                             "Familial colorectal cancer"),
+                                  labels = c("Associated\nPolyposis\nDisorders\n(APC)", "Carcinoma\ncolon",
+                                             "Colorectal\ncancer", "Familial\nmultiple\npolyposis\nsyndrome",
+                                             "Familial\ncolorectal\ncancer"))) %>%
+    ggplot(aes(clinvar_clndn, n, fill = clinvar_clnsig)) +
+    geom_bar(stat="identity", position="dodge") + 
+    facet_wrap(~sample, ncol=2)
+
+
+ggsave(file="results/biostatistics/plots/other_plot.png",
+       plot=o,
        heigh=7,
        width=9)
 
