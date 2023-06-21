@@ -24,7 +24,7 @@ def get_bwa_map_input_fastqs(wildcards):
 ## 1 Downloading the data == "no_pain_no_gain"
 rule download_data:
     input:
-        script = "code/01dl_rawdata.bash",
+        script = "code/01dl_rawdata.bash"
     output:
         touch("tasks/01download_data.done")
     conda:
@@ -270,7 +270,8 @@ rule parsing_dataR:
 
         ## Joining parsed tables for each sample
         cat results/biostatistics/tables/*{params.chr_choosed}* \
-            | awk "!/^$(cat results/biostatistics/tables/*{params.chr_choosed}* | cut -f 1 | head -n 1)/ || NR == 1" \
+            | awk "!/^$(cat results/biostatistics/tables/*{params.chr_choosed}* \
+            | cut -f 1 | head -n 1)/ || NR == 1" \
             > results/biostatistics/joined_tables/{params.gene}.tsv
         """
 
