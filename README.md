@@ -111,7 +111,7 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 	12. ```rule vep_install_db``` **(1 vez)**: Descarga de **ENSEMBLE** variantes identificadas de bases de datos de nuestra especie y genoma de referencia (```vep_install```).
 	13. ```rule vep_cli``` (***cíclica***): Después de la anterior podemos correr VEP desde la línea de comandos (```vep```).
 	14. ```rule parsing_dataR``` (***cíclica***): Usamos R para filtrar los datos de un gen en concreto para eun cromosoma seleccionado. Primero se correrá el script para el parseado para cada una de las muestras por separado, y posterior se correrá un código que guardará una tabla con todas las muestras juntas en ```joined_tables``` para un gen en concreto enconcreto (por ejemplo: ***APC.tsv***). Es muy importante no borrar las tablas de cada gen.
-	16. ```rule R_plotting``` **(1 vez)**: Una vez realizado el workflow para los 5 cormosomas (a su vez se obtendrán las variantes de los 5 genes target) a analizar, se podrá correr esta regla. El siguiente gráfico:
+	16. ```rule R_plotting``` **(1 vez)**: Una vez realizado el workflow para los 5 cormosomas (a su vez se obtendrán las variantes de los 5 genes target) a analizar, se podrá correr esta regla. Se crearán dos gráficos, estos son el objetivo final del workflow, a modo del potencial que tienen este tipo de flujos. El primero de ellos mostrará las variantes totales que se han detectado en en cromosoma, mientras que el segundo lo que muestra, son aquellas variantes filtradas de ClinVar relacionadas directamente con enferemedades colorrectales.
 
 ---
 <p align="center">
@@ -119,6 +119,13 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
   <img src="results/objective/final_plot.png" alt="800" width="900" />
 
 </p>
+
+<p align="center">
+ 
+  <img src="results/objective/other_plot.png" alt="800" width="900" />
+
+</p>
+
 
 ---
 
