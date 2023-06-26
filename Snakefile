@@ -24,13 +24,18 @@ def get_bwa_map_input_fastqs(wildcards):
 ## 1 Downloading the data == "no_pain_no_gain"
 rule download_data:
     input:
-        script = "code/01dl_rawdata.bash"
+        script_download = "code/01dl_rawdata.bash",
+        script_rename="code/02rename.py"
     output:
         touch("tasks/01download_data.done")
     conda:
         "code/enviroments/Greference_tools.yml"
     shell:
-        "bash {input.script}"
+        """
+        bash {input.script_download} 
+
+        python {input.script_rename} 
+        """
 
 
 ## 2 Preprocessing the data (Executing this twice will generate an error)
@@ -45,11 +50,6 @@ rule pre_processing:
         "code/enviroments/Greference_tools.yml"
     shell:
         """
-        python code/02rename.py || \
-            echo "" ; \
-            echo "IF IT'S AN ERROR, PROBABLY MEANS THAT YOU ALREADY RAN THIS SCRIPT!!!" ; \
-            echo ""
-        
         bash {input.script} {params.chr_choosed}
 
         ## This is to prevent excessive space usage!!!

@@ -126,7 +126,7 @@ o <- df_clinvar %>%
                        breaks=seq(0,60,15)) +
     scale_fill_manual(values=c("#99DBF5","#FFEEBB","lightgray")) +
     labs(
-        title="Variants identified by ClinVar databse",
+        title="Variants identified by ClinVar Data Base",
         x = "Dissease",
         y = "Number of variants",
         fill = "Significance"
