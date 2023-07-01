@@ -29,7 +29,7 @@ rule download_data:
     output:
         touch("tasks/01download_data.done")
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
         bash {input.script_download} 
@@ -47,7 +47,7 @@ rule pre_processing:
     params:
         chr_choosed = config["chromosome"]
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
         bash {input.script} {params.chr_choosed}
@@ -64,9 +64,12 @@ rule reference_genome:
     params:
         url = config["url_reference_genome"]
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
+        rm {output}* || \
+            echo "==> If you hadn't a previous reference in the directory and its an ERROR, is NORMAL <==\n"
+
         wget -O {output}.gz {params.url}
         gzip -d {output}.gz 
         """
@@ -86,7 +89,7 @@ rule fastqc:
     output:
         "results/fastqc_result/{sample}_fastqc.html"
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
         fastqc {input} -o results/fastqc_result/
@@ -105,7 +108,7 @@ rule fastp:
         cut_meanq=config["fastp_cutmeanq"],
         length=config["fastp_length"]
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
         fastp -i {input} -o {output} \
@@ -125,7 +128,7 @@ rule fastqc_trimmed:
     output:
         "results/fastqc_result/trimmed/{sample}_fastp_fastqc.html"
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
         fastqc {input} -o results/fastqc_result/trimmed/
@@ -142,7 +145,7 @@ rule bwa_mapping:
     log:
         "metadata/logs/sam/{sample}_infosam.out"
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         """
         bwa index {input.reference}
@@ -163,7 +166,7 @@ rule merge_sam_files:
         ends_1 = config["reads_forward_termination"],
         ends_2 = config["reads_reverse_termination"]
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         "bash {input.script} {params.ends_1} {params.ends_2}"
 
@@ -175,7 +178,7 @@ rule sam_to_bam:
     output:
         touch("tasks/09sam_to_bam.done")
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         "bash {input.script}"
 
@@ -187,7 +190,7 @@ rule delete_duplicates:
     output:
         touch("tasks/10deleted_duplicates.done")
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         "bash {input.script}"
 
@@ -202,7 +205,7 @@ rule extracting_variants:
         ref_genome = config["ref_genome_name_file"],
         min_reads= config["min_reads_variant"]
     conda:
-        "code/enviroments/Greference_tools.yml"
+        "code/environments/Greference_tools.yml"
     shell:
         "bash {input.script} {params.ref_genome} {params.min_reads}"
 
@@ -215,7 +218,7 @@ rule vep_install_db:
         species = config["vep_species"],
         assembly = config["vep_assembly"]
     conda: 
-        "code/enviroments/vep.yml"
+        "code/environments/vep.yml"
     shell:
         """
         vep_install -a cf \
@@ -235,7 +238,7 @@ rule vep_cli:
         species = config["vep_species"],
         assembly=config["vep_assembly"]
     conda: 
-        "code/enviroments/vep.yml"
+        "code/environments/vep.yml"
     shell:
         "bash {input.script} {params.species} {params.assembly}"
 
@@ -255,7 +258,7 @@ rule parsing_dataR:
         chr_choosed=config["chromosome"],
         gene=config["gene_to_filterR"]
     conda:
-        "code/enviroments/biostatisticsR.yml"
+        "code/environments/biostatisticsR.yml"
     shell:
         """
         for dir in {params.dir1} {params.dir2} {params.dir3} {params.dir4}
@@ -290,7 +293,7 @@ rule R_plotting:
     params:
         gene=config["gene_to_filterR"]
     conda:
-        "code/enviroments/biostatisticsR.yml"
+        "code/environments/biostatisticsR.yml"
     shell:
         """
         Rscript {input.script} && echo "THE SCRIPT RAN WELL congrats :)"        
