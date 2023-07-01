@@ -1,117 +1,117 @@
-# Trabajo de Fin de Máster 
+# **END OF MASTER'S PROJECT**
 
-## Universidad Internacional de Valencia (VIU)
+## **INTERNACIONAL VALENCIAN UNIVERSITY (VIU) | 2022 - 2023 |**
 
-### Alumno: Juan Carlos García Estupiñán
+* ### **Author**: Juan Carlos García Estupiñán 
+* ### **Supervisor**: Dr. Carolina Monzó Cataluña
 
-Tema Cáncer de colorrectal. Pipeline automatizado, jerárquico y cíclico usando snakemake como controlador de flujo de trabajo.
+## **TOPIC** 
 
-## **Objetivo** 
+Automated, hierarchical, and cyclical pipline using Snakemake as a management system workflow, for colorectal cancer samples.
 
-Se creará un pipleine en el que se usará un software que permite el control de flujo de trabajo: **Snakemake** (ver [aquí](https://snakemake.readthedocs.io/en/stable/#) su página web con intrucciones y tutoriales entre otras cosas de utilidad). 
+## **OBJECTIVE** 
 
-Este flujo de trabajo tiene como objetivo filtrar las variantes genómicas de 12 muestras que provienen de una familia con historial de enferemedades colorrectales. Para ello se hará de tal forma que se pueda repetir el flujo de forma cíclica con varios cormosomas con un gen target específico, estos genes serán:
+A bioinformatics pipeline will be created that utilizes software capable of managing workflows: Snakemake (1) (check [here](https://snakemake.readthedocs.io/en/stable/#) it's web page with all the tutorials, and other interesting documentation)
 
-* PIK3CA (cromosoma 3)
-* APC (cromosoma 5)
-* BRAF (cromosoma 7)
-* KRAS (cromosoma 12)
-* TP53 (cromosoma 17)
+This workflow aims to filter the genomic variants of 12 samples from a family with a history of colorectal diseases. To achieve this, it is necessary for the user to be able to repeat the workflow in cycles with the chromosomes of interest, targeting a specific gene. Here is the list:
 
+* PIK3CA (chromosome 3)
+* APC (chromosome 5)
+* BRAF (chromosome 7)
+* KRAS (chromosome 12)
+* TP53 (chromosome 17)
 
-Contará con las siguienes características: **orden**, **reproducibilidad** y **automatización**.
+The workflow needs to have the following features: **order**, **reproducibility**, and **automation**.
 
-## DATA sacada de un artículo en un repositorio público: 
-* ### Identificador: [PRJEB7926](https://www.ebi.ac.uk/ena/browser/view/PRJEB7926)
-* ### Artículo: [*GREM1* and POLE variants in hereditary colorectal cancer syndromes](https://onlinelibrary.wiley.com/doi/10.1002/gcc.22314)
+## **DATA obtained from a paper in a public repository localized in Eropean Bioinformatics Institute/European Nucleotide Archive (EBI/ENA):** 
+* ### Project ID: [PRJEB7926](https://www.ebi.ac.uk/ena/browser/view/PRJEB7926) (1)
+* ### Title: [*GREM1* and POLE variants in hereditary colorectal cancer syndromes](https://onlinelibrary.wiley.com/doi/10.1002/gcc.22314)
 
-## **Directorios**
+## **DIRECTORIES**
 
-### **[Código](code) empleado en la carpeta**
+### **Developed programms [Code](code)**
 
-En este directorio tenemos los scripts vinculados a los archivos de Snakemake así como un directorio adicional con los ambientes necesarios para poder ejecutar las "**reglas**".
+In this directory, we have the scripts attached to the Snakemake files. Additionally, there is an additional directory containing the conda environments for the software required to run the "rules".
 
-* Ambientes que se encuentran en el directorio [enviroments](code/enviroments/), todos obviamente tienen snakemake:
+* ***Conda*** environments in the directory [environments](code/environments/) (all of them have in common that they have snakemake).
 
-    * [Greference_tools.yml](code/enviroments/Greference_tools.yml): en este ambiente se encuentran herramientas para realizar mapeado de genoma de referencia, así como algunas librerías adicionales de *Python* como por ejemplo ```numpy``` y ```pandas```
-    * [vep](code/enviroments/vep.yml): en este se encuntra lo necesario para realivar "***Variant Effect Prediction***" (*VEP*) para realizar la anotación de variantes.
+    * [Greference_tools.yml](code/environments/Greference_tools.yml):There are tools available for reference genome mapping, as well as additional Python tools for data analysis, such as `numpy` and `pandas`.
+    * [vep](code/environments/vep.yml): Software that enables users to perform "**Variant Effect Prediction**" (VEP) through the command line, facilitating variant annotation. 
 
-    * [biostadisticsR](code/enviroments/biostatisticsR.yml): herramientas de R para realizar manipulación de datos, análisis estadísticos y gráficas.
+    * [biostadisticsR](code/environments/biostatisticsR.yml): R programming language tools for manipulating data, statistical analysis and plotting.
 
-	* [igv](code/enviroments/biostatisticsR.yml): con este ambiente se descarga El visualizador Integrative Genomic Viewer, con el que podemos ver el mapeado de una forma más visual.
+	* [igv](code/environments/biostatisticsR.yml): This environment is used for obtaining the Integrative Genomic Viewer (IGV), which allows for a better understanding of mapping reads by visualizing them. 
 
-* Scripts con los programas desarrollados:
+* Developed scripts:
 
-    * [01dl_rawdata.sh](code/01dl_rawdata.bash): script que descarga los BAMs del repositorio público. Para su funcionamiento es necesario tener en los metadatos la siguiente tabla llamada report.tsv en los metadatos, obtenida de este repositorio: [metadatos (report.tsv)](metadata/report.tsv).
+    * [01dl_rawdata.sh](code/01dl_rawdata.bash): This script will download the BAM files from the public repository. In order to work, it needs to have a table in the metadata named report.tsv [(check report.tsv)](metadata/report.tsv), a file with important information about the project. The specific field of interest is the **number 8** (name: ***submitted_ftp***).  
 
-    * [02rename.py](code/02rename.py): script de python que sirve para cambiar los nombres de los archivos (muestras BAM).
+    * [02rename.py](code/02rename.py): This Python script will rename the original BAM files using their sample names, making it easier to work with them.
 
-    * [03extracting_fastq.sh](code/03extracting_fastq.sh): script de Bash con el que se pretende hacer un pre-procesado de los datos. Objetivo: filtrar de los archivos BAM originales uno de los cromosomas y pasarlos a formato fastq (lecturas forward y reverse).
+    * [03extracting_fastq.sh](code/03extracting_fastq.sh): Pre-processing of the original BAM files. First the chromosome of interest will be filtered into a new BAM file. Then, from that file, the FASTQ files for both type of reads (forward and reverse) will be extracted. 
 
-    * [04join_samfiles.sh](code/04join_samfiles.sh): unimos los archivos *SAM* que han sido obtenidos al pasar los en un procesamiento con ```fastp``` (proceso se encuentra en el archivo Snakefile) *fastq.gz* a este formato.
+    * [04join_samfiles.sh](code/04join_samfiles.sh): After the reference genome mapping (reference genome + FASTQ pre-processed by ```fastp```, done in the Snakefile), both SAM files with differen separated types of reads (forward and reverse) will be merged together.
 
-    * [05sam_to_bam.sh](code/05sam_to_bam.sh): convertimos los archivos SAMs unidos y los transformamos en *BAMs*, además de indexarlo y ordenamos.
+    * [05sam_to_bam.sh](code/05sam_to_bam.sh): The merged SAM files will be turned into BAM files, and also after indexing them, will be sorted too.
 
-    * [06delete_duplicates](code/06delete_duplicates.sh): eliminamos los elementos duplicados de los archivos BAM ordendados.
+    * [06delete_duplicates](code/06delete_duplicates.sh):  Delete the duplicates from the sorted BAM files.
 
-    * [07extracting_variants.sh](code/07extracting_variants.sh): extraemos los varientes en un archivo *VCF*.
+    * [07extracting_variants.sh](code/07extracting_variants.sh): Extract the variants in *VCF* files.
 
-    * [08vep.sh](code/08vep.sh): corremos VEP en la línea de comandos.
+    * [08vep.sh](code/08vep.sh): Running VEP in the CLI.
 
-    * [09parsing_vep_data.R](code/09parsing_vep_data.R): filtramos el gen que nos interesa de las tablas obtenida por la predicción de variantes con VEP de cada una de las muestras.
+    * [09parsing_vep_data.R](code/09parsing_vep_data.R): Filter the gene of a chromosome of interest, from the VEP tables, for each sample. 
 
-    * [10final_plot.R](code/10final_plot.R): Graficamos las tablas R, así como obtener tablas html.
+    * [10final_plot.R](code/10final_plot.R): Plotting the data using ```ggplot2``` package from R.
 
-    * [annotations.ipynb](code/annotations.ipynb): Jupyter Notebook con el que se obtienen tablas que nos permiten obtener las muestras del artículo, además de otras tablas que permiten analizar los datos (alojadas en los [metadatos](metadata))
+    * [annotations.ipynb](code/annotations.ipynb): Jupyter Notebook with some annotations to get more information and context of the project.
 
-    * [design_final_plot.ipynb](code/design_final_plot.ipynb): Jupyter Notebook en que se ha hecho un diseño del plot final.
 
 ### **[Data](data)**
 
-1. [ClinVar](data/ClinVar/): Datos para obtener información de ClinVar mediante VEP en línea de comandos. 
+1. [ClinVar](data/ClinVar/): Data in order to get information from CliVAR using VEP in CLI.
 
-2. [original_bam](data/original_bam/): en este repositorio se guardan los *BAM* del artículo que se descargan con el script 01.
+2. [original_bam](data/original_bam/): This is where the original BAM files, downloadaded thanks to the *01dl_rawdata.sh*, will be stored .
 
-3. [processed](data/processed/): donde procesamos los datos de FASTQ de data/raw/ medinate ```fastp```.
+3. [processed](data/processed/): Directory that stores the FASTQ files pre-processed by ```fastp```.
 
-4. [raw](data/raw/): aquí es donde se han guardado las lecturas forward y reverse "crudas", para este trabajo no los son en sí, sino que son datos pre-procesados de BAM originales, para filtrar uno de los cromosomas. La razón es no presentar recursos computacionales suficienetes la gran peso de los archivos **FASTQ** originales. 
+4. [raw](data/raw/):Here is where the "raw" forward and reverse reads have been stored, but for this task, they are not raw reads per se. Instead, they are preprocessed data from the original BAM files, filtered for one chromosome. The reason is to avoid presenting a heavy computational load due to the large size of the original **FASTQ** files.. 
 
-5. [reference](data/reference/): donde guardamos el genoma de referencia (cormosomas aislados del genoma humano).
+5. [reference](data/reference/): Here is where we store the reference genome (isolated chromosomes from the human genome)..
 
 
 ### **[Metadatos](metadata)**
 
-1. [report.tsv](metadata/report.tsv): archivo con información y links de descarga de los datos proporcionados por el repositorio público. Se hace **uso** del campo ***8*** para descargar los datos en el script [01dl_rawdata.sh](code/01dl_rawdata.bash).
+1. [report.tsv](metadata/report.tsv): File containing information and download links for the data provided by the public repository. Field 8 is used to download the data in the script [01dl_rawdata.sh](code/01dl_rawdata.bash).
 
-2. [severe_consequences.csv](metadata/severe_consequences.csv): tabla obtenida de **ENSEMBLE** usando el Jupyter Notebook [annotations.ipynb](code/annotations.ipynb), que muestra la severidad de los tipos de variantes, la que se usará en el script [11plotting.R](code/11ploting.R) para extraer esta información de los datos.
+2. [severe_consequences.csv](metadata/severe_consequences.csv):Table obtained from ENSEMBL using the Jupyter Notebook [annotations.ipynb](code/annotations.ipynb).
+3. [table3.csv](metadata/table3.csv): Table provided by the authors containing additional information about the WES they performed.
 
-3. [table3.csv](metadata/table3.csv): tabla que proporcionan los autores para una información adicional sobre la secuenciación que realizaron.
+### **[Results](results)**
 
-### **[Resultados](results)**
-
-* Aquí se van creando y guardando los resultados que se van ejecutando cada una de las ***reglas*** del fichero Snakefile.
+* Here, the results generated by executing each of the rules in the Snakefile are created and saved.
 
 ### **Archivos adicionales de control de flujo de trabajo**
 
-*  [config.yaml](config.yaml): archivo muy importante en el que se guardan conectan las muestras de estudios y los parámetros del archivo Snakefile. Le da flexibilidad al workflow para modificarlo sergún el cromosoma/gen que queramos analizar, así como asignar otro tipo de parámetros. 
+*  [config.yaml](config.yaml): This is a very important file that connects the study samples and the parameters of the Snakefile. It provides flexibility to the workflow, allowing modifications according to the chromosome/gene of interest, as well as assigning other types of parameters.
 
-* [Snakefile](Snakefile): archivo de snakemake para ejecutar las relgas (***"rules"***) y ejecutar el flujo de trabajo de forma ordenada. En total hay 15 reglas las cuales deben seguirse al pie de la letra. Se especificará cuales de ellas hay que ejecutarse sólo un vez con "***1 vez***" y cuales de ellas varias como ***cíclica*** (es decir 1 vez por cromosoma/gen parseado). Estas serían las reglas (sin contar la ```rule all```, cuya intención es condiconar parametros a las que realizan un trabajo):
+* [Snakefile](Snakefile): Snakefile to execute the rules and run the workflow in an organized manner. There are a total of 15 rules that must be followed precisely. It will be specified which ones need to be executed only once with ***"1 time"*** and which ones are repeated ***cyclically*** (i.e., once per parsed chromosome/gen). These are the rules (excluding the rule all, which intends to condition parameters for the ones performing a task):
 
-	1. ```rule download_data``` **(1 vez)**: Descargamos los datos. El código tiene truco, se tarda mucho en descargar los datos (~2 horas por archivo), si detienes la regla (ctrl C), el mismo script, la siguiente vez que la ejecutes, los archivos que ya están en tu ordenandor no volverán a descargarse (```"===>>> THE FILE x.bam ALREADY EXIST!!! <<<==="```). Tiene un **PERO**, si uno de ellos no se ha descargado del todo (el último que se estaba intentando), hay que eliminar lo descargado, el script no distingue cuánto, solo si el nombre del archivo está o no. Con esto se puede organizar la descarga de estos archivos. 
-	2. ```rule pre_processing``` (***cíclica***): Preprocesado de los datos BAM originales (```samtools```).  
-	3. ```rule reference_genome``` (***cíclica***): Descargar el genoma de referencia. 
-	4. ```rule fastqc``` (***cíclica***): Realizar una inspección primaria de los archivos "crudos" (```fastqc```).
-	5. ```rule fastp``` (***cíclica***): Arreglar los archivos crudos con ```fastp```.
-	6. ```rule fastqc_trimmed``` (***cíclica***): Inspección secundaria de los archivos arreglados con el paquete anterior (```fastqc```). 
-	7. ```rule bwa_mapping``` (***cíclica***): Mapeado con genoma de referencia usando el paquete ```bwa```.
-	8. ```rule merge_sam_files``` (***cíclica***): Unimos los archivos SAM de las lecturas forward y reverse (```samtools```).
-	9. ```rule sam_to_bam``` (***cíclica***): Transformamos los archivos SAM a BAM (```samtools```)
-	10. ```rule delete_duplicates``` (***cíclica***): Eliminamos los reads duplicados, se usará ```picard``` tools.
-	11. ```rule extracting_variants``` (***cíclica***): Extraemos del archivo BAM anteriores varianets en archivos VCF (usando ```freebayes```)
-	12. ```rule vep_install_db``` **(1 vez)**: Descarga de **ENSEMBLE** variantes identificadas de bases de datos de nuestra especie y genoma de referencia (```vep_install```).
-	13. ```rule vep_cli``` (***cíclica***): Después de la anterior podemos correr VEP desde la línea de comandos (```vep```).
-	14. ```rule parsing_dataR``` (***cíclica***): Usamos R para filtrar los datos de un gen en concreto de alguno de los cromosomas. Primero se correrá el script para el parseado para cada una de las muestras por separado, y posterior se correrá un código que guardará una tabla con todas las muestras juntas en ```joined_tables``` para un gen en concreto enconcreto (por ejemplo: ***APC.tsv***). Es muy importante no borrar las tablas de cada gen.
-	16. ```rule R_plotting``` **(1 vez)**: Una vez realizado el workflow para los 5 cormosomas (a su vez se obtendrán las variantes de los 5 genes target) a analizar, se podrá correr esta regla. Se crearán dos gráficos, estos son el objetivo final del workflow, a modo del potencial que tienen este tipo de flujos. El primero de ellos mostrará las variantes totales que se han detectado en en cromosoma, mientras que el segundo lo que muestra, son aquellas variantes filtradas de ClinVar relacionadas directamente con enferemedades colorrectales.
+	1. ```rule download_data``` ***"1 time"***: We download the data. The code has a trick: it takes a long time to download the data (~2 hours per file). If you stop the rule (Ctrl+C), the next time you run the script, the files that are already on your computer will not be downloaded again (```"===>>> THE FILE x.bam ALREADY EXISTS!!! <<<==="```). However, there's a catch: if one of the files has not been fully downloaded (the last one being attempted), you need to delete the partially downloaded file. The script does not differentiate how much has been downloaded, only whether the file name exists or not. With this, the download of these files can be organized. 
+	2. ```rule pre_processing``` (***cyclically***): Pre-processed of the original BAM fiels (```samtools```).  
+	3. ```rule reference_genome``` (***cyclically***): Downloading the reference genome. 
+	4. ```rule fastqc``` (***cyclically***): Perform a primary inspection of the "raw" files (```fastqc```).
+	5. ```rule fastp``` (***cyclically***): Fix the "raw" data files ```fastp```.
+	6. ```rule fastqc_trimmed``` (***cyclically***): Perfom a secondary inspection of the fixed raw data files (```fastqc```). 
+	7. ```rule bwa_mapping``` (***cyclically***): Mapping with a reference genome using the ```bwa```.
+	8. ```rule merge_sam_files``` (***cyclically***): Merging the SAM files with the reads forward and reverse together in a unique SAM file (```samtools```).
+	9. ```rule sam_to_bam``` (***cyclically***): Transforming SAM files into BAM (```samtools```)
+	10. ```rule delete_duplicates``` (***cyclically***): delete duplicates of the sorted BAMS, using ```picard``` tools.
+	11. ```rule extracting_variants``` (***cyclically***): Extracting variants to create Variant Call Files (VCF) (using ```freebayes```)
+	12. ```rule vep_install_db``` ***"1 time"***: Downloading **ENSEMBLE** identified variants from databases of our species and reference genome. (```vep_install```).
+	13. ```rule vep_cli``` (***cyclically***): Running Variant Effect Predictor in the command line (```vep```).
+	14. ```rule parsing_dataR``` (***cyclically***): We use R to filter data for a specific gene from any of the chromosomes. First, the parsing script will be run for each sample separately, and then a code will be executed to save a table with all the samples together in joined_tables for a specific gene (e.g., APC.tsv). It is crucial not to delete the tables for each gene.
+	16. ```rule R_plotting``` ***"1 time"***: Once the workflow for the 5 chromosomes (which will also obtain the variants of the 5 target genes) to be analyzed is completed, this rule can be executed. Two graphs will be created, which are the ultimate goal of the workflow, demonstrating the potential of this type of flow. The first graph will display the total variants detected in the chromosome, while the second graph will show the filtered variants from ClinVar directly related to colorectal diseases.
 
 ---
 <p align="center">
@@ -129,5 +129,11 @@ En este directorio tenemos los scripts vinculados a los archivos de Snakemake as
 
 ---
 
-* [your_sample_list.txt](your_sample_list.txt): **aunque no parezca gran cosa a simple viesta, es un* un archivo ***MUY*** importante e ***IMPRESCINDIBLE****. Permite **AUTOMATIZAR** los scripts. 
+* [your_sample_list.txt](your_sample_list.txt): **Although it may not seem like much at first glance, it is a ***VERY*** important and ***essential***** file. It allows for the **automation** of the scripts.
+
+## **REFERENCES**
+
+1. Mölder F, Jablonski KP, Letcher B, Hall MB, Tomkins-Tinch CH, Sochat V, Forster J, Lee S, Twardziok SO, Kanitz A, Wilm A, Holtgrewe M, Rahmann S, Nahnsen S, Köster J. Sustainable data analysis with Snakemake. F1000Res. 2021 Jan 18;10:33. doi: 10.12688/f1000research.29032.2. PMID: 34035898; PMCID: PMC8114187.
+
+2. Rohlin A, Eiengard F, Lundstam U, Zagoras T, Nilsson S, Edsjö A, et al. *GREM 1* and POLE variants in hereditary colorectal cancer syndromes. Genes Chromosomes Cancer. Jan 2016;55(1):95-106
 

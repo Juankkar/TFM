@@ -27,7 +27,7 @@ do
         --METRICS_FILE metadata/logs/markduplicates/${sample}_markDuplicatesMetrics.txt \
         --ASSUME_SORTED True
 
-    ## Indexamos de nuevo el bam de duplicados en este caso
+    ## Indexing the new BAM file generated
     samtools index results/mapped_reads/bam_files/${sample}_dedup.bam
 done
 

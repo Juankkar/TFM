@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 
 suppressMessages(suppressWarnings({
+        library(glue)
         library(tidyverse)
 }))
 
@@ -103,12 +104,13 @@ final_plot <- df_genes_processed %>%
         strip.text=element_text(size=10.5, face="bold"),
         strip.placement="outside"
     )
-    
-ggsave(file="results/biostatistics/plots/final_plot.png",
-       plot=final_plot,
-       heigh=7,
-       width=9)
 
+for(rute in c("results/biostatistics/plots/", "results/objective/")){
+    ggsave(file=glue("{rute}final_plot.png"),
+           plot=final_plot,
+           heigh=7,
+           width=9)
+}
 
 o <- df_clinvar %>% 
     mutate(clinvar_clndn = factor(clinvar_clndn,
@@ -146,11 +148,12 @@ o <- df_clinvar %>%
         strip.placement="outside"
     )
 
-
-ggsave(file="results/biostatistics/plots/other_plot.png",
-       plot=o,
-       heigh=7,
-       width=9)
+for(rute in c("results/biostatistics/plots/", "results/objective/")){
+    ggsave(file=glue("{rute}other_plot.png"),
+           plot=o,
+           heigh=7,
+           width=9)
+}
 
 print("##==========================##")
 print("##===> WORK FINISHED!!! <===##")
