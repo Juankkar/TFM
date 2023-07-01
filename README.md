@@ -24,7 +24,7 @@ This workflow aims to filter the genomic variants of 12 samples from a family wi
 The workflow needs to have the following features: **order**, **reproducibility**, and **automation**.
 
 ## **DATA obtained from a paper in a public repository localized in Eropean Bioinformatics Institute/European Nucleotide Archive (EBI/ENA):** 
-* ### Project ID: [PRJEB7926](https://www.ebi.ac.uk/ena/browser/view/PRJEB7926) (1)
+* ### Project ID: [PRJEB7926](https://www.ebi.ac.uk/ena/browser/view/PRJEB7926) (2)
 * ### Title: [*GREM1* and POLE variants in hereditary colorectal cancer syndromes](https://onlinelibrary.wiley.com/doi/10.1002/gcc.22314)
 
 ## **DIRECTORIES**
