@@ -51,7 +51,7 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
     * [Greference_tools.yml](code/environments/Greference_tools.yml):There are tools available for reference genome mapping, as well as additional Python tools for data analysis, such as `numpy` and `pandas`.
     * [vep](code/environments/vep.yml): Software that enables users to perform "**Variant Effect Prediction**" (VEP) through the command line, facilitating variant annotation. 
 
-    * [biostadisticsR](code/environments/biostatisticsR.yml): R programming language tools for manipulating data, statistical analysis and plotting.
+    * [biostatisticsR](code/environments/biostatisticsR.yml): R programming language tools for manipulating data, statistical analysis and plotting.
 
 	* [igv](code/environments/biostatisticsR.yml): This environment is used for obtaining the Integrative Genomic Viewer (IGV), which allows for a better understanding of mapping reads by visualizing them. 
 
@@ -82,7 +82,7 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 
 ### **[Data](data)**
 
-1. [ClinVar](data/ClinVar/): Data in order to get information from CliVAR using VEP in CLI.
+1. [ClinVar](data/ClinVar/): Data in order to get information from ClinVAR using VEP in CLI.
 
 2. [original_bam](data/original_bam/): This is where the original BAM files, downloadaded thanks to the *01dl_rawdata.sh*, will be stored .
 
@@ -110,9 +110,9 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 
 * [Snakefile](Snakefile): Snakefile to execute the rules and run the workflow in an organized manner. There are a total of 15 rules that must be followed precisely. It will be specified which ones need to be executed only once with ***"1 time"*** and which ones are repeated ***cyclically*** (i.e., once per parsed chromosome/gen). These are the rules (excluding the rule all, which intends to condition parameters for the ones performing a task):
 
-	1. ```rule download_data``` ***"1 time"***: We download the data. The code has a trick: it takes a long time to download the data (~2 hours per file). If you stop the rule (Ctrl+C), the next time you run the script, the files that are already on your computer will not be downloaded again (```"===>>> THE FILE x.bam ALREADY EXISTS!!! <<<==="```). However, there's a catch: if one of the files has not been fully downloaded (the last one being attempted), you need to delete the partially downloaded file. The script does not differentiate how much has been downloaded, only whether the file name exists or not. With this, the download of these files can be organized. 
+	1. ```rule download_data``` ***1 time***: We download the data. The code has a trick: it takes a long time to download the data (~2 hours per file). If you stop the rule (Ctrl+C), the next time you run the script, the files that are already on your computer will not be downloaded again (```"===>>> THE FILE x.bam ALREADY EXISTS!!! <<<==="```). However, there's a catch: if one of the files has not been fully downloaded (the last one being attempted), you need to delete the partially downloaded file. The script does not differentiate how much has been downloaded, only whether the file name exists or not. With this, the download of these files can be organized. 
 	2. ```rule pre_processing``` (***cyclically***): Pre-processed of the original BAM fiels (```samtools```).  
-	3. ```rule reference_genome``` (***cyclically***): Downloading the reference genome. 
+	3. ```rule reference_genome``` (***1 time***): Downloading the reference genome. 
 	4. ```rule fastqc``` (***cyclically***): Perform a primary inspection of the "raw" files (```fastqc```).
 	5. ```rule fastp``` (***cyclically***): Fix the "raw" data files ```fastp```.
 	6. ```rule fastqc_trimmed``` (***cyclically***): Perfom a secondary inspection of the fixed raw data files (```fastqc```). 
