@@ -1,4 +1,4 @@
-# **END OF MASTER'S PROJECT**
+# **END OF MASTER'S PROJECT: Snakemake pipeline for reproducible and automated WES analysis**
 
 ## **INTERNACIONAL VALENCIAN UNIVERSITY (VIU) | 2022 - 2023 |**
 
