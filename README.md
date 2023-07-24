@@ -1,10 +1,31 @@
+<<<<<<< HEAD
 # **END OF MASTER'S PROJECT: Snakemake pipeline for reproducible and automated WES analysis**
+=======
+# **END OF MASTER'S PROJECT** 
+>>>>>>> 864b09b (Definir versiones de software y características del ordenador)
 
-## **INTERNACIONAL VALENCIAN UNIVERSITY (VIU) | 2022 - 2023 |**
+## **INTERNACIONAL VALENCIAN UNIVERSITY (VIU) | 2022 - 2023 |** 
 
 * ### **Author**: Juan Carlos García Estupiñán 
+
 * ### **Supervisor**: Dr. Carolina Monzó Cataluña
 
+---
+
+* **Specific Computer Software/Features:**
+
+  
+  | **Software** | **Version** |
+  | ------------ | ----------- |
+  | Ubuntu       |  22.10      |  
+  | Git          |  2.37.2     |
+  | Conda        |  23.1.0     |
+  | mamba        |  1.3.1      |
+
+  * **RAM**: 16 Gb.
+  * **Memmory** size: 500 Gb
+
+---
 --- 
 
 ### **TABLE OF CONTENTS**
