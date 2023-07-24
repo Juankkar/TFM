@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # **END OF MASTER'S PROJECT: Snakemake pipeline for reproducible and automated WES analysis**
-=======
-# **END OF MASTER'S PROJECT** 
->>>>>>> 864b09b (Definir versiones de software y características del ordenador)
 
 ## **INTERNACIONAL VALENCIAN UNIVERSITY (VIU) | 2022 - 2023 |** 
 
