@@ -2,18 +2,35 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        expand("results/fastqc_result/{sample}_fastqc.html", 
+        expand("data/original_bam/filtering/{sample}_chr7_sorted.bam",
                sample=config["samples"]),
-        expand("data/processed/fastp_processed/{sample}_fastp.fastq.gz",
+        expand("results/fastqc_result/{sample}_1_fastqc.html", 
                sample=config["samples"]),
-        expand("results/fastqc_result/trimmed/{sample}_fastp_fastqc.html", 
+        expand("results/fastqc_result/{sample}_2_fastqc.html", 
                sample=config["samples"]),
+        expand("data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
+               sample=config["samples"]),
+        expand("data/processed/fastp_processed/{sample}_2_fastp.fastq.gz",
+               sample=config["samples"]),
+        expand("results/fastqc_result/trimmed/{sample}_1_fastp_fastqc.html", 
+               sample=config["samples"]),
+        expand("results/fastqc_result/trimmed/{sample}_2_fastp_fastqc.html", 
+               sample=config["samples"]),            
         expand("results/mapped_reads/{sample}.sam", 
+               sample=config["samples"]),
+        expand("results/mapped_reads/{sample}_sorted.sam",
+               sample=config["samples"]),
+        expand("results/mapped_reads/bam_files/{sample}.bam",
+               sample=config["samples"]),
+        expand("results/mapped_reads/bam_files/{sample}_sorted.bam",
+               sample=config["samples"]),
+        expand("results/mapped_reads/bam_files/{sample}_dedup.bam",
+               sample=config["samples"]),
+        expand("results/variants/{sample}.vcf",
+               sample=config["samples"]),
+        expand("results/variants/vep/{sample}.txt",
                sample=config["samples"])
 
-
-def get_bwa_map_input_fastqs(wildcards):
-    return config["samples"][wildcards.sample]
 
 ##-----------------------------------##
 ##     SETUP FOR THE WORKFLOW        ##
@@ -43,7 +60,8 @@ rule pre_processing:
     input:
         script = "code/03extracting_fastq.sh"
     output:
-        touch("tasks/02pre_processing.done")
+        ## choose one sample, if you execute either sample, it will generate all results
+        "data/original_bam/filtering/{sample}_sorted.bam"
     params:
         chr_choosed = config["chromosome"]
     conda:
@@ -51,13 +69,11 @@ rule pre_processing:
     shell:
         """
         bash {input.script} {params.chr_choosed}
-
-        ## This is to prevent excessive space usage!!!
-        rm data/original_bam/filtering/*
         """
 
 
 ## 3 Downloading the reference genome:
+# if this is your 2º run, you might need to use the option --force
 rule reference_genome:
     output:
         "data/reference/genome.fa"
@@ -68,7 +84,7 @@ rule reference_genome:
     shell:
         """
         rm {output}* || \
-            echo "==> If you hadn't a previous reference in the directory and its an ERROR, is NORMAL <==\n"
+            echo "==> If you hadn't a previous reference in the directory and there is an ERROR, is NORMAL <==\n"
 
         wget -O {output}.gz {params.url}
         gzip -d {output}.gz 
@@ -78,30 +94,37 @@ rule reference_genome:
 ##     REAL STARTING POINT WORKFLOW        ##
 ##-----------------------------------------##
 
-## Now you can check if everything is ready to go using the command:
+## Now you can chemetadata/logs/flagstats/${sample}.flagstatsck if everything is ready to go using the command:
 ## snakemake -n 
 ## If this doesn't work, something bad happened
 
 ## 4 View the quality of the samples
 rule fastqc:
     input: 
-        "data/raw/{sample}.fastq.gz"
+        read1 = "data/raw/{sample}_1.fastq.gz",
+        read2 = "data/raw/{sample}_2.fastq.gz"
     output:
-        "results/fastqc_result/{sample}_fastqc.html"
+        read1 = "results/fastqc_result/{sample}_1_fastqc.html",
+        read2 = "results/fastqc_result/{sample}_2_fastqc.html"
     conda:
         "code/environments/Greference_tools.yml"
     shell:
         """
-        fastqc {input} -o results/fastqc_result/
+        for read in {input.read1} {input.read2}
+        do 
+            fastqc $read -o results/fastqc_result/
+        done
         """
 
 
 ## 5 Pre-processed of the data
 rule fastp:
     input:
-        "data/raw/{sample}.fastq.gz"
+        read1 = "data/raw/{sample}_1.fastq.gz",
+        read2 = "data/raw/{sample}_2.fastq.gz"
     output:
-        "data/processed/fastp_processed/{sample}_fastp.fastq.gz"
+        read1 = "data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
+        read2 = "data/processed/fastp_processed/{sample}_2_fastp.fastq.gz"
     params:
         cut_tail=config["fastp_cuttail"],
         cut_front=config["fastp_cutfront"],
@@ -111,27 +134,33 @@ rule fastp:
         "code/environments/Greference_tools.yml"
     shell:
         """
-        fastp -i {input} -o {output} \
-        --cut_tail '{params.cut_tail}' \
-        --cut_front '{params.cut_front}' \
-        --cut_mean_quality '{params.cut_meanq}' \
-        -l {params.length}
-        mv *.json data/processed/fastp_processed
-        mv fastp.html data/processed/fastp_processed
+        fastp -i {input.read1} -I {input.read2} \
+            -o {output.read1} -O {output.read2} \
+            --cut_tail '{params.cut_tail}' \
+            --cut_front '{params.cut_front}' \
+            --cut_mean_quality '{params.cut_meanq}' \
+            -l {params.length}
+            mv *.json data/processed/fastp_processed
+            mv fastp.html data/processed/fastp_processed
         """
 
 
 ## 6 View the quality of the trimmed samples
 rule fastqc_trimmed:
     input: 
-        "data/processed/fastp_processed/{sample}_fastp.fastq.gz"
+        read1 = "data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
+        read2 = "data/processed/fastp_processed/{sample}_2_fastp.fastq.gz"
     output:
-        "results/fastqc_result/trimmed/{sample}_fastp_fastqc.html"
+        read1 = "results/fastqc_result/trimmed/{sample}_1_fastp_fastqc.html",
+        read2 = "results/fastqc_result/trimmed/{sample}_2_fastp_fastqc.html"
     conda:
         "code/environments/Greference_tools.yml"
     shell:
         """
-        fastqc {input} -o results/fastqc_result/trimmed/
+        for read in {input.read1} {input.read2}
+        do
+        fastqc $read -o results/fastqc_result/trimmed/
+        done
         """
 
 
@@ -139,78 +168,109 @@ rule fastqc_trimmed:
 rule bwa_mapping:
     input:
         reference = "data/reference/genome.fa",
-        files = get_bwa_map_input_fastqs
+        read1 = "data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
+        read2 = "data/processed/fastp_processed/{sample}_2_fastp.fastq.gz"
     output:
-        "results/mapped_reads/{sample}.sam"
+        sam = "results/mapped_reads/{sample}.sam",
+        sam_sorted = "results/mapped_reads/{sample}_sorted.sam"
     log:
         "metadata/logs/sam/{sample}_infosam.out"
     conda:
         "code/environments/Greference_tools.yml"
     shell:
         """
+        ## Mapping
         bwa index {input.reference}
-        bwa mem -a {input.reference} {input.files} \
-            -o {output} \
+        bwa mem -a {input.reference} \
+        {input.read1} {input.read2} \
+            -o {output.sam} \
             2> {log}
+        
+        ## sorting the SAM files
+        samtools sort {output.sam} \
+            -o {output.sam_sorted} 
         """
 
 
-## 8 script for joining the SAM files
-rule merge_sam_files:
-    input:
-        script = "code/04join_samfiles.sh"
-    output:
-        touch("tasks/08merged_sam.done")
-    params:
-        # For example mine are _1 and _2, but could be _R1 _R2
-        ends_1 = config["reads_forward_termination"],
-        ends_2 = config["reads_reverse_termination"]
-    conda:
-        "code/environments/Greference_tools.yml"
-    shell:
-        "bash {input.script} {params.ends_1} {params.ends_2}"
-
-
-## 9 Transforming SAM to BAM and sorting
+# 8 Transforming SAM to BAM and sorting
 rule sam_to_bam:
     input:
-        script = "code/05sam_to_bam.sh",
+        "results/mapped_reads/{sample}_sorted.sam",
     output:
-        touch("tasks/09sam_to_bam.done")
+       bam = "results/mapped_reads/bam_files/{sample}.bam",
+       bam_sorted = "results/mapped_reads/bam_files/{sample}_sorted.bam"
+    log:
+        "metadata/logs/flagstats/{sample}.flagstats"
     conda:
         "code/environments/Greference_tools.yml"
     shell:
-        "bash {input.script}"
+        """
+        ## From SAM to BAM
+        samtools view -bS \
+            {input} \
+            > {output.bam}
+
+        ## Sorting
+        samtools sort \
+            {output.bam} \
+            > {output.bam_sorted}
+
+        ## Index
+        samtools index {output.bam_sorted}
+
+        ## Summary, basic statistics
+        samtools flagstats \
+            {output.bam_sorted} \
+            > {log}
+        """
 
 
-## 10 Deleting duplicates
+## 9 Deleting duplicates
 rule delete_duplicates:
     input:
-        script = "code/06delete_duplicates.sh",
-    output:
-        touch("tasks/10deleted_duplicates.done")
+        "results/mapped_reads/bam_files/{sample}_sorted.bam"
+    output: 
+        "results/mapped_reads/bam_files/{sample}_dedup.bam"
     conda:
         "code/environments/Greference_tools.yml"
+    log:
+        "metadata/logs/markduplicates/{sample}_markDuplicatesMetrics.txt"
     shell:
-        "bash {input.script}"
+        """
+        ## Mark duplicates
+        picard MarkDuplicates --INPUT {input} \
+            --OUTPUT {output} \
+            --METRICS_FILE {log} \
+            --ASSUME_SORTED True
+    
+        ## Indexing the new BAM file generated
+        samtools index {output}
+        """
 
 
-## 11 Extracting variants
+## 10 Extracting variants
 rule extracting_variants:
     input:
-        script = "code/07extracting_variants.sh"
+        reference = "data/reference/genome.fa",
+        bam = "results/mapped_reads/bam_files/{sample}_dedup.bam" 
     output:
-        touch("tasks/11extracting_variants.done")
+        "results/variants/{sample}.vcf"
     params:
         ref_genome = config["ref_genome_name_file"],
         min_reads= config["min_reads_variant"]
     conda:
         "code/environments/Greference_tools.yml"
     shell:
-        "bash {input.script} {params.ref_genome} {params.min_reads}"
+        """
+        freebayes \
+            -C {params.min_reads} \
+            -f {input.reference} \
+            {input.bam} \
+            > {output}
+        """
 
 
-## 12 Variant Effect Prediction DB
+## 11 Variant Effect Prediction DB
 rule vep_install_db:
     output:
         touch("tasks/12vep_dependencies.done")
@@ -228,27 +288,53 @@ rule vep_install_db:
         """
 
 
-## 13 Running VEP in the command line
+## 12 Running VEP in the command line
 rule vep_cli:
     input:
-        script = "code/08vep.sh"
+        script_dl_clivar = "code/04vep.sh",
+        vcf = "results/variants/{sample}.vcf"
     output:
-        touch("tasks/13vep_cli.done")
+        "results/variants/vep/{sample}.txt"
     params:
         species = config["vep_species"],
         assembly=config["vep_assembly"]
     conda: 
         "code/environments/vep.yml"
     shell:
-        "bash {input.script} {params.species} {params.assembly}"
+        """
+        bash {input.script_dl_clivar}
+        
+        vep -i {input.vcf} \
+                --offline \
+                --force_overwrite \
+                --assembly {params.assembly} \
+                --appris \
+                --biotype \
+                --variant_class \
+                --check_existing \
+                --filter_common \
+                --mane \
+                --polyphen b \
+                --pubmed \
+                --regulatory \
+                --sift b \
+                --species {params.species} \
+                --symbol \
+                --transcript_version \
+                --tsl \
+                --cache \
+                --tab \
+                -o {output} \
+                --custom data/ClinVar/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNSIG,CLNREVSTAT,CLNDN
+        """
 
 
-## 14 Parsing data from the VCF files with R
+## 13 Parsing data from the VCF files with R
 rule parsing_dataR:
     input:
-        script = "code/09parsing_vep_data.R"
+        script = "code/05parsing_vep_data.R"
     output:
-        touch("tasks/14parsing_dataR.done")
+        touch("tasks/13parsing_dataR.done")
     params:
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
@@ -256,7 +342,6 @@ rule parsing_dataR:
         dir4 = "results/biostatistics/joined_tables",
         gene_filter=config["gene_to_filterR"],
         chr_choosed=config["chromosome"],
-        gene=config["gene_to_filterR"]
     conda:
         "code/environments/biostatisticsR.yml"
     shell:
@@ -275,7 +360,7 @@ rule parsing_dataR:
         cat results/biostatistics/tables/*{params.chr_choosed}* \
             | awk "!/^$(cat results/biostatistics/tables/*{params.chr_choosed}* \
             | cut -f 1 | head -n 1)/ || NR == 1" \
-            > results/biostatistics/joined_tables/{params.gene}.tsv
+            > results/biostatistics/joined_tables/{params.gene_filter}.tsv
         """
 
 
@@ -283,15 +368,13 @@ rule parsing_dataR:
 ##     FINAL BOSS, YOU NEED TO HAVE THE 5 GENE TABLES      ##
 ##---------------------------------------------------------##
 
-## 15
+## 14 plotting with R
 rule R_plotting:
     input:
-        script = "code/10final_plot.R"
+        script = "code/06final_plot.R"
     output:
         png1="results/biostatistics/plots/final_plot.png",
         png2="results/biostatistics/plots/other_plot.png"
-    params:
-        gene=config["gene_to_filterR"]
     conda:
         "code/environments/biostatisticsR.yml"
     shell:

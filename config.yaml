@@ -1,56 +1,40 @@
 #########################
 ##  SNAKEFILE SAMPLES  ##
 #########################
+
 samples:
-  ERR696683_chr7_1: data/raw/ERR696683_chr7_1.fastq.gz
-  ERR696683_chr7_2: data/raw/ERR696683_chr7_2.fastq.gz
-  ERR753368_chr7_1: data/raw/ERR753368_chr7_1.fastq.gz
-  ERR753368_chr7_2: data/raw/ERR753368_chr7_2.fastq.gz
-  ERR753369_chr7_1: data/raw/ERR753369_chr7_1.fastq.gz
-  ERR753369_chr7_2: data/raw/ERR753369_chr7_2.fastq.gz
-  ERR753370_chr7_1: data/raw/ERR753370_chr7_1.fastq.gz
-  ERR753370_chr7_2: data/raw/ERR753370_chr7_2.fastq.gz
-  ERR753371_chr7_1: data/raw/ERR753371_chr7_1.fastq.gz
-  ERR753371_chr7_2: data/raw/ERR753371_chr7_2.fastq.gz
-  ERR753372_chr7_1: data/raw/ERR753372_chr7_1.fastq.gz
-  ERR753372_chr7_2: data/raw/ERR753372_chr7_2.fastq.gz
-  ERR753373_chr7_1: data/raw/ERR753373_chr7_1.fastq.gz
-  ERR753373_chr7_2: data/raw/ERR753373_chr7_2.fastq.gz
-  ERR753374_chr7_1: data/raw/ERR753374_chr7_1.fastq.gz
-  ERR753374_chr7_2: data/raw/ERR753374_chr7_2.fastq.gz
-  ERR753375_chr7_1: data/raw/ERR753375_chr7_1.fastq.gz
-  ERR753375_chr7_2: data/raw/ERR753375_chr7_2.fastq.gz
-  ERR753376_chr7_1: data/raw/ERR753376_chr7_1.fastq.gz
-  ERR753376_chr7_2: data/raw/ERR753376_chr7_2.fastq.gz
-  ERR753377_chr7_1: data/raw/ERR753377_chr7_1.fastq.gz
-  ERR753377_chr7_2: data/raw/ERR753377_chr7_2.fastq.gz
-  ERR753378_chr7_1: data/raw/ERR753378_chr7_1.fastq.gz
-  ERR753378_chr7_2: data/raw/ERR753378_chr7_2.fastq.gz
+  ERR696683_chr3: data/original_bam/filtering/ERR696683_chr3_sorted.bam 
+  ERR753368_chr3: data/original_bam/filtering/ERR753368_chr3_sorted.bam 
+  ERR753369_chr3: data/original_bam/filtering/ERR753369_chr3_sorted.bam
+  ERR753370_chr3: data/original_bam/filtering/ERR753370_chr3_sorted.bam
+  ERR753371_chr3: data/original_bam/filtering/ERR753371_chr3_sorted.bam
+  ERR753372_chr3: data/original_bam/filtering/ERR753372_chr3_sorted.bam
+  ERR753373_chr3: data/original_bam/filtering/ERR753373_chr3_sorted.bam
+  ERR753374_chr3: data/original_bam/filtering/ERR753374_chr3_sorted.bam
+  ERR753375_chr3: data/original_bam/filtering/ERR753375_chr3_sorted.bam
+  ERR753376_chr3: data/original_bam/filtering/ERR753376_chr3_sorted.bam
+  ERR753377_chr3: data/original_bam/filtering/ERR753377_chr3_sorted.bam
+  ERR753378_chr3: data/original_bam/filtering/ERR753378_chr3_sorted.bam
 
 ########################
 ##  SNAKEFILE PARAMS  ##
 ########################
 
 ## Choose your chromosome
-chromosome: chr7
+chromosome: chr3 
 # Chromosome 3, 5, 7, 12, 17 ENSEMBL:
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.5.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.7.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.12.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
-url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.7.fa.gz
+url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
 
 ## Fixing the fastq files, FASTP parameters:
 fastp_cuttail: 30
 fastp_cutfront: 30
 fastp_cutmeanq: 30
 fastp_length: 75
-
-## Termination of your the reads, i wrote these params in case they
-## could be _1/_2, or others like _R1/_R2 for example
-reads_forward_termination: _1
-reads_reverse_termination: _2
 
 ## Extracting variants
 ref_genome_name_file: genome.fa
@@ -63,4 +47,4 @@ vep_assembly: GRCh38
 
 ## Gene That you want to filter in the VCF using R
 ## PIK3CA (chromosome 3); APC (chromosome 5); BRAF (chromosome 7); KRAS (chromosome 12) ;TP53 (chromosome 17)
-gene_to_filterR: BRAF
+gene_to_filterR: PIK3CA
