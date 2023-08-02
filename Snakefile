@@ -8,9 +8,9 @@ rule all:
                sample=config["samples"]),
         expand("results/fastqc_result/{sample}_2_fastqc.html", 
                sample=config["samples"]),
-        expand("data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
+        expand("data/processed/{sample}_1_fastp.fastq.gz",
                sample=config["samples"]),
-        expand("data/processed/fastp_processed/{sample}_2_fastp.fastq.gz",
+        expand("data/processed/{sample}_2_fastp.fastq.gz",
                sample=config["samples"]),
         expand("results/fastqc_result/trimmed/{sample}_1_fastp_fastqc.html", 
                sample=config["samples"]),
@@ -123,8 +123,8 @@ rule fastp:
         read1 = "data/raw/{sample}_1.fastq.gz",
         read2 = "data/raw/{sample}_2.fastq.gz"
     output:
-        read1 = "data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
-        read2 = "data/processed/fastp_processed/{sample}_2_fastp.fastq.gz"
+        read1 = "data/processed/{sample}_1_fastp.fastq.gz",
+        read2 = "data/processed/{sample}_2_fastp.fastq.gz"
     params:
         cut_tail=config["fastp_cuttail"],
         cut_front=config["fastp_cutfront"],
@@ -140,16 +140,16 @@ rule fastp:
             --cut_front '{params.cut_front}' \
             --cut_mean_quality '{params.cut_meanq}' \
             -l {params.length}
-            mv *.json data/processed/fastp_processed
-            mv fastp.html data/processed/fastp_processed
+            mv *.json data/processed
+            mv fastp.html data/processed
         """
 
 
 ## 6 View the quality of the trimmed samples
 rule fastqc_trimmed:
     input: 
-        read1 = "data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
-        read2 = "data/processed/fastp_processed/{sample}_2_fastp.fastq.gz"
+        read1 = "data/processed/{sample}_1_fastp.fastq.gz",
+        read2 = "data/processed/{sample}_2_fastp.fastq.gz"
     output:
         read1 = "results/fastqc_result/trimmed/{sample}_1_fastp_fastqc.html",
         read2 = "results/fastqc_result/trimmed/{sample}_2_fastp_fastqc.html"
@@ -168,8 +168,8 @@ rule fastqc_trimmed:
 rule bwa_mapping:
     input:
         reference = "data/reference/genome.fa",
-        read1 = "data/processed/fastp_processed/{sample}_1_fastp.fastq.gz",
-        read2 = "data/processed/fastp_processed/{sample}_2_fastp.fastq.gz"
+        read1 = "data/processed/{sample}_1_fastp.fastq.gz",
+        read2 = "data/processed/{sample}_2_fastp.fastq.gz"
     output:
         sam = "results/mapped_reads/{sample}.sam",
         sam_sorted = "results/mapped_reads/{sample}_sorted.sam"
@@ -219,7 +219,7 @@ rule sam_to_bam:
         samtools index {output.bam_sorted}
 
         ## Summary, basic statistics
-        samtools flagstats \
+        samtools flagstat \
             {output.bam_sorted} \
             > {log}
         """
@@ -270,7 +270,7 @@ rule extracting_variants:
         """
 
 
-## 11 Variant Effect Prediction DB
+## 11 Variant Effect Prediction DB (version of GRCh38 109)
 rule vep_install_db:
     output:
         touch("tasks/12vep_dependencies.done")
@@ -283,12 +283,11 @@ rule vep_install_db:
         """
         vep_install -a cf \
             -s {params.species} \
-            ls-y {params.assembly} \
             --ASSEMBLY {params.assembly}
         """
 
 
-## 12 Running VEP in the command line
+## 12 Running VEP in the command line 
 rule vep_cli:
     input:
         script_dl_clivar = "code/04vep.sh",
