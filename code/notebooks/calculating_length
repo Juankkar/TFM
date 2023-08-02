@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [[ ! -d ../../results/annotations/ ]]
+then
+    mkdir ../../results/annotations/ 
+fi
+
+for reads in _1 _2
+do
+
+    for file in $(echo $(ls -1 ../../data/raw/ | grep -v README | grep $reads)) 
+
+        do
+    
+            zcat ../../data/raw/$file | sed -n '2~4p' > ../../results/annotations/${file}${reads}_$1.txt 
+
+        done
+
+done
