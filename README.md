@@ -85,8 +85,16 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
     * [05parsing_vep_data.R](code/05parsing_vep_data.R): Filter the gene of a chromosome of interest, from the VEP tables, for each sample. 
 
     * [06final_plot.R](code/06final_plot.R): Plotting the data using ```ggplot2``` package from R.
+  
+* **[Notebooks](code/notebooks/)**, this is a directory to extract adittional information from the workflow, it is not part of itself:
 
-    * [annotations.ipynb](code/annotations.ipynb): Jupyter Notebook with some annotations to get more information and context of the project.
+  * [annotations.ipynb](code/notebooks/annotations.ipynb): Jupyter Notebook with some annotations to get more information and context of the project.
+
+  * [instructions.ipynb](code/notebooks/instructions.ipynb): Jupyter Notebook with an example of how the workflow could be run.
+
+  * Additional Bash scripts for annotaions.ipynb, [calculating_length.sh](code/notebooks/calculating_length.sh), [joining_files.sh](code/notebooks/joining_files.sh).
+
+  * Also there is a python script to represent the structure of the workflow: [workflow_viz.py](code/notebooks/workflow_viz.py).  
 
 
 ### **[Data](data)**
@@ -106,8 +114,7 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 
 1. [report.tsv](metadata/report.tsv): File containing information and download links for the data provided by the public repository. Field 8 is used to download the data in the script [01dl_rawdata.sh](code/01dl_rawdata.bash).
 
-2. [severe_consequences.csv](metadata/severe_consequences.csv):Table obtained from ENSEMBL using the Jupyter Notebook [annotations.ipynb](code/annotations.ipynb).
-3. [table3.csv](metadata/table3.csv): Table provided by the authors containing additional information about the WES they performed.
+2. [table3.csv](metadata/table3.csv): Table provided by the authors containing additional information about the WES they performed.
 
 ### **[Results](results)**
 
