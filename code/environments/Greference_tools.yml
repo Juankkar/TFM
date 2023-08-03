@@ -22,4 +22,6 @@ dependencies:
   - ipykernel=6.19.2
   - pygraphviz=1.10
   - samtools=1.6
+  - r-tidyverse=1.3.2
+
 
