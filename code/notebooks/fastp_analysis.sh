@@ -12,4 +12,4 @@ do
     after_fastp_2=$(zcat ../../data/processed/${sample}*_2* | grep @ -c)
 
     echo -e "$before_fastp_1\t$after_fastp_1\t$before_fastp_2\t$after_fastp_2\t$sample"
-done >> fastp_analysis.tsv
+done > fastp_analysis.tsv
