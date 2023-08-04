@@ -10,10 +10,12 @@ rm ../../results/annotations/*fastq.gz.txt
 
 for sample in ERR696683 ERR7533{68..78}
 do
+    ## Calculates the number of pb in each sequences
     while read -r line
     do 
         echo ${#line}
-    done < ../../results/annotations/${sample}.txt > ../../results/annotations/${sample}_len.txt 
+    done < ../../results/annotations/${sample}.txt \
+        > ../../results/annotations/${sample}_len.txt 
 done
 
 rm ../../results/annotations/ERR696683.txt \
