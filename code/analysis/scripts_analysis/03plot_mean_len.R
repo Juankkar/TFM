@@ -4,7 +4,7 @@ suppressMessages(suppressWarnings({
         library(tidyverse)
 }))
 
-read_csv("len_mean.csv") %>%
+read_csv("../results_analysis/tables/len_mean.csv") %>%
     ggplot(aes(sample, mean_len)) +
     geom_bar(stat="identity", width=.5, color="black", fill="lightgray") +
     geom_errorbar(aes(ymin= mean_len - sd_len,
@@ -25,6 +25,6 @@ read_csv("len_mean.csv") %>%
         axis.text.x= element_text(angle=35, vjust=1, hjust=1)
     )
 
-ggsave("../../results/objective/mean_len.png",
+ggsave("../../../results/objective/mean_len.png",
        width=6,
        height=5)
