@@ -47,4 +47,4 @@ vep_assembly: GRCh38
 
 ## Gene That you want to filter in the VCF using R
 ## PIK3CA (chromosome 3); APC (chromosome 5); BRAF (chromosome 7); KRAS (chromosome 12) ;TP53 (chromosome 17)
-gene_to_filterR: PIK3CA
+gene_to_filterR: TP53 

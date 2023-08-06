@@ -2,21 +2,21 @@
 
 library(tidyverse)
 
-flagstats <- read_tsv("../results_analysis/tables/flagstats.tsv")
+flagstats <- read_tsv("../results_analysis/tables/flagstats.tsv") %>%
+    mutate(num_seqs_afterQC = num_seqs_afterQC/10^6) 
 
 max_num_reads <- max(flagstats$num_seqs_afterQC )
-y_axis_labels <- c("FALSE" = "Probabilidad de precipitación", 
-                   "TRUE" = "Promedio de precipitación\npor evento (mm)")
+
 flagstats %>%
     select(num_seqs_afterQC, mapped_reads_per, properly_paired_per, singletons_per, sample) %>% 
     pivot_longer(-sample, names_to="names", values_to="values") %>% 
-    mutate(facet = case_when(names == "num_seqs_afterQC" ~ "Sequences after QC",
+    mutate(facet = case_when(names == "num_seqs_afterQC" ~ "Seqs after QC (M)",
                              names != "num_seqs_afterQC" ~ "Percentage"),
            names = factor(names,
                           levels=c("num_seqs_afterQC", "mapped_reads_per",
                                    "properly_paired_per", "singletons_per")),
            facet = factor(facet,
-                          levels=c("Sequences after QC", "Percentage"))) %>% 
+                          levels=c("Seqs after QC (M)", "Percentage"))) %>% 
     ggplot(aes(sample, values, fill = names)) +
     geom_bar(stat="identity", color = "black",
              width = .5, position="dodge") +
@@ -47,3 +47,5 @@ flagstats %>%
     
 ggsave("../results_analysis/plots/flagstats.png",
        width=6.5, height=6)
+
+

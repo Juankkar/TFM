@@ -140,7 +140,7 @@ rule fastp:
             --cut_front '{params.cut_front}' \
             --cut_mean_quality '{params.cut_meanq}' \
             -l {params.length}
-            mv *.json data/processed
+            mv *.json data/processed/ 
             mv fastp.html data/processed
         """
 
@@ -258,6 +258,8 @@ rule extracting_variants:
     params:
         ref_genome = config["ref_genome_name_file"],
         min_reads= config["min_reads_variant"]
+    log:
+        "metadata/logs/vcfstats/{sample}.vcfstats"
     conda:
         "code/environments/Greference_tools.yml"
     shell:
@@ -267,6 +269,8 @@ rule extracting_variants:
             -f {input.reference} \
             {input.bam} \
             > {output}
+        
+        rtg vcfstats {output} > {log}
         """
 
 
