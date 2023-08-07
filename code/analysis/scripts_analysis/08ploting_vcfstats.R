@@ -113,7 +113,8 @@ plot_ratios2_total <- ratios2 %>%
         axis.text.x= element_text(angle=35, vjust=1, hjust=1),
         legend.position="top",
         strip.placement="outside",
-        strip.text=element_text(face="bold", size=12)
+        strip.text=element_text(face="bold", size=12),
+        axis.ticks.x=element_blank()
     )
 
 
@@ -133,7 +134,7 @@ plot_ratios2 <- ratios2 %>%
     geom_bar(stat="identity", position="dodge", color="black") +
     scale_y_continuous(expand=expansion(0),
                       limits=c(0,4),
-                      breaks=seq(0,4,.75)) +
+                      breaks=seq(0,4,.5)) +
     scale_fill_manual(values=c("white",
                                "lightgray","#99DBF5",
                                "#FFEEBB","#EA906C")) +
