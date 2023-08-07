@@ -34,8 +34,13 @@ vcf_stats %>%
     group_by(het_hom) %>% 
     rstatix::shapiro_test(num) 
 
+print("=------------------------------------=")
+print("===>      Kruskal_Wallis/Dunnet   <===")
+print("=------------------------------------=")
+
 vcf_stats %>%
     rstatix::kruskal_test(num ~ het_hom) 
 
 vcf_stats %>%
-    rstatix::dunn_test(num ~ het_hom, p.adj = "bonf")
+    rstatix::dunn_test(num ~ het_hom, p.adj = "bonf")  %>%  
+    write_tsv("../results_analysis/tables/invference_vcf.tsv")
