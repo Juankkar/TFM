@@ -53,7 +53,7 @@ vcf_stats %>%
                       limits = c(0,4)) +
     scale_fill_manual(values = c("#73d206", "#d00808")) +
     labs(
-        title = "Diferences between ratios",
+        title = "Differences between ratios",
         subtitle = "X² Kruskal-Wallis (*p* < 0.05) | Post-Hoc: Dunnet Test (Bonferroni)",
         x = "Ratio",
         y = "Variation type"
