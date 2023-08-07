@@ -16,14 +16,6 @@ vcf_stats %>%
     group_by(het_hom) %>% 
     summarise(n=n())
 
-vcf_stats %>% 
-   ggplot(aes(het_hom, num, fill=het_hom)) +
-   geom_boxplot()
-
-ggsave("../results_analysis/plots/statistics_vcf_inference.png",
-       width=7,
-       height=5)
-
 print("=------------------------------------=")
 print("===>           Normality          <===")
 print("=------------------------------------=")
@@ -44,3 +36,38 @@ vcf_stats %>%
 vcf_stats %>%
     rstatix::dunn_test(num ~ het_hom, p.adj = "bonf")  %>%  
     write_tsv("../results_analysis/tables/invference_vcf.tsv")
+
+
+vcf_stats %>% 
+    mutate(sig=case_when(het_hom == "r_mnp_het_hom" ~ "Sig",
+                         het_hom != "r_mnp_het_hom" ~ "no.sig"),
+           het_hom = factor(het_hom,
+                            levels = c("r_Indel_het_hom","r_del_het_hom",
+                                       "r_Insert_het_hom", "r_mnp_het_hom",
+                                       "r_snp_het_hom"),
+                            labels = c("Indel", "Deletion", "Insertion",
+                                       "MNP","SNP"))) %>%
+    ggplot(aes(num, het_hom, fill=sig)) +
+    geom_boxplot(show.legend=FALSE, width=.65) +
+    scale_x_continuous(expand = expansion(0),
+                      limits = c(0,4)) +
+    scale_fill_manual(values = c("#73d206", "#d00808")) +
+    labs(
+        title = "Diferences between ratios",
+        subtitle = "X² Kruskal-Wallis (*p* < 0.05) | Post-Hoc: Dunnet Test (Bonferroni)",
+        x = "Ratio",
+        y = "Variation type"
+    ) +
+    theme_classic() +
+     theme(
+        plot.background=element_rect(fill="white", color="white"),
+        panel.background=element_rect(fill="white", color="white"),
+        plot.title=element_text(hjust=.5, face="bold", size = 14),
+        plot.subtitle=ggtext::element_markdown(hjust=.5, face="bold", size = 11.5),
+        axis.title=element_text(face="bold", size = 12),
+        axis.text= element_text(color="black",size=11),
+    )
+
+ggsave("../results_analysis/plots/statistics_vcf_inference.png",
+       width=6,
+       height=4)
