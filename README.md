@@ -29,7 +29,7 @@
 1. [TOPIC](#topic)
 2. [OBJECTIVE](#objective)
 3. [DATA OF USED (EBI/ENA)](#data-obtained-from-a-paper-in-a-public-repository-localized-in-eropean-bioinformatics-instituteeuropean-nucleotide-archive-ebiena)
-4. [DIRECTORIES](#directories)
+4. [DIRECTORIES](#directories) 
 8. [SNAKEMAKE FILES](#snakemake-files)
 7. [REFERENCES](#references)
 
@@ -86,16 +86,25 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 
     * [06final_plot.R](code/06final_plot.R): Plotting the data using ```ggplot2``` package from R.
   
-* **[Notebooks](code/notebooks/)**, this is a directory to extract adittional information from the workflow, it is not part of itself:
+* Analysis *post-snakemake workflow* named **[analysis](code/analysis/)**: this is a directory with notebooks, other deloped programms, and the results of them for data analysis of the files obtained from the snakemake workflow. Sub-directories:
+  * [notebooks](code/analysis/notebooks/): Jupyter Notebooks: 
+    * The first of them, [annotations.ipynb](code/analysis/notebooks/annotations.ipynb), has the analysis of the data. 
+    * There is another not for data analysis but give some isntructions to execute the rules of the snakemake workflow, named [instructions.ipynb](code/analysis/notebooks/instructions.ipynb).
 
-  * [annotations.ipynb](code/notebooks/annotations.ipynb): Jupyter Notebook with some annotations to get more information and context of the project.
+  * [script_analysis](code/analysis/scripts_analysis/): some scripts for the data analysis, they are made, in order to be executed from the some of the notebook cells of the notebook [annotation.ipynb](code/analysis/notebooks/annotations.ipynb).
 
-  * [instructions.ipynb](code/notebooks/instructions.ipynb): Jupyter Notebook with an example of how the workflow could be run.
+    * [01calculating_length.sh](code/analysis/scripts_analysis/01calculating_length.sh): script to calculate the mean length of the sequences.
+    * [02joining_files.sh](code/analysis/scripts_analysis/02joining_files.sh): this script is a continuation from before, to joined the results of the samples together.
+    * [03plot_mean_len.R](code/analysis/scripts_analysis/03plot_mean_len.R): plotting the data from the mean length of the samples.
+    * [04fastp_analysis.sh](code/analysis/scripts_analysis/04fastp_analysis.sh): getting the number of sequences from the raw samples, and the samples after doing fastp.
+    * [05flagstats.sh](code/analysis/scripts_analysis/05flagstats.sh): processing the flagstats statistics from metadata/logs/.
+    * [06plot_flagstats.R](code/analysis/scripts_analysis/06plot_flagstats.R): plotting the results from the previous script.
+    * [07vcfstats.sh](code/analysis/scripts_analysis/07vcfstats.sh): processing the vcfstats files in metadata/logs after the extract of variants into VCF.
+    * [08ploting_vcfstats.R](code/analysis/scripts_analysis/08ploting_vcfstats.R): plotting the previous results.
+    * [09statistical_analysis.R](code/analysis/scripts_analysis/09statistical_analysis.R): statistical analysis with R to do some inference from the vcfstats data (ratios heterocygotes/homocygotes)
+    * [workflow_viz.py](code/analysis/scripts_analysis/workflow_viz.py): a Python script make an image of the rules in the *Snakefile*.
 
-  * Additional Bash scripts for annotaions.ipynb, [calculating_length.sh](code/notebooks/calculating_length.sh), [joining_files.sh](code/notebooks/joining_files.sh).
-
-  * Also there is a python script to represent the structure of the workflow: [workflow_viz.py](code/notebooks/workflow_viz.py).  
-
+  * [results_analysis](code/analysis/results_analysis/): results with [tables](code/analysis/results_analysis/tables/) and [plots](code/analysis/results_analysis/plots/) *post - snakemake workflow*.
 
 ### **[Data](data)**
 
