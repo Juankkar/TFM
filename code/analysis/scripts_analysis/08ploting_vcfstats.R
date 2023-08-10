@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 
-library(tidyverse)
+suppressMessages(suppressWarnings({
+        library(tidyverse)
+}))
 
 vcf_stats <- read_tsv("../results_analysis/tables/vcf_basic_stats.tsv") 
 ratios_vcf <- read_tsv("../results_analysis/tables/ratios_vcfstats.tsv")

@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 
-library(tidyverse)
+suppressMessages(suppressWarnings({
+        library(tidyverse)
+}))
 
 flagstats <- read_tsv("../results_analysis/tables/flagstats.tsv") %>%
     mutate(num_seqs_afterQC = num_seqs_afterQC/10^6) 

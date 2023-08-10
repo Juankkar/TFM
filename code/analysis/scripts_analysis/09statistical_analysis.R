@@ -1,13 +1,16 @@
 #!/usr/bin/env Rscript
+suppressMessages(suppressWarnings({
+        library(tidyverse)
+}))
 
-library(tidyverse)
-
-vcf_stats <- read_tsv("../results_analysis/tables/ratios_vcfstats.tsv")  %>% 
-    select(-"...1", -"r_snp_transition_transversion", 
-           -"r_insert_del", 
-           -"r_indel_snp_plus_mnp") %>%
-    pivot_longer(-sample, names_to="het_hom", values_to="num") %>% 
-    filter(het_hom != "r_total_het_hom")   
+suppressMessages(suppressWarnings({
+    vcf_stats <- read_tsv("../results_analysis/tables/ratios_vcfstats.tsv")  %>% 
+        select(-"...1", -"r_snp_transition_transversion", 
+               -"r_insert_del", 
+               -"r_indel_snp_plus_mnp") %>%
+        pivot_longer(-sample, names_to="het_hom", values_to="num") %>% 
+        filter(het_hom != "r_total_het_hom")   
+}))    
 
 print("===> Total values")
 vcf_stats %>% nrow()
@@ -35,7 +38,8 @@ vcf_stats %>%
 
 vcf_stats %>%
     rstatix::dunn_test(num ~ het_hom, p.adj = "bonf")  %>%  
-    write_tsv("../results_analysis/tables/invference_vcf.tsv")
+    write_tsv("../results_analysis/tables/invference_vcf.tsv") %>%
+    print(n=Inf)
 
 
 vcf_stats %>% 

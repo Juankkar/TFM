@@ -54,7 +54,8 @@ do
 
 done >> ../results_analysis/tables/vcf_basic_stats.tsv 
 
-echo -e "snp_transition_transversion\ttotal_het_hom\tsnp_het_hom\tmnp_het_hom\tInsert_het_hom\tdel_het_hom\tIndel_het_hom\tinsert_del\tindel_snp_plus_mnp\tsample" > ../results_analysis/tables/additional_vcf_stats.tsv 
+echo -e "snp_transition_transversion\ttotal_het_hom\tsnp_het_hom\tmnp_het_hom\tInsert_het_hom\tdel_het_hom\tIndel_het_hom\tinsert_del\tindel_snp_plus_mnp\tsample" \
+  > ../results_analysis/tables/additional_vcf_stats.tsv 
 
 for sample in ERR696683 ERR7533{68..78} 
 do

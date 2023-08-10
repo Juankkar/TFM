@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-echo -e "num_seqs_afterQC\tmapped_reads\tproperly_mapped\tsingletons\tsample" > ../results_analysis/tables/flagstats.tsv
+echo -e "num_seqs_afterQC\tmapped_reads\tproperly_mapped\tsingletons\tsample" \
+  > ../results_analysis/tables/flagstats.tsv
 
 for sample in ERR696683 ERR7533{68..78}
 do
@@ -31,4 +32,4 @@ do
 
    echo -e "$num_seqs\t$mapped_reads\t$properly_paired\t$singletons\t$sample"
 
-done  >> ../results_analysis/tables/flagstats.tsv
+done >> ../results_analysis/tables/flagstats.tsv
