@@ -277,7 +277,7 @@ rule extracting_variants:
 ## 11 Variant Effect Prediction DB (version of GRCh38 109)
 rule vep_install_db:
     output:
-        touch("tasks/12vep_dependencies.done")
+        touch("tasks/11vep_dependencies.done")
     params:
         species = config["vep_species"],
         assembly = config["vep_assembly"]
