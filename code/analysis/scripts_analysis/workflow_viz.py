@@ -2,7 +2,7 @@
 
 import pygraphviz as pgv
 
-# Definir las reglas del grafo
+## Defining the rules for the graph
 graph_content = """
 digraph snakemake_rules {{
     rankdir=LR;
@@ -24,7 +24,7 @@ digraph snakemake_rules {{
     "rule vep_install_db" [fillcolor=orange];
     "rule vep_cli" [fillcolor=green];
     "rule parsing_dataR" [fillcolor=green];
-    "rule R_plotting" [fillcolor=orange];
+    "rule R_plotting" [fillcolor=red];
     
     // Edge connections
     
@@ -33,11 +33,8 @@ digraph snakemake_rules {{
 }}
 """
 
-# Crear un objeto de gráfico
 graph = pgv.AGraph(string=graph_content)
 
-# Establecer las opciones de diseño
 graph.layout(prog='dot')
 
-# Guardar el gráfico como una imagen
-graph.draw('../results/snakemake_rules_linear.png')
+graph.draw('../results_analysis/plots/snakemake_rules_linear.png')
