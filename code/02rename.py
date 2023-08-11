@@ -12,17 +12,18 @@ import os
 
 ## We will use some of the fields of report.tsv in metadata
 report = pd.read_csv("metadata/report.tsv", sep="\t")
+path_origbam = "data/original_bam/" 
 
 submitted_ftp_list = list(report.submitted_ftp)
 old_filename_list = []
 for name in range(len(submitted_ftp_list)):
-    names = "data/original_bam/" + submitted_ftp_list[name].split("/")[-1]
+    names = path_origbam + submitted_ftp_list[name].split("/")[-1]
     old_filename_list.append(names)
 
 run_accession_list = list(report.run_accession)
 new_filename_list = []
 for name in range(len(run_accession_list)):
-    names = "data/original_bam/" + run_accession_list[name] + ".bam"
+    names = path_origbam + run_accession_list[name] + ".bam"
     new_filename_list.append(names)
 
 #################

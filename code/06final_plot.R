@@ -15,45 +15,68 @@ suppressMessages(suppressWarnings({
 }))
 
 ## joining tables and processing
-df_genes <- rbind(apc,braf,kras,pik3ca,tp53) %>% 
-    separate_wider_delim(sample, delim="_", names=c("sample","chr")) %>% 
+df_genes <- rbind(apc,
+                  braf,
+                  kras,
+                  pik3ca,
+                  tp53) %>% 
+    separate_wider_delim(sample, 
+                         delim="_", 
+                         names=c("sample","chr")) %>% 
     select(-"chr")
 
 suppressMessages(suppressWarnings({
 df_nvariants <- df_genes %>%
-    select("sample","symbol","variant_class") %>%
-    group_by(sample,symbol,variant_class) %>%
+    select("sample",
+            "symbol",
+            "variant_class") %>%
+    group_by(sample, symbol, variant_class) %>%
         summarise(n=n())
 
 df_clinvar <- df_genes %>%
-    select("clinvar_clnsig", "clinvar_clndn", "sample") %>%
+    select("clinvar_clnsig",
+           "clinvar_clndn", 
+           "sample") %>%
     separate_longer_delim(clinvar_clndn, delim="|") %>%
     separate_longer_delim(clinvar_clnsig, delim="/") %>%
     group_by(clinvar_clnsig, clinvar_clndn,sample) %>%
         summarise(n=n()) %>%
-    mutate(clinvar_clnsig = str_replace_all(clinvar_clnsig, pattern="_", replacement=" "),
-           clinvar_clndn = str_replace_all(clinvar_clndn, pattern="_", replacement=" ")) %>%
-    filter(clinvar_clnsig != "-" & 
-           clinvar_clndn %in% c("APC-Associated Polyposis Disorders", "Carcinoma of colon",
-                                "Colorectal cancer", "Familial multiple polyposis syndrome",
-                                "Familial colorectal cancer"))
+    mutate(clinvar_clnsig = str_replace_all(clinvar_clnsig, 
+                                            pattern="_", 
+                                            replacement=" "),
+           clinvar_clndn = str_replace_all(clinvar_clndn, 
+                                           pattern="_", 
+                                           replacement=" ")) %>%
+    filter(clinvar_clnsig != "-" & clinvar_clndn %in% c("APC-Associated Polyposis Disorders", 
+                                                        "Carcinoma of colon",
+                                                        "Colorectal cancer", 
+                                                        "Familial multiple polyposis syndrome",
+                                                        "Familial colorectal cancer"))
 }))
 
 ## Varaintes totales
-df_genes_processed <- expand.grid(sample=as.character(unique(as.character(df_nvariants$sample))),
-                                  symbol=as.character(unique(as.character(df_nvariants$symbol))),
-                                  variant_class=as.character(unique(as.character(df_nvariants$variant_class)))) %>% 
+df_genes_processed <- expand.grid(
+    sample=as.character(unique(as.character(df_nvariants$sample))),
+    symbol=as.character(unique(as.character(df_nvariants$symbol))),
+    variant_class=as.character(unique(as.character(df_nvariants$variant_class)))
+    ) %>% 
 left_join(
-    df_nvariants, by=c("sample","symbol","variant_class")
+    df_nvariants, by=c("sample",
+                       "symbol",
+                       "variant_class")
     ) %>% 
     mutate(n=ifelse(is.na(n),0,n))
     
     ## Variantes de ClinVar
-df_clinvar <- expand.grid(clinvar_clnsig=as.character(unique(as.character(df_clinvar$clinvar_clnsig))),
-                          clinvar_clndn=as.character(unique(as.character(df_clinvar$clinvar_clndn))),
-                          sample=as.character(unique(as.character(df_clinvar$sample)))) %>% 
+df_clinvar <- expand.grid(
+    clinvar_clnsig=as.character(unique(as.character(df_clinvar$clinvar_clnsig))),
+    clinvar_clndn=as.character(unique(as.character(df_clinvar$clinvar_clndn))),
+    sample=as.character(unique(as.character(df_clinvar$sample)))
+    ) %>% 
     left_join(
-        df_clinvar, by=c("clinvar_clnsig", "clinvar_clndn", "sample")
+        df_clinvar, by=c("clinvar_clnsig", 
+                         "clinvar_clndn", 
+                         "sample")
         ) %>% 
     mutate(n=ifelse(is.na(n),0,n))
 
@@ -67,23 +90,32 @@ final_plot <- df_genes_processed %>%
         sample=factor(sample,
                       levels=sort(unique(df_genes$sample))),
         symbol=factor(symbol,
-                      levels=c("PIK3CA","APC","BRAF","KRAS","TP53")),
+                      levels=c("PIK3CA",
+                               "APC",
+                               "BRAF",
+                               "KRAS",
+                               "TP53")),
         variant_class=factor(variant_class,
                              levels=c("indel","SNV"),
                              labels=c("Copy number variation (CNV)",
                                       "Single nucleotide variant (SNV)"))
     ) %>%
     ggplot(aes(sample, n, fill=symbol)) +
-    geom_bar(stat="identity", color="black", 
+    geom_bar(stat="identity", 
+             color="black", 
              position=position_dodge()) +
-    scale_fill_manual(values=c("white","lightgray",
-                               "#99DBF5","#FFEEBB",
+    scale_fill_manual(values=c("white",
+                               "lightgray",
+                               "#99DBF5",
+                               "#FFEEBB",
                                "#EA906C")) +
     scale_y_continuous(expand=expansion(0),
                        limits=c(0,260),
                        breaks=seq(0,250,50)) +
-    facet_wrap(~variant_class, ncol=1, 
-               strip.position="left", scales="free_y") +
+    facet_wrap(~variant_class, 
+               ncol=1, 
+               strip.position="left", 
+               scales="free_y") +
     labs(
         title = "Distribution of the variants per genes and samples",
         x = "Samples",
@@ -114,19 +146,28 @@ for(rute in c("results/biostatistics/plots/", "results/objective/")){
 
 o <- df_clinvar %>% 
     mutate(clinvar_clndn = factor(clinvar_clndn,
-                                  levels = c("APC-Associated Polyposis Disorders", "Carcinoma of colon",
-                                             "Colorectal cancer", "Familial multiple polyposis syndrome",
+                                  levels = c("APC-Associated Polyposis Disorders", 
+                                             "Carcinoma of colon",
+                                             "Colorectal cancer", 
+                                             "Familial multiple polyposis syndrome",
                                              "Familial colorectal cancer"),
-                                  labels = c("Associated\nPolyposis\nDisorders (APC)", "Carcinoma\ncolon",
-                                             "Colorectal\ncancer", "Familial\nmultiple\npolyposis\nsyndrome",
+                                  labels = c("Associated\nPolyposis\nDisorders (APC)", 
+                                             "Carcinoma\ncolon",
+                                             "Colorectal\ncancer", 
+                                             "Familial\nmultiple\npolyposis\nsyndrome",
                                              "Familial\ncolorectal\ncancer"))) %>%
     ggplot(aes(clinvar_clndn, n, fill = clinvar_clnsig)) +
-    geom_bar(stat="identity", position="dodge", width=.5, color="black") + 
+    geom_bar(stat="identity", 
+             position="dodge", 
+             width=.5, 
+             color="black") + 
     facet_wrap(~sample, ncol=2) +
     scale_y_continuous(expand=expansion(0),
                        limits=c(0,65),
                        breaks=seq(0,60,15)) +
-    scale_fill_manual(values=c("#99DBF5","#FFEEBB","lightgray")) +
+    scale_fill_manual(values=c("#99DBF5",
+                               "#FFEEBB",
+                               "lightgray")) +
     labs(
         title="Variants identified by ClinVar Data Base",
         x = "Dissease",

@@ -9,15 +9,28 @@ ratios_vcf <- read_tsv("../results_analysis/tables/ratios_vcfstats.tsv")
 
 basic_stats <- vcf_stats %>%
     select(-"pass_fail_filter") %>%
-    pivot_longer(-sample, names_to="names", values_to="values")  %>% 
+    pivot_longer(-sample, 
+                 names_to="names", 
+                 values_to="values")  %>% 
     mutate(names = factor(names,
-                          levels=c("snps","mnps","insertions","deletions",
-                                   "indels","same_reference"),
-                          labels=c("SNPs","MNPs","Insertions","Deletions",
-                                   "Indels","Same as\nreference")),
+                          levels=c("snps",
+                                   "mnps",
+                                   "insertions",
+                                   "deletions",
+                                   "indels",
+                                   "same_reference"),
+                          labels=c("SNPs",
+                                   "MNPs",
+                                   "Insertions",
+                                   "Deletions",
+                                   "Indels",
+                                   "Same as\nreference")),
             values=values/10^3) %>% 
     ggplot(aes(sample, values, fill = names)) +
-    geom_bar(stat="identity", position="dodge", color="black", size=.25) +
+    geom_bar(stat="identity", 
+             position="dodge", 
+             color="black", 
+             size=.25) +
     scale_y_continuous(expand=expansion(0),
                       limits=c(0,32),
                       breaks=seq(0,30,5)) +
@@ -50,20 +63,33 @@ ggsave("../results_analysis/plots/vcf_basic_stats.png",
 
 
 ratios1 <- ratios_vcf  %>% 
-    select(-"...1", "r_snp_transition_transversion", "r_insert_del", "r_indel_snp_plus_mnp")  
+    select(-"...1", 
+           "r_snp_transition_transversion", 
+           "r_insert_del", 
+           "r_indel_snp_plus_mnp")  
 
 plot_ratios1 <- ratios1 %>%
     pivot_longer(-sample) %>% 
-    filter(name %in% c("r_snp_transition_transversion", "r_insert_del", "r_indel_snp_plus_mnp")) %>% 
+    filter(name %in% c("r_snp_transition_transversion", 
+                       "r_insert_del", 
+                       "r_indel_snp_plus_mnp")) %>% 
     mutate(name=factor(name,
-                       levels=c("r_snp_transition_transversion", "r_insert_del", "r_indel_snp_plus_mnp"),
-                       labels=c("SNP Transition/Transversion", "Insertion/Deletion", "Indel/SNP+MNP")))  %>% 
+                       levels=c("r_snp_transition_transversion", 
+                                "r_insert_del", 
+                                "r_indel_snp_plus_mnp"),
+                       labels=c("SNP Transition/Transversion", 
+                                "Insertion/Deletion", 
+                                "Indel/SNP+MNP")))  %>% 
     ggplot(aes(sample, value, fill=name)) +
-    geom_bar(stat="identity", position="dodge", color="black") +
+    geom_bar(stat="identity", 
+             position="dodge", 
+             color="black") +
     scale_y_continuous(expand=expansion(0),
                       limits=c(0,3),
                       breaks=seq(0,3,.5)) +
-    scale_fill_manual(values=c("white", "lightgray", "#99DBF5")) +
+    scale_fill_manual(values=c("white", 
+                               "lightgray", 
+                               "#99DBF5")) +
     labs(
         title = "Ratios from the VCF",
         x = "Samples",
@@ -90,13 +116,19 @@ ggsave("../results_analysis/plots/ratios_vcf.png",
 
 
 ratios2 <- ratios_vcf  %>% 
-    select(-"...1", -"r_snp_transition_transversion", -"r_insert_del", -"r_indel_snp_plus_mnp")
+    select(-"...1", 
+           -"r_snp_transition_transversion", 
+           -"r_insert_del", 
+           -"r_indel_snp_plus_mnp")
 
 plot_ratios2_total <- ratios2 %>%
     pivot_longer(-sample) %>% 
     filter(name == "r_total_het_hom") %>%
     ggplot(aes(sample, value)) +
-    geom_bar(stat="identity", color="black", fill="black", width=.5) +
+    geom_bar(stat="identity", 
+             color="black", 
+             fill="black", 
+             width=.5) +
     scale_y_continuous(expand=expansion(0),
                       limits=c(0,2),
                       breaks=seq(0,2,.5)) +
@@ -129,17 +161,28 @@ plot_ratios2 <- ratios2 %>%
     pivot_longer(-sample) %>% 
     filter(name != "r_total_het_hom") %>%
     mutate(name=factor(name,
-                       levels=c("r_snp_het_hom", "r_mnp_het_hom", "r_Insert_het_hom",
-                                "r_del_het_hom", "r_Indel_het_hom"),
-                       labels=c("SNP", "MNP", "Insert", "Deletion", "Indel"))) %>%
+                       levels=c("r_snp_het_hom", 
+                                "r_mnp_het_hom", 
+                                "r_Insert_het_hom",
+                                "r_del_het_hom", 
+                                "r_Indel_het_hom"),
+                       labels=c("SNP", 
+                                "MNP", 
+                                "Insert", 
+                                "Deletion", 
+                                "Indel"))) %>%
     ggplot(aes(sample, value, fill=name)) +
-    geom_bar(stat="identity", position="dodge", color="black") +
+    geom_bar(stat="identity", 
+             position="dodge", 
+             color="black") +
     scale_y_continuous(expand=expansion(0),
                       limits=c(0,4),
                       breaks=seq(0,4,.5)) +
     scale_fill_manual(values=c("white",
-                               "lightgray","#99DBF5",
-                               "#FFEEBB","#EA906C")) +
+                               "lightgray",
+                               "#99DBF5",
+                               "#FFEEBB",
+                               "#EA906C")) +
     labs(
         title = "Ratios from the VCF, Heterocygotes/Homocygotes",
         x = "Samples",
@@ -163,4 +206,4 @@ plot_ratios2 <- ratios2 %>%
 ggsave("../results_analysis/plots/ratios_het_hom_vcf.png",
        plot=plot_ratios2,
        width=7,
-       height=5) 
+       height=6) 

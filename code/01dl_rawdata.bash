@@ -3,13 +3,16 @@
 ## ftp from the files bams -> add the path of the report.tsv of the project 
 ## when execute the script
 
+path_origbam=data/original_bam/ 
+path_report=metadata/report.tsv 
+
 #################
 ## DIRECTORIES ##
 #################
 
-if [[ ! -d data/original_bam/ ]]
+if [[ ! -d $path_origbam ]]
 then
-    mkdir data/original_bam/
+    mkdir $path_origbam
 fi
 
 #################
@@ -17,7 +20,7 @@ fi
 #################
 
 ## Extracting to a variable the bam files from report.tsv
-bam_files=$(cat metadata/report.tsv \
+bam_files=$(cat $path_report \
     | cut -f 8 \
     | grep -v "submitted_ftp")
 
@@ -32,15 +35,16 @@ bam_array=$(echo $bam_files)
 ## "original_bam" directory
 for bam in ${bam_array[*]}
 do
-    if [ ! -f data/original_bam/$(echo $bam \
+    if [ ! -f ${path_origbam}$(echo $bam \
         | cut -d "/" -f6) ]
     then
-        wget -P data/original_bam/ $bam
-    elif [ -f data/original_bam/$(echo $bam \
+        wget -P ${path_origbam}/ $bam
+    elif [ -f ${path_origbam}$(echo $bam \
         | cut -d "/" -f6) ]
     then
-        echo "===>>> THE FILE data/original_bam/$(echo $bam \
-        | cut -d "/" -f6) ALREADY EXIST!!! <<<==="
+        echo "===>>> THE FILE \
+              ${path_origbam}$(echo $bam | cut -d "/" -f6) \
+              ALREADY EXIST!!! <<<==="
     else
         echo "==>>> ERROR <<<=="
     fi

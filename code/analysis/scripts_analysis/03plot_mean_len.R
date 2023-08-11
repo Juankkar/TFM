@@ -4,11 +4,17 @@ suppressMessages(suppressWarnings({
         library(tidyverse)
 }))
 
-read_csv("../results_analysis/tables/len_mean.csv") %>%
+path_len_mean <- "../results_analysis/tables/len_mean.csv" 
+
+read_csv(path_len_mean) %>%
     ggplot(aes(sample, mean_len)) +
-    geom_bar(stat="identity", width=.5, color="black", fill="lightgray") +
+    geom_bar(stat="identity", 
+             width=.5, 
+             color="black", 
+             fill="lightgray") +
     geom_errorbar(aes(ymin= mean_len - sd_len,
-                      ymax= mean_len + sd_len), width=.3) +
+                      ymax= mean_len + sd_len), 
+                  width=.3) +
     scale_y_continuous(expand=expansion(0),
                        limits=c(0, 135),
                        breaks=seq(0,130, 20)) +

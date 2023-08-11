@@ -7,27 +7,43 @@ suppressMessages(suppressWarnings({
 flagstats <- read_tsv("../results_analysis/tables/flagstats.tsv") %>%
     mutate(num_seqs_afterQC = num_seqs_afterQC/10^6) 
 
-max_num_reads <- max(flagstats$num_seqs_afterQC )
+max_num_reads <- max(flagstats$num_seqs_afterQC)
 
 flagstats %>%
-    select(num_seqs_afterQC, mapped_reads_per, properly_paired_per, singletons_per, sample) %>% 
-    pivot_longer(-sample, names_to="names", values_to="values") %>% 
+    select(num_seqs_afterQC, mapped_reads_per, 
+           properly_paired_per, singletons_per, sample) %>% 
+    pivot_longer(-sample, 
+                 names_to="names", 
+                 values_to="values") %>% 
     mutate(facet = case_when(names == "num_seqs_afterQC" ~ "Seqs after QC (M)",
                              names != "num_seqs_afterQC" ~ "Percentage"),
            names = factor(names,
-                          levels=c("num_seqs_afterQC", "mapped_reads_per",
-                                   "properly_paired_per", "singletons_per")),
+                          levels=c("num_seqs_afterQC", 
+                                   "mapped_reads_per",
+                                   "properly_paired_per", 
+                                   "singletons_per")),
            facet = factor(facet,
-                          levels=c("Seqs after QC (M)", "Percentage"))) %>% 
+                          levels=c("Seqs after QC (M)", 
+                                   "Percentage"))) %>% 
     ggplot(aes(sample, values, fill = names)) +
-    geom_bar(stat="identity", color = "black",
-             width = .5, position="dodge") +
-    facet_wrap(~facet, scale="free", ncol=1, 
+    geom_bar(stat="identity", 
+             color = "black",
+             width = .5, 
+             position="dodge") +
+    facet_wrap(~facet, 
+               scale="free", 
+               ncol=1, 
                strip.position="left") +
     scale_y_continuous(expand=expansion(.05)) +
-    scale_fill_manual(values=c("lightgray","white", "#99DBF5","#FFEEBB", "#EA906C"),
-                      labels = c("Seqs after QC", "% Mapped reads", 
-                                 "% Properly paired", "% Singletons")) +
+    scale_fill_manual(values=c("lightgray",
+                               "white", 
+                               "#99DBF5",
+                               "#FFEEBB", 
+                               "#EA906C"),
+                      labels = c("Seqs after QC", 
+                                 "% Mapped reads", 
+                                 "% Properly paired", 
+                                 "% Singletons")) +
     labs(
         title = "Statistics from flagstats",
         x = "Samples",

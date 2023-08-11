@@ -1,35 +1,45 @@
 #!/usr/bin/env bash
 
-echo -e "num_seqs_afterQC\tmapped_reads\tproperly_mapped\tsingletons\tsample" \
-  > ../results_analysis/tables/flagstats.tsv
+## Path with the files to use
+path_logs=../../../metadata/logs/flagstats/
+path_results=../results_analysis/tables/flagstats.tsv
+
+function flagstats_filter() {
+
+  ## $1 is the pattern to filter
+  operation=$(cat ${path_logs}${sample}* \
+    | grep -E $1 \
+    | sed 's/ /\t/g' \
+    | cut -f 1\
+    | awk '{sum += $1} END {print sum}')
+
+    echo $operation
+}
+
+echo -e "num_seqs_afterQC\t\
+mapped_reads\t\
+properly_mapped\t\
+singletons\t\
+sample" > $path_results
 
 for sample in ERR696683 ERR7533{68..78}
 do
-  num_seqs=$(head -n 1 ../../../metadata/logs/flagstats/${sample}* \
+  num_seqs=$(head -n 1 ${path_logs}${sample}* \
     | grep -E [[:digit:]] \
     | tr " " "\t" \
     | sed 's/\+//' \
     | cut -f 1 \
     | awk '{sum += $1} END {print sum}')
 
-   mapped_reads=$(cat ../../../metadata/logs/flagstats/${sample}* \
-    | grep "mapped (" \
-    | sed 's/ /\t/g' \
-    | cut -f 1\
-    | awk '{sum += $1} END {print sum}')
+  mapped_reads=$(flagstats_filter "mapped\s\(")
+  properly_paired=$(flagstats_filter "properly")
+  singletons=$(flagstats_filter "singletons")
 
-  properly_paired=$(cat ../../../metadata/logs/flagstats/${sample}* \
-   | grep "properly" \
-   | sed 's/ /\t/g' \
-   | cut -f 1 \
-   | awk '{sum += $1} END {print sum}')
+   echo -e "$num_seqs\t\
+   $mapped_reads\t\
+   $properly_paired\t\
+   $singletons\t\
+   $sample"
 
-  singletons=$(cat ../../../metadata/logs/flagstats/${sample}* \
-   | grep "singletons" \
-   | sed 's/ /\t/g' \
-   | cut -f 1 \
-   | awk '{sum += $1} END {print sum}')
+done >> $path_results
 
-   echo -e "$num_seqs\t$mapped_reads\t$properly_paired\t$singletons\t$sample"
-
-done >> ../results_analysis/tables/flagstats.tsv

@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
+## Path to files
+path_annot=../../../results/annotations/ 
+ 
 for sample in ERR696683 ERR7533{68..78}
 do
-    cat ../../../results/annotations/${sample}* \
-        > ../../../results/annotations/${sample}.txt
+    # Joining DNA sequences from CHRs to their ERR sample
+    cat ${path_annot}${sample}* \
+        > ${path_annot}${sample}.txt
 done  
 
-rm ../../../results/annotations/*fastq.gz.txt
+rm ${path_annot}*fastq.gz.txt
 
 for sample in ERR696683 ERR7533{68..78}
 do
@@ -14,9 +18,9 @@ do
     while read -r line
     do 
         echo ${#line}
-    done < ../../../results/annotations/${sample}.txt \
-        > ../../../results/annotations/${sample}_len.txt 
+    done < ${path_annot}${sample}.txt \
+        > ${path_annot}${sample}_len.txt 
 done
 
-rm ../../../results/annotations/ERR696683.txt \
-    ../../../results/annotations/ERR7533{68..78}.txt
+rm ${path_annot}ERR696683.txt \
+    ${path_annot}ERR7533{68..78}.txt

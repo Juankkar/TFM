@@ -5,10 +5,13 @@ suppressMessages(suppressWarnings({
 
 suppressMessages(suppressWarnings({
     vcf_stats <- read_tsv("../results_analysis/tables/ratios_vcfstats.tsv")  %>% 
-        select(-"...1", -"r_snp_transition_transversion", 
+        select(-"...1", 
+               -"r_snp_transition_transversion", 
                -"r_insert_del", 
                -"r_indel_snp_plus_mnp") %>%
-        pivot_longer(-sample, names_to="het_hom", values_to="num") %>% 
+        pivot_longer(-sample, 
+                     names_to="het_hom", 
+                     values_to="num") %>% 
         filter(het_hom != "r_total_het_hom")   
 }))    
 
@@ -46,13 +49,19 @@ vcf_stats %>%
     mutate(sig=case_when(het_hom == "r_mnp_het_hom" ~ "Sig",
                          het_hom != "r_mnp_het_hom" ~ "no.sig"),
            het_hom = factor(het_hom,
-                            levels = c("r_Indel_het_hom","r_del_het_hom",
-                                       "r_Insert_het_hom", "r_mnp_het_hom",
+                            levels = c("r_Indel_het_hom",
+                                       "r_del_het_hom",
+                                       "r_Insert_het_hom", 
+                                       "r_mnp_het_hom",
                                        "r_snp_het_hom"),
-                            labels = c("Indel", "Deletion", "Insertion",
-                                       "MNP","SNP"))) %>%
+                            labels = c("Indel", 
+                                       "Deletion", 
+                                       "Insertion",
+                                       "MNP",
+                                       "SNP"))) %>%
     ggplot(aes(num, het_hom, fill=sig)) +
-    geom_boxplot(show.legend=FALSE, width=.65) +
+    geom_boxplot(show.legend=FALSE, 
+                 width=.65) +
     scale_x_continuous(expand = expansion(0),
                       limits = c(0,4)) +
     scale_fill_manual(values = c("#73d206", "#d00808")) +
