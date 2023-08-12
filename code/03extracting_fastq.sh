@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+## Path files
 path_origbam=data/original_bam/ 
 path_ob_filt=data/original_bam/filtering/ 
 
