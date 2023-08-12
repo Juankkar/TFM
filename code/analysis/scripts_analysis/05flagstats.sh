@@ -4,9 +4,15 @@
 path_logs=../../../metadata/logs/flagstats/
 path_results=../results_analysis/tables/flagstats.tsv
 
+#######################################
+# Filter values from flagstat files
+# Arguments:
+#   Pattern to filter  
+# Return
+#   Numerical value of the stats    
+#######################################
 function flagstats_filter() {
 
-  ## $1 is the pattern to filter
   operation=$(cat ${path_logs}${sample}* \
     | grep -E $1 \
     | sed 's/ /\t/g' \

@@ -5,6 +5,13 @@ path_logs=../../../metadata/logs/vcfstats/
 path_basic_stats=../results_analysis/tables/vcf_basic_stats.tsv
 path_add_stats=../results_analysis/tables/additional_vcf_stats.tsv
 
+########################################
+# Filter basic stats from vcfstats files
+# Arguments:
+#   Pattern to filter  
+# Return
+#   Numerical value of the stats     
+########################################
 function vcf_basicstats_filter(){
 
   operation=$(sed -E 's/\s:\s/\t/g' ${path_logs}${sample}* \
@@ -16,6 +23,13 @@ function vcf_basicstats_filter(){
       echo $operation
 }
 
+########################################
+# Filter basic stats from vcfstats files
+# Arguments:
+#   Pattern to filter  
+# Return
+#   Numerical value of the stats     
+########################################
 function vcf_stats_filter() {
 
   operation=$(sed -E 's/\s:\s/\t/g' ${path_logs}${sample}* \
