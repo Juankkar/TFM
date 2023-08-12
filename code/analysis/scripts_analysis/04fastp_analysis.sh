@@ -7,10 +7,10 @@ path_result=../results_analysis/tables/fastp_analysis.tsv
 
 ## Headers of the TSV file
 echo -e "nseqs_before_fastp_1\t\
-         nseqs_after_fastp_1\t\
-         nseqs_before_fastp_2\t\
-         nseqs_after_fastp_2\t\
-         sample" > $path_result
+nseqs_after_fastp_1\t\
+nseqs_before_fastp_2\t\
+nseqs_after_fastp_2\t\
+sample" > $path_result
 
 for sample in ERR696683 ERR7533{68..78}
 do
@@ -22,9 +22,9 @@ do
 
     # Values of the TSV files 
     echo -e "$before_fastp_1\t\
-             $after_fastp_1\t\
-             $before_fastp_2\t\
-             $after_fastp_2\t\
-             $sample"
+    $after_fastp_1\t\
+    $before_fastp_2\t\
+    $after_fastp_2\t\
+    $sample"
 
 done >> $path_result
