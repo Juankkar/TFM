@@ -44,7 +44,7 @@ do            # path + (echo = original BAM name from report)
     then
         echo -n "==> THE FILE " 
         echo -n "${path_origbam}$(echo $bam | cut -d "/" -f6) "
-        echo "ALREADY EXIST!!! <=="
+        echo -e "ALREADY EXIST!!! <==\n"
 
     else
         echo "==>>> ERROR <<<=="
