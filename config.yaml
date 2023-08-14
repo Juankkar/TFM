@@ -3,32 +3,32 @@
 #########################
 
 samples:
-  ERR696683_chr3: data/original_bam/filtering/ERR696683_chr3_sorted.bam 
-  ERR753368_chr3: data/original_bam/filtering/ERR753368_chr3_sorted.bam 
-  ERR753369_chr3: data/original_bam/filtering/ERR753369_chr3_sorted.bam
-  ERR753370_chr3: data/original_bam/filtering/ERR753370_chr3_sorted.bam
-  ERR753371_chr3: data/original_bam/filtering/ERR753371_chr3_sorted.bam
-  ERR753372_chr3: data/original_bam/filtering/ERR753372_chr3_sorted.bam
-  ERR753373_chr3: data/original_bam/filtering/ERR753373_chr3_sorted.bam
-  ERR753374_chr3: data/original_bam/filtering/ERR753374_chr3_sorted.bam
-  ERR753375_chr3: data/original_bam/filtering/ERR753375_chr3_sorted.bam
-  ERR753376_chr3: data/original_bam/filtering/ERR753376_chr3_sorted.bam
-  ERR753377_chr3: data/original_bam/filtering/ERR753377_chr3_sorted.bam
-  ERR753378_chr3: data/original_bam/filtering/ERR753378_chr3_sorted.bam
+  ERR696683_chr17
+  ERR753368_chr17
+  ERR753369_chr17
+  ERR753370_chr17 
+  ERR753371_chr17
+  ERR753372_chr17
+  ERR753373_chr17
+  ERR753374_chr17
+  ERR753375_chr17
+  ERR753376_chr17
+  ERR753377_chr17
+  ERR753378_chr17
 
 ########################
 ##  SNAKEFILE PARAMS  ##
 ########################
 
 ## Choose your chromosome
-chromosome: chr3 
+chromosome: chr17 
 # Chromosome 3, 5, 7, 12, 17 ENSEMBL:
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz 
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.5.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.7.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.12.fa.gz
 # https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
-url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.3.fa.gz
+url_reference_genome: https://ftp.ensembl.org/pub/release-109/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.17.fa.gz
 
 ## Fixing the fastq files, FASTP parameters:
 fastp_cuttail: 30

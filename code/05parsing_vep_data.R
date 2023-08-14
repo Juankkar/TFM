@@ -12,22 +12,14 @@ suppressPackageStartupMessages(library(glue))
 ##  SAMPLES AND GENE  ##
 ########################
 
-sample_list <- scan(
-  file="your_sample_list.txt",
-  what = character(),
-  quiet = TRUE,
-  sep = "\n"
-)
+params <- commandArgs(trailingOnly = TRUE)
 
-print("this is your sample list: ")
-sample_list
+sample_list <- params[2:length(params)]
+print(glue(">>> This is your sample list: {sample_list}"))
 
-param <- commandArgs(trailingOnly = TRUE)
 
-gene_filter <- param[1]
-
-print("This is your gene: ")
-gene_filter
+gene_filter <- params[1]
+print(glue(">>> This is your gene: {gene_filter}"))
 
 ####################
 ## EXECUTION LOOP ##
@@ -65,6 +57,7 @@ colnames(variants_selec) <- tolower(colnames(variants_selec))
 
 write_tsv(x = variants_selec,
           file = glue("results/biostatistics/tables/{sample}.tsv"))
+
 variants_selec %>% print(n=6)
 
 }

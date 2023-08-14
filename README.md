@@ -166,8 +166,6 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 
 ---
 
-* [your_sample_list.txt](your_sample_list.txt): **Although it may not seem like much at first glance, it is a ***VERY*** important and ***essential***** file. It allows for the **automation** of the scripts.
-
 ## **REFERENCES**
 
 1. Mölder F, Jablonski KP, Letcher B, Hall MB, Tomkins-Tinch CH, Sochat V, Forster J, Lee S, Twardziok SO, Kanitz A, Wilm A, Holtgrewe M, Rahmann S, Nahnsen S, Köster J. Sustainable data analysis with Snakemake. F1000Res. 2021 Jan 18;10:33. doi: 10.12688/f1000research.29032.2. PMID: 34035898; PMCID: PMC8114187.

@@ -339,6 +339,7 @@ rule parsing_dataR:
     output:
         touch("tasks/13parsing_dataR.done")
     params:
+        sample_list=config["samples"],
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
         dir3 = "results/biostatistics/plots",
@@ -357,7 +358,7 @@ rule parsing_dataR:
             fi
         done
 
-        Rscript {input.script} {params.gene_filter}
+        Rscript {input.script} {params.gene_filter} {params.sample_list} 
 
         ## Joining parsed tables for each sample
         cat results/biostatistics/tables/*{params.chr_choosed}* \
