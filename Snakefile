@@ -287,7 +287,8 @@ rule vep_install_db:
         """
         vep_install -a cf \
             -s {params.species} \
-            --ASSEMBLY {params.assembly}
+            --ASSEMBLY {params.assembly} \
+            --NO_UPDATE
         """
 
 
