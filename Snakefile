@@ -94,10 +94,6 @@ rule reference_genome:
 ##     REAL STARTING POINT WORKFLOW        ##
 ##-----------------------------------------##
 
-## Now you can chemetadata/logs/flagstats/${sample}.flagstatsck if everything is ready to go using the command:
-## snakemake -n 
-## If this doesn't work, something bad happened
-
 ## 4 View the quality of the samples
 rule fastqc:
     input: 
