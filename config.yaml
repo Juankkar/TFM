@@ -3,10 +3,28 @@
 #########################
 
 samples:
+  ERR696683_chr3: data/original_bam/filtering/ERR696683_chr3.bam 
+  ERR753368_chr3: data/original_bam/filtering/ERR753368_chr3.bam 
+  ERR753369_chr3: data/original_bam/filtering/ERR753369_chr3.bam 
+  ERR753370_chr3: data/original_bam/filtering/ERR753370_chr3.bam 
+  ERR753371_chr3: data/original_bam/filtering/ERR753371_chr3.bam 
+  ERR753372_chr3: data/original_bam/filtering/ERR753372_chr3.bam  
+  ERR753373_chr3: data/original_bam/filtering/ERR753373_chr3.bam  
+  ERR753374_chr3: data/original_bam/filtering/ERR753374_chr3.bam 
+  ERR753375_chr3: data/original_bam/filtering/ERR753375_chr3.bam 
+  ERR753376_chr3: data/original_bam/filtering/ERR753376_chr3.bam 
+  ERR753377_chr3: data/original_bam/filtering/ERR753377_chr3.bam 
+  ERR753378_chr3: data/original_bam/filtering/ERR753378_chr3.bam  
+
+########################
+##  SNAKEFILE PARAMS  ##
+########################
+
+samples_names:
   ERR696683_chr3
   ERR753368_chr3
   ERR753369_chr3
-  ERR753370_chr3 
+  ERR753370_chr3
   ERR753371_chr3
   ERR753372_chr3
   ERR753373_chr3
@@ -16,9 +34,6 @@ samples:
   ERR753377_chr3
   ERR753378_chr3
 
-########################
-##  SNAKEFILE PARAMS  ##
-########################
 
 ## Choose your chromosome
 chromosome: chr3 
@@ -47,4 +62,4 @@ vep_assembly: GRCh38
 
 ## Gene That you want to filter in the VCF using R
 ## PIK3CA (chromosome 3); APC (chromosome 5); BRAF (chromosome 7); KRAS (chromosome 12) ;TP53 (chromosome 17)
-gene_to_filterR: PIK3CA 
+gene_to_filterR: PIK3CA  

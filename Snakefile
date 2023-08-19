@@ -336,7 +336,7 @@ rule parsing_dataR:
     output:
         touch("tasks/13parsing_dataR.done")
     params:
-        sample_list=config["samples"],
+        sample_list=config["samples_names"],
         dir1 = "results/biostatistics/",
         dir2 = "results/biostatistics/tables",
         dir3 = "results/biostatistics/plots",
