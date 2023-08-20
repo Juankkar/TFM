@@ -15,4 +15,39 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Chromosome 3 workflow
+        run: |
+          cat config.yaml
+      - name: chromosome 5 workflow
+        run: |
+          sed -i '6,+12s/chr3/chr5/g config.yaml
+          sed -i '24,+12s/chr3/chr5/g' config.yaml
+          sed -i '39s/chr3/chr5/g' config.yaml
+          sed -i '46s/chromosome.3.fa.gz/chromosome.5.fa.gz/g' config.yaml
+          sed -i '65s/PIK3CA/APC/g config.yaml
+          cat config.yaml
+      - name: chromosome 7 workflow
+        run: |
+          sed -i '6,+12s/chr5/chr7/g config.yaml
+          sed -i '24,+12s/chr5/chr7/g' config.yaml
+          sed -i '39s/chr5/chr7/g' config.yaml
+          sed -i '46s/chromosome.5.fa.gz/chromosome.7.fa.gz/g' config.yaml
+          sed -i '65s/APC/BRAF/g config.yaml
+          cat config.yaml
+      - name: chromosome 12 workflow
+        run: |
+          sed -i '6,+12s/chr7/chr12/g config.yaml
+          sed -i '24,+12s/chr7/chr12/g' config.yaml
+          sed -i '39s/chr7/chr12/g' config.yaml
+          sed -i '46s/chromosome.7.fa.gz/chromosome.12.fa.gz/g' config.yaml
+          sed -i '65s/BRAF/KRAS/g config.yaml
+          cat config.yaml
+      - name: chromosome 5 workflow
+        run: |
+          sed -i '6,+12s/chr12/chr17/g config.yaml
+          sed -i '24,+12s/chr12/chr17/g' config.yaml
+          sed -i '39s/chr12/chr17/g' config.yaml
+          sed -i '46s/chromosome.12.fa.gz/chromosome.17.fa.gz/g' config.yaml
+          sed -i '65s/KRAS/TP53/g config.yaml
+          cat config.yaml
       - run: echo "🍏 This job's status is ${{ job.status }}."
