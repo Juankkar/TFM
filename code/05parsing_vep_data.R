@@ -5,8 +5,13 @@
 ##  LIBRARIES  ##
 #################
 
-suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
-suppressPackageStartupMessages(library(glue))
+suppressPackageStartupMessages(suppressWarnings({
+  library(dplyr)
+  library(glue)
+  library(stringr)
+  library(readr)
+}))
+
 
 ########################
 ##  SAMPLES AND GENE  ##

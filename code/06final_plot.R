@@ -132,6 +132,7 @@ final_plot <- df_genes_processed %>%
         axis.ticks.length.x = unit(.2,"cm"),
         legend.position="top",
         legend.title=element_text(size=12, face="bold"),
+        legend.text = element_text(face="bold.italic"),
         strip.background=element_blank(),
         strip.text=element_text(size=10.5, face="bold"),
         strip.placement="outside"
