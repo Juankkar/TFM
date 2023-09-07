@@ -25,16 +25,13 @@ bam_files=$(cat $path_report \
     | cut -f 8 \
     | grep -v "submitted_ftp")
 
-## We transform the bam ftps list into an array
-bam_array=$(echo $bam_files)
-
 #################
 ##  EXECUTION  ##
 #################
 
 ## This loop will dowload the bam files from the project to the
 ## "original_bam" directory
-for bam in ${bam_array[*]}      
+for bam in $bam_files      
 do            # path + (echo = original BAM name from report) 
     if [ ! -f ${path_origbam}$(echo $bam | cut -d "/" -f6) ]
     then
