@@ -31,6 +31,6 @@ read_csv(path_len_mean) %>%
         axis.text.x= element_text(angle=35, vjust=1, hjust=1)
     )
 
-ggsave("../../../results/objective/mean_len.png",
+ggsave("../results_analysis/plots/mean_len.png",
        width=6,
        height=5)
