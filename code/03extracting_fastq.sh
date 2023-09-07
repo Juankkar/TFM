@@ -27,7 +27,7 @@ original_bam_list=$(ls ${path_origbam}*.bam -1 | \
 #################
 
 
-for bam in ${original_bam_list[*]}
+for bam in $original_bam_list
 do
 
     ## Indexing the BAM files
