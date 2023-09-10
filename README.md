@@ -89,7 +89,6 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 * Analysis *post-snakemake workflow* named **[analysis](code/analysis/)**: this is a directory with notebooks, other deloped programms, and the results of them for data analysis of the files obtained from the snakemake workflow. Sub-directories:
   * Jupyter Notebooks ([notebooks](code/analysis/notebooks/)) 
     * [annotations.ipynb](code/analysis/notebooks/annotations.ipynb): has the analysis of the data. 
-    * There is another not for data analysis with some isntructions to execute the rules of the snakemake workflow: [instructions.ipynb](code/analysis/notebooks/instructions.ipynb).
 
   * [script_analysis](code/analysis/scripts_analysis/): scripts for data analysis *post - snakemake workflow* (they will be executte in [annotation.ipynb](code/analysis/notebooks/annotations.ipynb) directly).
 
@@ -124,6 +123,10 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 1. [report.tsv](metadata/report.tsv): File containing information and download links for the data provided by the public repository. Field 8 is used to download the data in the script [01dl_rawdata.sh](code/01dl_rawdata.bash).
 
 2. [table3.csv](metadata/table3.csv): Table provided by the authors containing additional information about the WES they performed.
+
+### **[Documents](docs)**
+
+  * Isntructions to execute the rules of the snakemake workflow: [instructions.ipynb](docs/instructions.ipynb).
 
 ### **[Results](results)**
 
