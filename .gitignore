@@ -28,7 +28,12 @@ tasks/*
 !tasks/README.txt
 
 code/analysis/notebooks/*pdf
-code/analysis/results_analysis/*
+# code/analysis/results_analysis/*
+code/analysis/results_analysis/plots/*png
+!code/analysis/results_analysis/plots/README.txt
+!code/analysis/results_analysis/plots/snakemake_rules_linear.png
+code/analysis/results_analysis/tables/*.tsv
+!code/analysis/results_analysis/tables/README.txt
 !code/analysis/results_analysis/README.txt
 
 ## Ignore Visual Studio temporary files, build results, and
