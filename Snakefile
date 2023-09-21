@@ -2,7 +2,7 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        expand("data/original_bam/filtering/{sample}_chr7_sorted.bam",
+        expand("data/original_bam/filtering/{sample}_sorted.bam",
                sample=config["samples"]),
         expand("results/fastqc_result/{sample}_1_fastqc.html", 
                sample=config["samples"]),
