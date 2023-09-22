@@ -33,6 +33,7 @@ code/analysis/results_analysis/plots/*png
 !code/analysis/results_analysis/plots/README.txt
 !code/analysis/results_analysis/plots/snakemake_rules_linear.png
 code/analysis/results_analysis/tables/*.tsv
+code/analysis/results_analysis/tables/*.csv
 !code/analysis/results_analysis/tables/README.txt
 !code/analysis/results_analysis/README.txt
 
