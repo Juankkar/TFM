@@ -26,4 +26,4 @@ dependencies:
   - rtg-tools=3.12.1
   - r-rstatix=0.7.0
   - r-ggtext=0.1.2
-
+  - wget=1.20.3
