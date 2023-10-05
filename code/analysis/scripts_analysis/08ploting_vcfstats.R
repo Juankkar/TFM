@@ -133,7 +133,7 @@ plot_ratios2_total <- ratios2 %>%
                       limits=c(0,2),
                       breaks=seq(0,2,.5)) +
     labs(
-        title = "Total ratio from the Heterocygotes/Homocygotes VCF",
+        title = "Total ratio from the Heterozygotes/Homozygotes VCF",
         x = "Samples",
         y = "Ratio"
     ) +
@@ -184,7 +184,7 @@ plot_ratios2 <- ratios2 %>%
                                "#FFEEBB",
                                "#EA906C")) +
     labs(
-        title = "Ratios from the VCF, Heterocygotes/Homocygotes",
+        title = "Ratios from the VCF, Heterozygotes/Homozygotes",
         x = "Samples",
         y = "Ratio",
         fill= NULL

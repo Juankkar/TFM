@@ -28,7 +28,7 @@
 
 1. [TOPIC](#topic)
 2. [OBJECTIVE](#objective)
-3. [DATA OF USED (EBI/ENA)](#data-obtained-from-a-paper-in-a-public-repository-localized-in-eropean-bioinformatics-instituteeuropean-nucleotide-archive-ebiena)
+3. [PROJECT DATA PUBLICLY AVAILABLE (EBI/ENA)](#data-obtained-from-a-paper-in-a-public-repository-localized-in-eropean-bioinformatics-instituteeuropean-nucleotide-archive-ebiena)
 4. [DIRECTORIES](#directories) 
 8. [SNAKEMAKE FILES](#snakemake-files)
 7. [REFERENCES](#references)
