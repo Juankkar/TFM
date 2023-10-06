@@ -55,7 +55,7 @@ rule download_data:
         """
 
 
-## 2 Preprocessing the data (Executing this twice will generate an error)
+## 2 Preprocessing the data 
 rule pre_processing:
     input:
         script = "code/03extracting_fastq.sh"
