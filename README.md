@@ -90,17 +90,17 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
   * Jupyter Notebooks ([notebooks](code/analysis/notebooks/)) 
     * [annotations.ipynb](code/analysis/notebooks/annotations.ipynb): has the analysis of the data. 
 
-  * [script_analysis](code/analysis/scripts_analysis/): scripts for data analysis *post - snakemake workflow* (they will be executte in [annotation.ipynb](code/analysis/notebooks/annotations.ipynb) directly).
+  * [script_analysis](code/analysis/scripts_analysis/): scripts for data analysis *post - snakemake workflow* (they will be executed in [annotation.ipynb](code/analysis/notebooks/annotations.ipynb) directly).
 
     * [01calculating_length.sh](code/analysis/scripts_analysis/01calculating_length.sh): script to calculate the mean length of the sequences.
-    * [02joining_files.sh](code/analysis/scripts_analysis/02joining_files.sh): script is a continuation from the last script result, to joined the results of the samples together.
+    * [02joining_files.sh](code/analysis/scripts_analysis/02joining_files.sh): The script is a continuation from the last script's result, intended to join the results of the samples together.
     * [03plot_mean_len.R](code/analysis/scripts_analysis/03plot_mean_len.R): plotting the data from the mean length of the samples.
     * [04fastp_analysis.sh](code/analysis/scripts_analysis/04fastp_analysis.sh): getting the number of sequences from the samples, before (raw) and after (processed) fastp.
     * [05flagstats.sh](code/analysis/scripts_analysis/05flagstats.sh): processing the flagstats statistics from metadata/logs/.
     * [06plot_flagstats.R](code/analysis/scripts_analysis/06plot_flagstats.R): plotting the results from the previous script.
-    * [07vcfstats.sh](code/analysis/scripts_analysis/07vcfstats.sh): processing the vcfstats files in metadata/logs after the extract of variants into VCF.
+    * [07vcfstats.sh](code/analysis/scripts_analysis/07vcfstats.sh): processing the VFCstats files in metadata/logs after the extracting variants into VCF.
     * [08ploting_vcfstats.R](code/analysis/scripts_analysis/08ploting_vcfstats.R): plotting the previous results.
-    * [09statistical_analysis.R](code/analysis/scripts_analysis/09statistical_analysis.R): statistical analysis with R to do some inference from the vcfstats data (ratios heterocygotes/homocygotes)
+    * [09statistical_analysis.R](code/analysis/scripts_analysis/09statistical_analysis.R): statistical analysis with R to do some inference from the VCFstats data (ratios heterozygotes/homozygotes)
     * [workflow_viz.py](code/analysis/scripts_analysis/workflow_viz.py): a Python script make an image of the rules in the *Snakefile*.
 
   * [results_analysis](code/analysis/results_analysis/): [tables](code/analysis/results_analysis/tables/) and [plots](code/analysis/results_analysis/plots/) *post - snakemake workflow*.

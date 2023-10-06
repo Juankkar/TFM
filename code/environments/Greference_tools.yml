@@ -27,3 +27,4 @@ dependencies:
   - r-rstatix=0.7.0
   - r-ggtext=0.1.2
   - wget=1.20.3
+  - parallel=20220722
