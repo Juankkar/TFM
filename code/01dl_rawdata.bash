@@ -57,3 +57,41 @@ bam_files=$(cat $path_report \
 parallel wget -P ${path_origbam} ::: $bam_files 
 #----------------------------------------------------------#
 
+## Unfortunately there are problems with both methods, some of the BAM
+## files can get corrupted, lets try to solve this problem
+
+## ERROR check
+
+raw_bams=$(cat $path_report \
+        | cut -f 8 \
+        | grep -v "submitted_ftp" \
+        | cut -d "/" -f 6)
+
+while true;do
+
+    corrupted=0
+
+    ## Indexing  the bam files, in case of corruption, the respective files would
+    ## be downloaded again
+    parallel samtools index ::: $(for bam in $raw_bams;do echo ${path_origbam}$bam;done)
+    
+    ## This checks if some of the BAM files are not able to be indexed -> corrupted
+    ## in that case the corrupted will be downloaded again
+    for run in $raw_bams;do
+        if [[ ! -f $(echo ${path_origbam}$(echo ${run}.bai)) ]];then
+            echo "==> The file $run is corrupted, downloading again <=="
+            rm ${path_origbam}${run}
+            wget -P $path_origbam $(echo $(cat $path_report \
+                                            | cut -f 8 \
+                                            | grep "$run"))
+            corrupted=1
+        fi
+    done 
+
+    rm $path_origbam*.bai
+
+    if [[ $corrupted -eq 0 ]];then
+        break
+    fi
+
+done
