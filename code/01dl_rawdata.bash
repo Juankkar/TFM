@@ -75,23 +75,29 @@ while true;do
     ## be downloaded again
     parallel samtools index ::: $(for bam in $raw_bams;do echo ${path_origbam}$bam;done)
     
-    ## This checks if some of the BAM files are not able to be indexed -> corrupted
-    ## in that case the corrupted will be downloaded again
+    corrupted_files=()
+
+    ## This checks if some of the BAM files are not able to be indexed
     for run in $raw_bams;do
         if [[ ! -f $(echo ${path_origbam}$(echo ${run}.bai)) ]];then
-            echo "==> The file $run is corrupted, downloading again <=="
+            corrupted_files+=("$(cat $path_report | cut -f 8 | grep $run)")
             rm ${path_origbam}${run}
-            wget -P $path_origbam $(echo $(cat $path_report \
-                                            | cut -f 8 \
-                                            | grep "$run"))
-            corrupted=1
         fi
     done 
+
+    ## If some of them cant, downloading again
+    if [[ ${#corrupted_files[*]} -gt 0 ]];then
+        echo "/////////////////////////////!!!"
+        echo "==> THE FILES ${corrupted_files[*]} ARE CORRUPTED, DOWNLOADING AGAIN"
+        echo "/////////////////////////////!!!"
+        parallel wget -P ${path_origbam} ::: ${corrupted_files[*]}
+        corrupted=1 ## This will make the loop infinite, to check again
+    fi
 
     rm $path_origbam*.bai
 
     if [[ $corrupted -eq 0 ]];then
-        break
+        break ## if all bai files are ok, the loop breaks
     fi
 
 done
