@@ -58,7 +58,7 @@ parallel wget -P ${path_origbam} ::: $bam_files
 #----------------------------------------------------------#
 
 ## Unfortunately there are problems with both methods, some of the BAM
-## files can get corrupted, lets try to solve this problem
+## files may get corrupted, lets try to solve this problem
 
 ## ERROR check
 
