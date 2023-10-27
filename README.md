@@ -43,7 +43,7 @@ Automated, hierarchical, and cyclical pipline using Snakemake as a management sy
 
 A bioinformatics pipeline will be created that utilizes software capable of managing workflows: Snakemake (1) (check [here](https://snakemake.readthedocs.io/en/stable/#) it's web page with all the tutorials, and other interesting documentation)
 
-This workflow aims to filter the genomic variants of 12 samples from a family with a history of colorectal diseases. To achieve this, it is necessary for the user to be able to repeat the workflow in cycles with the chromosomes of interest, targeting a specific gene. Here is the list:
+This workflow aims to filter the genomic variants of 12 samples from a family with a history of colorectal diseases. To achieve this, it is necessary for the user to be able to repeat the workflow in cycles with the chromosomes of interest, targeting specific genes. The specific genes are selected due to their known associations with colorectal cancer. Here is the list:
 
 * PIK3CA (chromosome 3)
 * APC (chromosome 5)
@@ -78,7 +78,9 @@ In this directory, we have the scripts attached to the Snakemake files. Addition
 
     * [02rename.py](code/02rename.py): This Python script will rename the original BAM files using their sample names, making it easier to work with them.
 
-    * [03extracting_fastq.sh](code/03extracting_fastq.sh): Pre-processing of the original BAM files. First the chromosome of interest will be filtered into a new BAM file. Then, from that file, the FASTQ files for both type of reads (forward and reverse) will be extracted. 
+    * [03extracting_fastq.sh](code/03extracting_fastq.sh): Pre-processing of the original BAM files. First the chromosome of interest will be filtered into a new BAM file. Then, from that file, the FASTQ files for both type of reads (forward and reverse) will be extracted.
+      
+      * The reason for this is that the computer lacks the necessary processing power to analyze the entire exome of every chromosome simultaneously. Therefore, the approach is to filter and map them one by one.  
 
     * [04vep.sh](code/04vep.sh): Will download some files for running ClinVar in the CLI.
 
